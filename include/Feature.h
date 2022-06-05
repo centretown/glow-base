@@ -7,6 +7,9 @@
 class Feature
 {
 public:
+    static const char *U32_FORMAT;
+
+public:
     Feature() {}
     virtual ~Feature() {}
     virtual const char *Label() = 0;
@@ -17,3 +20,5 @@ public:
     virtual void Set(feature_base v) = 0;
     virtual char *Format(char *buffer, size_t bufLen) = 0;
 };
+
+// const char *Feature::U32_FORMAT = (sizeof(int) > 16) ? "%u" : "%lu";

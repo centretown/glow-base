@@ -4,7 +4,6 @@
 
 #ifdef ARDUINO
 #include <Arduino.h>
-#define U32_FORMAT "%lu"
 #else
 #include <stdio.h>
 #include <stdint.h>
@@ -14,7 +13,6 @@
 #include <string.h>
 #include <time.h>
 uint64_t millis();
-#define U32_FORMAT "%u"
 #endif
 
 typedef uint32_t feature_base;

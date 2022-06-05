@@ -9,6 +9,7 @@ template <class T>
 class FeatureValue : public Feature
 {
 private:
+
 protected:
     const char *label;
     T value;
@@ -43,7 +44,7 @@ public:
     }
     virtual char *Format(char *buffer, size_t bufLen)
     {
-        snprintf(buffer, bufLen, U32_FORMAT, Get());
+        snprintf(buffer, bufLen, Feature::U32_FORMAT, Get());
         return buffer;
     }
 };

@@ -15,4 +15,5 @@ public:
     virtual void Setup() {}
     virtual void Tick() {}
     virtual void Reset() {}
+    inline T &Settings() { return settings; }
 };
