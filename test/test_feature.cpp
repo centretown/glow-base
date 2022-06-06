@@ -60,45 +60,10 @@ void testFeatureU32()
     testFeature(f, "u32", 88, 100);
 }
 
-void run()
+void testFeatures()
 {
-    UNITY_BEGIN();
     RUN_TEST(testFeatureU8);
     RUN_TEST(testFeatureU16);
     RUN_TEST(testFeatureU32);
-    UNITY_END();
 }
 
-#ifdef ARDUINO
-
-#ifdef ARDUINO_ARCH_ESP32
-#define BLINK_PIN 2
-#else
-#define BLINK_PIN LED_BUILTIN
-#endif // ARDUINO_ARCH_ESP32
-
-void setup()
-{
-    delay(2000);
-    pinMode(BLINK_PIN, OUTPUT);
-    run();
-}
-
-void loop()
-{
-    digitalWrite(BLINK_PIN, HIGH);
-    delay(100);
-    digitalWrite(BLINK_PIN, LOW);
-    delay(500);
-}
-
-#else
-uint64_t millis()
-{
-    return 0;
-}
-int main(int argc, char **argv)
-{
-    run();
-}
-#endif // ARDUINO

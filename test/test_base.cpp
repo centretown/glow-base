@@ -1,14 +1,30 @@
 // Copyright (c) 2022 Dave Marsh. See LICENSE.
-#ifndef PIO_UNIT_TESTING
+
+#define UNITY_INCLUDE_PRINT_FORMATTED
+#include <unity.h>
 #include "base.h"
 #include "BlinkActivity.h"
 
 BlinkSettings blinkSettings;
 BlinkActivity blink(blinkSettings);
 
+void testFeatures();
+void testActivities();
+
+void run()
+{
+    UNITY_BEGIN();
+    testFeatures();
+    testActivities();
+    UNITY_END();
+}
+
 #ifdef ARDUINO
+
 void setup()
 {
+    delay(2000);
+    run();
     blink.Setup();
 }
 
@@ -16,14 +32,10 @@ void loop()
 {
     blink.Pulse();
 }
+
 #else
 int main(int argc, char **argv)
 {
-    blink.Setup();
-    for (auto i = 0; i < 1000; i++)
-    {
-        blink.Pulse();
-    }
+    run();
 }
-#endif
-#endif
+#endif // ARDUINO
