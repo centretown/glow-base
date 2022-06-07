@@ -28,9 +28,11 @@ void setup()
     blink.Setup();
 }
 
+uint64_t now;
 void loop()
 {
-    blink.Pulse();
+    now = millis();
+    blink.Pulse(now);
 }
 
 #else

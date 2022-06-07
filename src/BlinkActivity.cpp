@@ -10,7 +10,7 @@ BlinkActivity ::BlinkActivity(BlinkSettings &settings) : ActivitySettings(settin
 void BlinkActivity::Setup()
 {
 #ifdef ARDUINO
-    pinMode(settings.pin, OUTPUT);
+    pinMode(settings.Pin(), OUTPUT);
 #endif
     updateInterval();
 }
@@ -18,13 +18,13 @@ void BlinkActivity::Setup()
 void BlinkActivity::Tick()
 {
 #ifdef ARDUINO
-    digitalWrite(settings.pin, settings.state);
+    digitalWrite(settings.Pin(), settings.State());
 #else
-    const char *text = (settings.state == BLINK_ON)
+    const char *text = (settings.State() == BLINK_ON)
                            ? "OFF"
                            : "ON";
-    printf("pin:%u %s\n", settings.pin, text);
+    printf("pin:%u %s\n", settings.Pin(), text);
 #endif
-    toggleState();
+    settings.ToggleState();
     updateInterval();
 }

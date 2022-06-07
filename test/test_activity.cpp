@@ -10,10 +10,34 @@ void testBlinkActivity()
     BlinkSettings blinkSettings;
     BlinkActivity blink(blinkSettings);
     blink.Setup();
+    uint64_t now;
 
-    for (auto i = 0; i < 1000; i++)
+    for (auto i = 0; i < 10; i++)
     {
-        blink.Pulse();
+        now = millis();
+        blink.Pulse(now);
+    }
+
+    blinkSettings.On(1000);
+    blinkSettings.Off(500);
+    TEST_ASSERT_EQUAL(1000, blinkSettings.On());
+    TEST_ASSERT_EQUAL(500, blinkSettings.Off());
+
+    for (auto i = 0; i < 10; i++)
+    {
+        now = millis();
+        blink.Pulse(now);
+    }
+
+    blinkSettings.On(250);
+    blinkSettings.Off(1000);
+    TEST_ASSERT_EQUAL(250, blinkSettings.On());
+    TEST_ASSERT_EQUAL(1000, blinkSettings.Off());
+
+    for (auto i = 0; i < 10; i++)
+    {
+        now = millis();
+        blink.Pulse(now);
     }
 
     blink.Reset();

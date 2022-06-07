@@ -7,21 +7,13 @@ Activity::Activity(uint16_t interval) : interval(interval)
     next = millis();
 }
 
-void Activity::Pulse()
+bool Activity::Pulse(uint64_t& now)
 {
-    if (ready())
-    {
-        Tick();
-    }
-}
-
-bool Activity::ready()
-{
-    auto now = millis();
     if (now < next)
     {
         return false;
     }
     next = now + interval;
+    Tick();
     return true;
 }

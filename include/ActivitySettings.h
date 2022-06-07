@@ -16,8 +16,4 @@ public:
     ~ActivitySettings() {}
 
     virtual void Tick() {}
-    inline T &Settings()
-    {
-        return settings;
-    }
 };

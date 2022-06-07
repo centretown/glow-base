@@ -23,11 +23,8 @@ public:
         return interval;
     }
 
-    void Pulse();
+    virtual bool Pulse(uint64_t &now);
     virtual void Setup() {}
     virtual void Reset() {}
     virtual void Tick() = 0;
-
-private:
-    virtual bool ready();
 };

@@ -12,9 +12,11 @@ void setup()
     blink.Setup();
 }
 
+uint64_t now;
 void loop()
 {
-    blink.Pulse();
+    now = millis();
+    blink.Pulse(now);
 }
 #else
 int main(int argc, char **argv)
@@ -22,7 +24,8 @@ int main(int argc, char **argv)
     blink.Setup();
     for (auto i = 0; i < 1000; i++)
     {
-        blink.Pulse();
+        auto now = millis();
+        blink.Pulse(now);
     }
 }
 #endif
