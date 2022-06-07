@@ -19,7 +19,7 @@ public:
 private:
     inline void updateInterval()
     {
-        SetInterval((settings.State() == BLINK_ON)
+        Interval((settings.State() == BLINK_ON)
                         ? settings.On()
                         : settings.Off());
     }

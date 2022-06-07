@@ -5,40 +5,41 @@
 #include "base.h"
 #include "BlinkActivity.h"
 
+void testBlink(BlinkActivity &blink, uint16_t count = 10)
+{
+    uint64_t now;
+    count *= 2;
+    for (uint16_t tick = 0; tick < count;)
+    {
+        now = millis();
+        if (blink.Pulse(now))
+        {
+            tick++;
+        }
+    }
+}
+
 void testBlinkActivity()
 {
     BlinkSettings blinkSettings;
     BlinkActivity blink(blinkSettings);
     blink.Setup();
-    uint64_t now;
 
-    for (auto i = 0; i < 10; i++)
-    {
-        now = millis();
-        blink.Pulse(now);
-    }
+    testBlink(blink);
+
+    blinkSettings.On(100);
+    blinkSettings.Off(50);
+    TEST_ASSERT_EQUAL(100, blinkSettings.On());
+    TEST_ASSERT_EQUAL(50, blinkSettings.Off());
+
+    testBlink(blink, 20);
 
     blinkSettings.On(1000);
-    blinkSettings.Off(500);
-    TEST_ASSERT_EQUAL(1000, blinkSettings.On());
-    TEST_ASSERT_EQUAL(500, blinkSettings.Off());
-
-    for (auto i = 0; i < 10; i++)
-    {
-        now = millis();
-        blink.Pulse(now);
-    }
-
-    blinkSettings.On(250);
     blinkSettings.Off(1000);
-    TEST_ASSERT_EQUAL(250, blinkSettings.On());
+    TEST_ASSERT_EQUAL(1000, blinkSettings.On());
     TEST_ASSERT_EQUAL(1000, blinkSettings.Off());
 
-    for (auto i = 0; i < 10; i++)
-    {
-        now = millis();
-        blink.Pulse(now);
-    }
+    testBlink(blink, 5);
 
     blink.Reset();
 }

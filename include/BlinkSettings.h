@@ -3,34 +3,42 @@
 #pragma once
 #include "base.h"
 
-#ifdef FMDEVKIT
+#ifdef ESP32
 #define BLINK_PIN 2
+#elif ESP32CAM
+#define BLINK_PIN 33
 #else
 #define BLINK_PIN 13
-#endif // ARDUINO_ARCH_ESP32
+#endif
 
 #ifdef SEEED_XIAO
-#define BLINK_ON LOW
-#define BLINK_OFF HIGH
+typedef enum : uint8_t
+{
+    BLINK_ON = LOW,
+    BLINK_OFF = HIGH
+} BlinkState;
 #else
-#define BLINK_ON HIGH
-#define BLINK_OFF LOW
+typedef enum : uint8_t
+{
+    BLINK_ON = HIGH,
+    BLINK_OFF = LOW
+} BlinkState;
 #endif // SEEED_XIAO
 
 class BlinkSettings
 {
 private:
     uint8_t pin;
-    uint8_t state;
+    BlinkState state;
     uint16_t on;
     uint16_t off;
 
 public:
     BlinkSettings(
         uint8_t pin = BLINK_PIN,
-        uint8_t state = BLINK_ON,
-        uint16_t on = 100,
-        uint16_t off = 500) : pin(pin), state(state), on(on), off(off) {}
+        BlinkState state = BLINK_ON,
+        uint16_t on = 500,
+        uint16_t off = 250) : pin(pin), state(state), on(on), off(off) {}
 
     inline uint8_t Pin()
     {
@@ -53,15 +61,15 @@ public:
     {
         return off;
     }
-    inline void State(uint8_t val)
+    inline void State(BlinkState val)
     {
         state = val;
     }
-    inline uint8_t State()
+    inline BlinkState State()
     {
         return state;
     }
-    inline uint8_t ToggleState()
+    inline BlinkState ToggleState()
     {
         state = (state == BLINK_ON)
                     ? BLINK_OFF

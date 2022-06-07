@@ -13,7 +13,7 @@ public:
     Activity(uint16_t interval = 500);
     ~Activity() {}
 
-    inline void SetInterval(uint16_t i)
+    inline void Interval(uint16_t i)
     {
         interval = i;
     }
