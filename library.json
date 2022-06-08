@@ -1,6 +1,6 @@
 {
     "name": "glow-base",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "shared base for glow libraries",
     "keywords": "glow base",
     "repository": {
@@ -18,6 +18,9 @@
     "license": "MIT",
     "homepage": "https://github.com/centretown/glow-base",
     "dependencies": {},
-    "frameworks": "arduino",
+    "frameworks": [
+        "arduino",
+        "native"
+    ],
     "platforms": "*"
 }
