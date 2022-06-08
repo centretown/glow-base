@@ -19,8 +19,7 @@
     "homepage": "https://github.com/centretown/glow-base",
     "dependencies": {},
     "frameworks": [
-        "arduino",
-        "native"
+        "arduino"
     ],
     "platforms": "*"
 }
