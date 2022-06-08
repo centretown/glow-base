@@ -2,17 +2,18 @@
 
 #pragma once
 #include "base.h"
-#include "Activity.h"
+#include "SettingsActivity.h"
 
-class CompoundActivity : public Activity
+template <class T>
+class CompoundActivity : public SettingsActivity<T>
 {
-private:
+protected:
     size_t length = 0;
     size_t count = 0;
     Activity **activities = NULL;
 
 public:
-    CompoundActivity(size_t length);
+    CompoundActivity(size_t length, T &settings);
     ~CompoundActivity();
     void Add(Activity *Activity);
 

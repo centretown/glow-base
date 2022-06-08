@@ -2,7 +2,7 @@
 
 #include "BlinkActivity.h"
 
-BlinkActivity ::BlinkActivity(BlinkSettings &settings) : ActivitySettings(settings)
+BlinkActivity ::BlinkActivity(BlinkSettings &settings) : SettingsActivity(settings)
 {
     updateInterval();
 }

@@ -4,10 +4,10 @@
 
 #include "base.h"
 #include "Activity.h"
-#include "ActivitySettings.h"
+#include "SettingsActivity.h"
 #include "BlinkSettings.h"
 
-class BlinkActivity : public ActivitySettings<BlinkSettings>
+class BlinkActivity : public SettingsActivity<BlinkSettings>
 {
 public:
     BlinkActivity(BlinkSettings &settings);

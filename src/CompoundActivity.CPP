@@ -2,17 +2,18 @@
 
 #include "CompoundActivity.h"
 
-CompoundActivity::CompoundActivity(size_t length) : length(length)
+CompoundActivity<class T>::CompoundActivity(
+    size_t length, T &settings) : length(length), SettingsActivity<T>(settings)
 {
     activities = (Activity **)malloc(length * sizeof(Activity *));
 }
 
-CompoundActivity::~CompoundActivity()
+CompoundActivity<class T>::~CompoundActivity()
 {
     free(activities);
 }
 
-void CompoundActivity::Add(Activity *activity)
+void CompoundActivity<class T>::Add(Activity *activity)
 {
     if (count < length)
     {
@@ -21,7 +22,7 @@ void CompoundActivity::Add(Activity *activity)
     }
 }
 
-bool CompoundActivity::Pulse(uint64_t &now)
+bool CompoundActivity<class T>::Pulse(uint64_t &now)
 {
     bool ticked = false;
     for (size_t i = 0; i < count; i++)
