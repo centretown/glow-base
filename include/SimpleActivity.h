@@ -6,14 +6,12 @@
 #include "Activity.h"
 
 template <class T>
-class SettingsActivity : public Activity
+class SimpleActivity : public Activity
 {
 protected:
     T &settings;
 
 public:
-    SettingsActivity(T &settings) : settings(settings) {}
-    ~SettingsActivity() {}
-
-    virtual void Tick() {}
+    SimpleActivity(T &settings) : settings(settings) {}
+    ~SimpleActivity() {}
 };

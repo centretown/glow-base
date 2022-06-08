@@ -2,11 +2,6 @@
 
 #include "BlinkActivity.h"
 
-BlinkActivity ::BlinkActivity(BlinkSettings &settings) : SettingsActivity(settings)
-{
-    updateInterval();
-}
-
 void BlinkActivity::Setup()
 {
 #ifdef ARDUINO

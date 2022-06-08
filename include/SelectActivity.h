@@ -5,15 +5,16 @@
 #include "CompoundActivity.h"
 
 template <class T>
-class SelectedActivity : public CompoundActivity<T>
+class SelectActivity : public CompoundActivity
 {
 protected:
+    T settings;
     uint8_t selection = 0;
 
 public:
-    SelectedActivity(
-        size_t length, T &settings) : CompoundActivity<T>(length, settings) {}
-    ~SelectedActivity() {}
+    SelectActivity(
+        size_t length, T &settings) : CompoundActivity(length), settings(settings) {}
+    ~SelectActivity() {}
 
     inline uint8_t Selected()
     {

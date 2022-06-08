@@ -4,13 +4,17 @@
 
 #include "base.h"
 #include "Activity.h"
-#include "SettingsActivity.h"
+#include "SimpleActivity.h"
 #include "BlinkSettings.h"
 
-class BlinkActivity : public SettingsActivity<BlinkSettings>
+class BlinkActivity : public SimpleActivity<BlinkSettings>
 {
 public:
-    BlinkActivity(BlinkSettings &settings);
+    BlinkActivity(BlinkSettings &settings) : SimpleActivity(settings)
+    {
+        updateInterval();
+    }
+
     ~BlinkActivity() {}
 
     virtual void Setup();
@@ -20,7 +24,7 @@ private:
     inline void updateInterval()
     {
         Interval((settings.State() == BLINK_ON)
-                        ? settings.On()
-                        : settings.Off());
+                     ? settings.On()
+                     : settings.Off());
     }
 };
