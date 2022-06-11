@@ -12,6 +12,10 @@ protected:
     T &settings;
 
 public:
-    SimpleActivity(T &settings) : settings(settings) {}
+    SimpleActivity(T &settings, uint16_t interval = 500)
+        : settings(settings)
+    {
+        Interval(interval);
+    }
     ~SimpleActivity() {}
 };

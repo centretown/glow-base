@@ -10,7 +10,8 @@
 class BlinkActivity : public SimpleActivity<BlinkSettings>
 {
 public:
-    BlinkActivity(BlinkSettings &settings) : SimpleActivity(settings)
+    BlinkActivity(BlinkSettings &settings, uint16_t interval = 500)
+        : SimpleActivity(settings, interval)
     {
         updateInterval();
     }

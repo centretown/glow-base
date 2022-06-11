@@ -56,12 +56,12 @@ public:
         }
     }
 
-    virtual bool Pulse(uint64_t &now)
+    virtual bool Pulse()
     {
         bool ticked = false;
         for (size_t i = 0; i < count; i++)
         {
-            if (activities[i]->Pulse(now))
+            if (activities[i]->Pulse())
             {
                 ticked = true;
             }

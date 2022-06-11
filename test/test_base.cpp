@@ -31,8 +31,8 @@ void setup()
 uint64_t now;
 void loop()
 {
-    now = millis();
-    blink.Pulse(now);
+    Activity::Cycle();
+    blink.Pulse();
 }
 
 #else

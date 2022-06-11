@@ -29,11 +29,11 @@ public:
         }
     }
 
-    virtual bool Pulse(uint64_t &now)
+    virtual bool Pulse()
     {
         if (selection < count)
         {
-            return activities[selection]->Pulse(now);
+            return activities[selection]->Pulse();
         }
         return false;
     }

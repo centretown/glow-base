@@ -2,14 +2,24 @@
 
 #include "Activity.h"
 
-Activity::Activity(uint16_t interval) : interval(interval)
+DefaultTrigger Trigger::defaultTrigger;
+DefaultTrigger *Trigger::Default() { return &defaultTrigger; }
+
+uint64_t Activity::now = millis();
+
+uint64_t Activity::Now()
 {
-    next = millis();
+    return now;
 }
 
-bool Activity::Pulse(uint64_t& now)
+void Activity::Cycle()
 {
-    if (now < next)
+    now = millis();
+}
+
+bool Activity::Pulse()
+{
+    if (!trigger->Active(this) || now < next)
     {
         return false;
     }

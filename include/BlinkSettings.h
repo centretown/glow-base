@@ -3,13 +3,15 @@
 #pragma once
 #include "base.h"
 
-#ifdef ESP32 // BLINK_PIN
+#if defined(ESP32)
 #define BLINK_PIN 2
-#elif ESP32CAM
+#else
+#if defined(ESP32CAM)
 #define BLINK_PIN 33
 #else
 #define BLINK_PIN 13
-#endif // BLINK_PIN
+#endif
+#endif
 
 #ifdef SEEED_XIAO // BlinkState
 typedef enum : uint8_t
@@ -37,8 +39,8 @@ public:
     BlinkSettings(
         uint8_t pin = BLINK_PIN,
         BlinkState state = BLINK_ON,
-        uint16_t on = 500,
-        uint16_t off = 250) : pin(pin), state(state), on(on), off(off) {}
+        uint16_t on = 100,
+        uint16_t off = 900) : pin(pin), state(state), on(on), off(off) {}
 
     inline uint8_t Pin()
     {

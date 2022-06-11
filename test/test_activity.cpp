@@ -5,15 +5,47 @@
 #include "base.h"
 #include "BlinkActivity.h"
 #include "SelectActivity.h"
+#include "TimeTrigger.h"
 
-void testBlink(Activity &blink, uint16_t count = 10)
+void testTrigger(Activity &activity, Trigger *trigger, uint16_t count = 10)
 {
-    uint64_t now;
+    uint16_t tick = 0;
+    const uint16_t max_tick = 1000;
+
+    activity.Attach(trigger);
+    while (trigger->Active(&activity) && tick < max_tick)
+    {
+        Activity::Cycle();
+        if (activity.Pulse())
+        {
+            tick++;
+        }
+    }
+    TEST_ASSERT(tick < max_tick);
+}
+
+void testTimeTrigger()
+{
+    BlinkSettings settings;
+    BlinkActivity blink(settings);
+    settings.On(100);
+    settings.Off(100);
+    uint64_t end = millis() + 5000;
+
+    TimeTrigger timer(end);
+    testTrigger(blink, &timer);
+    auto now = millis();
+    TEST_ASSERT_GREATER_OR_EQUAL(end, now);
+    TEST_ASSERT_LESS_OR_EQUAL(end + 200, now);
+}
+
+void testActivity(Activity &activity, uint16_t count = 10)
+{
     count *= 2;
     for (uint16_t tick = 0; tick < count;)
     {
-        now = millis();
-        if (blink.Pulse(now))
+        Activity::Cycle();
+        if (activity.Pulse())
         {
             tick++;
         }
@@ -28,8 +60,8 @@ void testSelectActivity()
 {
     BlinkSettings settings;
     BlinkActivity blink(settings);
-    settings.On(1000);
-    settings.Off(1000);
+    settings.On(500);
+    settings.Off(500);
 
     BlinkSettings settingsA;
     BlinkActivity blinkA(settingsA);
@@ -47,34 +79,34 @@ void testSelectActivity()
     TEST_ASSERT_EQUAL(0, selector.Selected());
     selector.Select(0);
     TEST_ASSERT_EQUAL(0, selector.Selected());
-    testBlink(selector, 5);
+    testActivity(selector, 2);
 
     selector.Select(1);
     TEST_ASSERT_EQUAL(1, selector.Selected());
-    testBlink(selector, 20);
+    testActivity(selector, 10);
 }
 
 void testBlinkActivity()
 {
-    BlinkSettings blinkSettings;
-    BlinkActivity blink(blinkSettings);
+    BlinkSettings settings;
+    BlinkActivity blink(settings);
     blink.Setup();
 
-    testBlink(blink);
+    testActivity(blink);
 
-    blinkSettings.On(100);
-    blinkSettings.Off(50);
-    TEST_ASSERT_EQUAL(100, blinkSettings.On());
-    TEST_ASSERT_EQUAL(50, blinkSettings.Off());
+    settings.On(100);
+    settings.Off(50);
+    TEST_ASSERT_EQUAL(100, settings.On());
+    TEST_ASSERT_EQUAL(50, settings.Off());
 
-    testBlink(blink, 20);
+    testActivity(blink, 5);
 
-    blinkSettings.On(1000);
-    blinkSettings.Off(1000);
-    TEST_ASSERT_EQUAL(1000, blinkSettings.On());
-    TEST_ASSERT_EQUAL(1000, blinkSettings.Off());
+    settings.On(10);
+    settings.Off(1000);
+    TEST_ASSERT_EQUAL(10, settings.On());
+    TEST_ASSERT_EQUAL(1000, settings.Off());
 
-    testBlink(blink, 5);
+    testActivity(blink, 2);
 
     blink.Reset();
 }
@@ -83,4 +115,5 @@ void testActivities()
 {
     RUN_TEST(testBlinkActivity);
     RUN_TEST(testSelectActivity);
+    RUN_TEST(testTimeTrigger);
 }
