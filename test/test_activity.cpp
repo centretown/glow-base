@@ -5,15 +5,14 @@
 #include "base.h"
 #include "BlinkActivity.h"
 #include "SelectActivity.h"
-#include "TimeTrigger.h"
+#include "TimeMonitor.h"
 
-void testTrigger(Activity &activity, Trigger *trigger, uint16_t count = 10)
+void testTrigger(Activity &activity, uint16_t count = 10)
 {
     uint16_t tick = 0;
     const uint16_t max_tick = 1000;
 
-    activity.Attach(trigger);
-    while (trigger->Active(&activity) && tick < max_tick)
+    while (activity.Active() && tick < max_tick)
     {
         Activity::Cycle();
         if (activity.Pulse())
@@ -24,7 +23,7 @@ void testTrigger(Activity &activity, Trigger *trigger, uint16_t count = 10)
     TEST_ASSERT(tick < max_tick);
 }
 
-void testTimeTrigger()
+void testTimeMonitor()
 {
     BlinkSettings settings;
     BlinkActivity blink(settings);
@@ -32,8 +31,9 @@ void testTimeTrigger()
     settings.Off(100);
     uint64_t end = millis() + 5000;
 
-    TimeTrigger timer(end);
-    testTrigger(blink, &timer);
+    TimeMonitor timer(end);
+    blink.Monitor(&timer);
+    testTrigger(blink);
     auto now = millis();
     TEST_ASSERT_GREATER_OR_EQUAL(end, now);
     TEST_ASSERT_LESS_OR_EQUAL(end + 200, now);
@@ -52,10 +52,6 @@ void testActivity(Activity &activity, uint16_t count = 10)
     }
 }
 
-typedef struct
-{
-} Nothing;
-
 void testSelectActivity()
 {
     BlinkSettings settings;
@@ -68,8 +64,7 @@ void testSelectActivity()
     settingsA.On(100);
     settingsA.Off(100);
 
-    Nothing nothing;
-    SelectActivity<Nothing> selector(2, nothing);
+    SelectActivity selector(2);
 
     selector.Add(&blink);
     TEST_ASSERT_EQUAL(1, selector.Count());
@@ -90,10 +85,8 @@ void testBlinkActivity()
 {
     BlinkSettings settings;
     BlinkActivity blink(settings);
+
     blink.Setup();
-
-    testActivity(blink);
-
     settings.On(100);
     settings.Off(50);
     TEST_ASSERT_EQUAL(100, settings.On());
@@ -115,5 +108,5 @@ void testActivities()
 {
     RUN_TEST(testBlinkActivity);
     RUN_TEST(testSelectActivity);
-    RUN_TEST(testTimeTrigger);
+    RUN_TEST(testTimeMonitor);
 }

@@ -3,23 +3,17 @@
 #pragma once
 #include "base.h"
 
-class DefaultTrigger;
 class Activity;
 
-class Trigger
+class ActivityMonitor
 {
 private:
-    static DefaultTrigger defaultTrigger;
+    static ActivityMonitor simple;
 
 public:
-    virtual bool Active(Activity* activity) = 0;
-    static DefaultTrigger *Default();
-};
-
-class DefaultTrigger : public Trigger
-{
-public:
-    virtual bool Active(Activity* activity) { return true; }
+    virtual bool Active(Activity *activity) { return true;}
+    virtual bool Dead(Activity *activity) { return false; }
+    static ActivityMonitor *Simple();
 };
 
 class Activity
@@ -27,7 +21,7 @@ class Activity
 protected:
     uint16_t interval = 500;
     uint64_t next = 0;
-    Trigger *trigger = Trigger::Default();
+    ActivityMonitor *monitor = ActivityMonitor::Simple();
 
 protected:
     static uint64_t now;
@@ -38,7 +32,11 @@ public:
 
     inline void Interval(uint16_t i) { interval = i; }
     inline uint16_t Interval() { return interval; }
-    inline void Attach(Trigger *a) { trigger = a; }
+    inline uint64_t Next() { return next; }
+    inline void Monitor(ActivityMonitor *a) { monitor = a; }
+
+    inline bool Active() { return monitor->Active(this); }
+    inline bool Dead() { return monitor->Dead(this); }
 
     virtual bool Pulse();
     virtual void Setup() {}
@@ -49,4 +47,3 @@ public:
     static void Cycle();
     static uint64_t Now();
 };
-

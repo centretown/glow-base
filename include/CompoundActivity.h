@@ -12,62 +12,15 @@ protected:
     Activity **activities = NULL;
 
 public:
-    CompoundActivity(size_t length) : length(length)
-    {
-        activities = (Activity **)malloc(length * sizeof(Activity *));
-    }
+    CompoundActivity(size_t length);
+    ~CompoundActivity();
 
-    ~CompoundActivity()
-    {
-        free(activities);
-    }
+    inline size_t Length() { return length; }
+    inline size_t Count() { return count; }
 
-    inline size_t Length()
-    {
-        return length;
-    }
-    inline size_t Count()
-    {
-        return count;
-    }
-
-    void Add(Activity *activity)
-    {
-        if (count < length)
-        {
-            activities[count] = activity;
-            count++;
-        }
-    }
-
-    virtual void Setup()
-    {
-        for (size_t i = 0; i < count; i++)
-        {
-            activities[i]->Setup();
-        }
-    }
-
-    virtual void Reset()
-    {
-        for (size_t i = 0; i < count; i++)
-        {
-            activities[i]->Reset();
-        }
-    }
-
-    virtual bool Pulse()
-    {
-        bool ticked = false;
-        for (size_t i = 0; i < count; i++)
-        {
-            if (activities[i]->Pulse())
-            {
-                ticked = true;
-            }
-        }
-        return ticked;
-    }
-
+    void Add(Activity *activity);
+    virtual void Setup();
+    virtual void Reset();
     virtual void Tick() {}
+    virtual bool Pulse() = 0;
 };

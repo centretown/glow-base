@@ -2,15 +2,11 @@
 
 #include "Activity.h"
 
-DefaultTrigger Trigger::defaultTrigger;
-DefaultTrigger *Trigger::Default() { return &defaultTrigger; }
+ActivityMonitor ActivityMonitor::simple;
+ActivityMonitor *ActivityMonitor::Simple() { return &simple; }
 
 uint64_t Activity::now = millis();
-
-uint64_t Activity::Now()
-{
-    return now;
-}
+uint64_t Activity::Now() { return now; }
 
 void Activity::Cycle()
 {
@@ -19,11 +15,24 @@ void Activity::Cycle()
 
 bool Activity::Pulse()
 {
-    if (!trigger->Active(this) || now < next)
+    if (!Active())
     {
         return false;
     }
+
+    if (now < next)
+    {
+        return false;
+    }
+
     next = now + interval;
+ 
     Tick();
+
+    if (Dead())
+    {
+        Reset();
+        return false;
+    }
     return true;
 }

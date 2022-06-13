@@ -2,25 +2,20 @@
 
 #pragma once
 
+#include "base.h"
 #include "CompoundActivity.h"
 
-template <class T>
 class SelectActivity : public CompoundActivity
 {
 protected:
-    T settings;
     uint8_t selection = 0;
 
 public:
-    SelectActivity(
-        size_t length, T &settings) : CompoundActivity(length), settings(settings) {}
+    SelectActivity(size_t length)
+        : CompoundActivity(length) {}
     ~SelectActivity() {}
 
-    inline uint8_t Selected()
-    {
-        return selection;
-    }
-
+    inline uint8_t Selected() { return selection; }
     inline void Select(uint8_t val)
     {
         if (val < count)
@@ -28,13 +23,5 @@ public:
             selection = val;
         }
     }
-
-    virtual bool Pulse()
-    {
-        if (selection < count)
-        {
-            return activities[selection]->Pulse();
-        }
-        return false;
-    }
+    virtual bool Pulse();
 };
