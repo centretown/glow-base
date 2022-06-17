@@ -4,28 +4,19 @@
 
 #include "base.h"
 #include "Activity.h"
-#include "SimpleActivity.h"
+#include "MonitoredActivity.h"
 #include "BlinkSettings.h"
+#include "BlinkMonitor.h"
 
-class BlinkActivity : public SimpleActivity<BlinkSettings>
+class BlinkActivity : public MonitoredActivity
 {
-public:
-    BlinkActivity(BlinkSettings &settings, uint16_t interval = 500)
-        : SimpleActivity(settings, interval)
-    {
-        updateInterval();
-    }
+private:
+    BlinkSettings *blink;
 
+public:
+    BlinkActivity(ActivityMonitor *monitor, BlinkSettings *blink)
+        : MonitoredActivity(monitor), blink(blink) {}
     ~BlinkActivity() {}
 
-    virtual void Setup();
-    virtual void Tick();
-
-private:
-    inline void updateInterval()
-    {
-        Interval((settings.State() == BLINK_ON)
-                     ? settings.On()
-                     : settings.Off());
-    }
+    virtual void Update();
 };

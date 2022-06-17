@@ -4,7 +4,7 @@
 
 #ifndef ARDUINO
 
-static uint16_t millis_rate = 100;
+static uint16_t millis_rate = 10;
 static uint64_t millis_now = 0;
 
 void set_millis_rate(uint16_t r)

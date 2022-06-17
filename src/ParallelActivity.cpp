@@ -4,7 +4,7 @@
 
 bool ParallelActivity::Pulse()
 {
-    if (!Active())
+    if (!Ready())
     {
         return false;
     }

@@ -4,7 +4,7 @@
 
 bool SerialActivity::Pulse()
 {
-    if (!Active())
+    if (!Ready())
     {
         return false;
     }

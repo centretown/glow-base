@@ -2,37 +2,22 @@
 
 #include "Activity.h"
 
-ActivityMonitor ActivityMonitor::simple;
-ActivityMonitor *ActivityMonitor::Simple() { return &simple; }
-
 uint64_t Activity::now = millis();
 uint64_t Activity::Now() { return now; }
-
-void Activity::Cycle()
-{
-    now = millis();
-}
+void Activity::Cycle() { now = millis(); }
 
 bool Activity::Pulse()
 {
-    if (!Active())
+    if (!Ready())
     {
         return false;
     }
 
-    if (now < next)
-    {
-        return false;
-    }
+    Update();
 
-    next = now + interval;
- 
-    Tick();
-
-    if (Dead())
+    if (Done())
     {
         Reset();
-        return false;
     }
     return true;
 }

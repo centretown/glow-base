@@ -2,9 +2,9 @@
 
 #include "CompoundActivity.h"
 
-CompoundActivity::CompoundActivity(size_t length) : length(length)
+CompoundActivity::CompoundActivity(size_t maximum) : maximum(maximum)
 {
-    activities = (Activity **)malloc(length * sizeof(Activity *));
+    activities = (Activity **)malloc(maximum * sizeof(Activity *));
 }
 
 CompoundActivity::~CompoundActivity()
@@ -14,16 +14,16 @@ CompoundActivity::~CompoundActivity()
 
 void CompoundActivity::Add(Activity *activity)
 {
-    if (count < length)
+    if (length < maximum)
     {
-        activities[count] = activity;
-        count++;
+        activities[length] = activity;
+        length++;
     }
 }
 
 void CompoundActivity::Setup()
 {
-    for (size_t i = 0; i < count; i++)
+    for (size_t i = 0; i < length; i++)
     {
         activities[i]->Setup();
     }
@@ -31,7 +31,7 @@ void CompoundActivity::Setup()
 
 void CompoundActivity::Reset()
 {
-    for (size_t i = 0; i < count; i++)
+    for (size_t i = 0; i < length; i++)
     {
         activities[i]->Reset();
     }

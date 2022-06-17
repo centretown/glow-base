@@ -8,20 +8,32 @@
 class SelectActivity : public CompoundActivity
 {
 protected:
-    uint8_t selection = 0;
+    size_t select = 0;
 
 public:
-    SelectActivity(size_t length)
-        : CompoundActivity(length) {}
+    SelectActivity(size_t maximum)
+        : CompoundActivity(maximum) {}
     ~SelectActivity() {}
 
-    inline uint8_t Selected() { return selection; }
-    inline void Select(uint8_t val)
+    inline uint8_t Select() { return select; }
+    inline void Select(size_t v)
     {
-        if (val < count)
+        if (v < length)
         {
-            selection = val;
+            select = v;
         }
     }
-    virtual bool Pulse();
+
+    virtual bool Ready()
+    {
+        return activities[select]->Ready();
+    }
+    virtual bool Done()
+    {
+        return activities[select]->Done();
+    }
+    virtual void Update()
+    {
+        activities[select]->Update();
+    }
 };

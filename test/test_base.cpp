@@ -5,8 +5,9 @@
 #include "base.h"
 #include "BlinkActivity.h"
 
-BlinkSettings blinkSettings;
-BlinkActivity blink(blinkSettings);
+BlinkSettings blink;
+BlinkMonitor monitor(&blink);
+BlinkActivity blinker(&monitor, &blink);
 
 void testFeatures();
 void testActivities();
@@ -25,14 +26,14 @@ void setup()
 {
     delay(2000);
     run();
-    blink.Setup();
+    blinker.Setup();
 }
 
 uint64_t now;
 void loop()
 {
     Activity::Cycle();
-    blink.Pulse();
+    blinker.Pulse();
 }
 
 #else

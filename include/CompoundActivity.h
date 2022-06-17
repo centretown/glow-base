@@ -7,20 +7,22 @@
 class CompoundActivity : public Activity
 {
 protected:
+    size_t maximum = 0;
     size_t length = 0;
-    size_t count = 0;
     Activity **activities = NULL;
 
 public:
-    CompoundActivity(size_t length);
+    CompoundActivity(size_t maximum);
     ~CompoundActivity();
 
+    inline size_t Maximum() { return maximum; }
     inline size_t Length() { return length; }
-    inline size_t Count() { return count; }
-
     void Add(Activity *activity);
+
     virtual void Setup();
     virtual void Reset();
-    virtual void Tick() {}
-    virtual bool Pulse() = 0;
+
+    virtual bool Ready() = 0;
+    virtual bool Done() = 0;
+    virtual void Update() = 0;
 };

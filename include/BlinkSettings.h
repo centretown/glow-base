@@ -39,14 +39,15 @@ public:
     BlinkSettings(
         uint8_t pin = BLINK_PIN,
         BlinkState state = BLINK_ON,
-        uint16_t on = 100,
-        uint16_t off = 900) : pin(pin), state(state), on(on), off(off) {}
+        uint16_t on = 500,
+        uint16_t off = 500)
+        : pin(pin), state(state), on(on), off(off) {}
+    ~BlinkSettings() {}
 
     inline uint8_t Pin()
     {
         return pin;
     }
-
     inline void On(uint16_t val)
     {
         on = val;
@@ -71,13 +72,14 @@ public:
     {
         return state;
     }
-    inline BlinkState ToggleState()
+    inline void ToggleState()
     {
-        state = (state == BLINK_ON)
-                    ? BLINK_OFF
-                    : BLINK_ON;
-        return state;
+        state = (state == BLINK_ON) ? BLINK_OFF : BLINK_ON;
     }
-
-    ~BlinkSettings() {}
+    void Setup()
+    {
+#ifdef ARDUINO
+        pinMode(Pin(), OUTPUT);
+#endif
+    }
 };
