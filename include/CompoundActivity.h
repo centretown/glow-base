@@ -22,7 +22,7 @@ public:
     virtual void Setup();
     virtual void Reset();
 
-    virtual bool Ready() = 0;
-    virtual bool Done() = 0;
-    virtual void Update() = 0;
+    // virtual bool Ready() { return true; }
+    // virtual bool Done() { return false; }
+    // virtual void Update() = 0;
 };

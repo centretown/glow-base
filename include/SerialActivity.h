@@ -15,6 +15,12 @@ public:
     ~SerialActivity() {}
 
     inline uint8_t Current() { return current; }
+    inline void Current(uint8_t v) { current = v; }
 
-    virtual bool Pulse();
+    virtual bool Ready();
+    virtual bool Done();
+    virtual void Update()
+    {
+        activities[current]->Update();
+    }
 };

@@ -2,21 +2,15 @@
 
 #include "ParallelActivity.h"
 
-bool ParallelActivity::Pulse()
+void ParallelActivity::Update()
 {
-    if (!Ready())
+    Activity *activity;
+    for (size_t i = 0; i < Length(); i++)
     {
-        return false;
-    }
-
-    bool ticked = false;
-    for (size_t i = 0; i < count; i++)
-    {
-        bool r = activities[i]->Pulse();
-        if (r && !ticked)
+        activity = activities[i];
+        if (activity->Ready())
         {
-            ticked = true;
+            activity->Update();
         }
     }
-    return ticked;
 }

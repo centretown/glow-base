@@ -44,4 +44,9 @@ public:
         }
         return done;
     }
+
+    virtual void Reset()
+    {
+        Duration(duration);
+    }
 };

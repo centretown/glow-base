@@ -10,5 +10,7 @@ public:
         : CompoundActivity(length) {}
     ~ParallelActivity() {}
 
-    virtual bool Pulse();
+    // virtual bool Ready();
+    // virtual bool Done();
+    virtual void Update();
 };

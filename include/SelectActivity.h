@@ -18,7 +18,7 @@ public:
     inline uint8_t Select() { return select; }
     inline void Select(size_t v)
     {
-        if (v < length)
+        if (v < Length())
         {
             select = v;
         }

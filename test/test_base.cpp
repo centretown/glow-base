@@ -10,13 +10,13 @@ BlinkMonitor monitor(&blink);
 BlinkActivity blinker(&monitor, &blink);
 
 void testFeatures();
-void testActivities();
+void testBlinkActivities();
 
 void run()
 {
     UNITY_BEGIN();
     testFeatures();
-    testActivities();
+    testBlinkActivities();
     UNITY_END();
 }
 

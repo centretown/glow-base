@@ -2,19 +2,30 @@
 
 #include "SerialActivity.h"
 
-bool SerialActivity::Pulse()
+bool SerialActivity::Done()
 {
-    if (!Ready())
+    bool done = false;
+    size_t i = current;
+    do
     {
-        return false;
-    }
+        done = activities[i]->Done();
+        if (!done)
+        {
+            break;
+        }
 
-    if (current >= length)
-    {
-        current = 0;
-    }
+        i++;
+        if (i >= Length())
+        {
+            i = 0;
+        }
+    } while (i != current);
+    
+    current = i;
+    return done;
+}
 
-    auto i = current;
-    current++;
-    return activities[i]->Pulse();
+bool SerialActivity::Ready()
+{
+    return activities[current]->Ready();
 }
