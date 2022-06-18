@@ -1,32 +1,36 @@
 // Copyright (c) 2022 Dave Marsh. See LICENSE.
 #ifndef PIO_UNIT_TESTING
+// Copyright (c) 2022 Dave Marsh. See LICENSE.
+
 #include "base.h"
+#include "PinDevice.h"
 #include "BlinkActivity.h"
 
-BlinkSettings blinkSettings;
-BlinkActivity blink(blinkSettings);
+using namespace glow;
+
+PinDevice blinkPin;
+BlinkSettings blink(&blinkPin);
+BlinkMonitor monitor(&blink);
+BlinkActivity blinker(&monitor, &blink);
 
 #ifdef ARDUINO
+
 void setup()
 {
-    blink.Setup();
+    delay(2000);
+    blinkPin.Setup();
+    blinker.Setup();
 }
 
-uint64_t now;
 void loop()
 {
     Activity::Cycle();
-    blink.Pulse();
+    blinker.Pulse();
 }
+
 #else
 int main(int argc, char **argv)
 {
-    blink.Setup();
-    for (auto i = 0; i < 1000; i++)
-    {
-        auto now = millis();
-        blink.Pulse();
-    }
 }
-#endif
+#endif // ARDUINO
 #endif

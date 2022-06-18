@@ -6,6 +6,8 @@
 
 #include "FeatureValue.h"
 
+using namespace glow;
+
 void testFeature(Feature &f,
                  const char *label,
                  feature_base value,
@@ -66,4 +68,3 @@ void testFeatures()
     RUN_TEST(testFeatureU16);
     RUN_TEST(testFeatureU32);
 }
-

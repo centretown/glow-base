@@ -2,24 +2,26 @@
 
 #pragma once
 #include "base.h"
-
-class Activity
+namespace glow
 {
-protected:
-    static uint64_t now;
+    class Activity
+    {
+    protected:
+        static uint64_t now;
 
-public:
-    bool Pulse();
+    public:
+        bool Pulse();
 
-    virtual void Reset() {}
-    virtual void Setup() {}
+        virtual void Reset() {}
+        virtual void Setup() {}
 
-    virtual bool Ready() { return true; }
-    virtual bool Done() { return false; }
-    
-    virtual void Update() = 0;
+        virtual bool Ready() { return true; }
+        virtual bool Done() { return false; }
 
-public:
-    static void Cycle();
-    static uint64_t Now();
-};
+        virtual void Update() = 0;
+
+    public:
+        static void Cycle();
+        static uint64_t Now();
+    };
+}

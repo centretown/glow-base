@@ -8,18 +8,21 @@
 #include "BlinkSettings.h"
 #include "BlinkMonitor.h"
 
-class BlinkActivity : public MonitoredActivity
+namespace glow
 {
-private:
-    BlinkSettings *blink;
-
-public:
-    BlinkActivity(ActivityMonitor *monitor, BlinkSettings *blink)
-        : MonitoredActivity(monitor), blink(blink) {}
-    ~BlinkActivity() {}
-
-    virtual void Update()
+    class BlinkActivity : public MonitoredActivity
     {
-        blink->ToggleState();
-    }
-};
+    private:
+        BlinkSettings *blink;
+
+    public:
+        BlinkActivity(ActivityMonitor *monitor, BlinkSettings *blink)
+            : MonitoredActivity(monitor), blink(blink) {}
+        ~BlinkActivity() {}
+
+        virtual void Update()
+        {
+            blink->ToggleState();
+        }
+    };
+}

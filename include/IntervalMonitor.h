@@ -5,41 +5,44 @@
 #include "base.h"
 #include "ActivityMonitor.h"
 
-class IntervalMonitor
+namespace glow
 {
-private:
-protected:
-    uint32_t interval = 500;
-    uint64_t next = 0;
-
-public:
-    IntervalMonitor(uint32_t interval = 500) : interval(interval) {}
-    ~IntervalMonitor() {}
-
-    inline void Interval(uint32_t v)
+    class IntervalMonitor
     {
-        interval = v;
-    }
-    inline uint32_t Interval()
-    {
-        return interval;
-    }
+    private:
+    protected:
+        uint32_t interval = 500;
+        uint64_t next = Activity::Now();
 
-    inline uint64_t Next()
-    {
-        return next;
-    }
+    public:
+        IntervalMonitor(uint32_t interval = 500) : interval(interval) {}
+        ~IntervalMonitor() {}
 
-    // can update
-    virtual bool Ready(Activity *activity)
-    {
-        auto ready = (Activity::Now() >= next);
-        if (ready)
+        inline void Interval(uint32_t v)
         {
-            next += interval;
+            interval = v;
         }
-        return ready;
-    }
-    // check after update
-    virtual bool Done(Activity *activity) { return false; }
-};
+        inline uint32_t Interval()
+        {
+            return interval;
+        }
+
+        inline uint64_t Next()
+        {
+            return next;
+        }
+
+        // can update
+        virtual bool Ready(Activity *activity)
+        {
+            auto ready = (Activity::Now() >= next);
+            if (ready)
+            {
+                next += interval;
+            }
+            return ready;
+        }
+        // check after update
+        virtual bool Done(Activity *activity) { return false; }
+    };
+}

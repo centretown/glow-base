@@ -6,44 +6,47 @@
 #include "Activity.h"
 #include "ActivityMonitor.h"
 
-class ActivityCounter : public ActivityMonitor
+namespace glow
 {
-private:
-    ActivityMonitor *monitor;
-    uint32_t maximum = 1;
-    uint32_t count = 0;
-
-public:
-    ActivityCounter(ActivityMonitor *monitor, uint32_t maximum)
-        : monitor(monitor), maximum(maximum) {}
-    ~ActivityCounter() {}
-
-    inline uint32_t Maximum() { return maximum; }
-    void Maximum(uint32_t v) { maximum = v; }
-    inline uint32_t Count() { return count; }
-
-    virtual bool Ready(Activity *activity)
+    class ActivityCounter : public ActivityMonitor
     {
-        bool ready = monitor->Ready(activity);
-        if (ready)
+    private:
+        ActivityMonitor *monitor;
+        uint32_t maximum = 1;
+        uint32_t count = 0;
+
+    public:
+        ActivityCounter(ActivityMonitor *monitor, uint32_t maximum)
+            : monitor(monitor), maximum(maximum) {}
+        ~ActivityCounter() {}
+
+        inline uint32_t Maximum() { return maximum; }
+        void Maximum(uint32_t v) { maximum = v; }
+        inline uint32_t Count() { return count; }
+
+        virtual bool Ready(Activity *activity)
         {
-            count++;
+            bool ready = monitor->Ready(activity);
+            if (ready)
+            {
+                count++;
+            }
+            return ready;
         }
-        return ready;
-    }
 
-    virtual bool Done(Activity *activity)
-    {
-        bool done = (count >= maximum);
-        if (!done)
+        virtual bool Done(Activity *activity)
         {
-            done = monitor->Done(activity);
+            bool done = (count >= maximum);
+            if (!done)
+            {
+                done = monitor->Done(activity);
+            }
+            return done;
         }
-        return done;
-    }
 
-    virtual void Reset()
-    {
-        count = 0;
-    }
-};
+        virtual void Reset()
+        {
+            count = 0;
+        }
+    };
+}

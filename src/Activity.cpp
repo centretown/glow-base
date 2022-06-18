@@ -2,22 +2,26 @@
 
 #include "Activity.h"
 
-uint64_t Activity::now = millis();
-uint64_t Activity::Now() { return now; }
-void Activity::Cycle() { now = millis(); }
-
-bool Activity::Pulse()
+namespace glow
 {
-    if (!Ready())
-    {
-        return false;
-    }
 
-    Update();
+    uint64_t Activity::now = millis();
+    uint64_t Activity::Now() { return now; }
+    void Activity::Cycle() { now = millis(); }
 
-    if (Done())
+    bool Activity::Pulse()
     {
-        Reset();
+        if (!Ready())
+        {
+            return false;
+        }
+
+        Update();
+
+        if (Done())
+        {
+            Reset();
+        }
+        return true;
     }
-    return true;
 }

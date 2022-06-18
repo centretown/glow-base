@@ -4,23 +4,26 @@
 
 #include "CompoundActivity.h"
 
-class SerialActivity : public CompoundActivity
+namespace glow
 {
-protected:
-    uint8_t current = 0;
-
-public:
-    SerialActivity(size_t length)
-        : CompoundActivity(length) {}
-    ~SerialActivity() {}
-
-    inline uint8_t Current() { return current; }
-    inline void Current(uint8_t v) { current = v; }
-
-    virtual bool Ready();
-    virtual bool Done();
-    virtual void Update()
+    class SerialActivity : public CompoundActivity
     {
-        activities[current]->Update();
-    }
-};
+    protected:
+        uint8_t current = 0;
+
+    public:
+        SerialActivity(size_t length)
+            : CompoundActivity(length) {}
+        ~SerialActivity() {}
+
+        inline uint8_t Current() { return current; }
+        inline void Current(uint8_t v) { current = v; }
+
+        virtual bool Ready();
+        virtual bool Done();
+        virtual void Update()
+        {
+            activities[current]->Update();
+        }
+    };
+}

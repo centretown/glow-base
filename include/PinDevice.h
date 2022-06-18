@@ -29,29 +29,32 @@ typedef enum : uint8_t
 } BlinkState;
 #endif // BlinkState
 
-class PinDevice
+namespace glow
 {
-private:
-    uint8_t pin;
-    uint8_t mode;
-
-public:
-    PinDevice(uint8_t pin = BLINK_PIN, uint8_t mode = OUTPUT)
-        : pin(pin), mode(mode) {}
-    ~PinDevice() {}
-
-    inline uint8_t Pin() { return pin; }
-    inline uint8_t Mode() { return mode; }
-
-    inline void Write(BlinkState state)
+    class PinDevice
     {
-#ifdef ARDUINO
-        digitalWrite(pin, state);
-#else
-        const char *text = (state == BLINK_ON) ? "OFF" : "ON";
-        printf("pin:%u %s\n", pin, text);
-#endif
-    }
+    private:
+        uint8_t pin;
+        uint8_t mode;
 
-    void Setup();
-};
+    public:
+        PinDevice(uint8_t pin = BLINK_PIN, uint8_t mode = OUTPUT)
+            : pin(pin), mode(mode) {}
+        ~PinDevice() {}
+
+        inline uint8_t Pin() { return pin; }
+        inline uint8_t Mode() { return mode; }
+
+        inline void Write(BlinkState state)
+        {
+#ifdef ARDUINO
+            digitalWrite(pin, state);
+#else
+            const char *text = (state == BLINK_ON) ? "OFF" : "ON";
+            printf("pin:%u %s\n", pin, text);
+#endif
+        }
+
+        void Setup();
+    };
+}

@@ -2,4 +2,7 @@
 
 #include "Feature.h"
 
-const char *Feature::U32_FORMAT = (sizeof(int) > 16) ? "%u" : "%lu";
+namespace glow
+{
+    const char *Feature::U32_FORMAT = (sizeof(int) > 16) ? "%u" : "%lu";
+}

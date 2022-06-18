@@ -2,37 +2,40 @@
 
 #include "CompoundActivity.h"
 
-CompoundActivity::CompoundActivity(size_t maximum) : maximum(maximum)
+namespace glow
 {
-    activities = (Activity **)malloc(maximum * sizeof(Activity *));
-}
-
-CompoundActivity::~CompoundActivity()
-{
-    free(activities);
-}
-
-void CompoundActivity::Add(Activity *activity)
-{
-    if (length < maximum)
+    CompoundActivity::CompoundActivity(size_t maximum) : maximum(maximum)
     {
-        activities[length] = activity;
-        length++;
+        activities = (Activity **)malloc(maximum * sizeof(Activity *));
     }
-}
 
-void CompoundActivity::Setup()
-{
-    for (size_t i = 0; i < length; i++)
+    CompoundActivity::~CompoundActivity()
     {
-        activities[i]->Setup();
+        free(activities);
     }
-}
 
-void CompoundActivity::Reset()
-{
-    for (size_t i = 0; i < length; i++)
+    void CompoundActivity::Add(Activity *activity)
     {
-        activities[i]->Reset();
+        if (length < maximum)
+        {
+            activities[length] = activity;
+            length++;
+        }
+    }
+
+    void CompoundActivity::Setup()
+    {
+        for (size_t i = 0; i < length; i++)
+        {
+            activities[i]->Setup();
+        }
+    }
+
+    void CompoundActivity::Reset()
+    {
+        for (size_t i = 0; i < length; i++)
+        {
+            activities[i]->Reset();
+        }
     }
 }

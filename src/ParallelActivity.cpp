@@ -2,15 +2,18 @@
 
 #include "ParallelActivity.h"
 
-void ParallelActivity::Update()
+namespace glow
 {
-    Activity *activity;
-    for (size_t i = 0; i < Length(); i++)
+    void ParallelActivity::Update()
     {
-        activity = activities[i];
-        if (activity->Ready())
+        Activity *activity;
+        for (size_t i = 0; i < Length(); i++)
         {
-            activity->Update();
+            activity = activities[i];
+            if (activity->Ready())
+            {
+                activity->Update();
+            }
         }
     }
 }

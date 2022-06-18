@@ -5,27 +5,29 @@
 #include "base.h"
 #include "BlinkSettings.h"
 #include "ActivityMonitor.h"
-
-class BlinkMonitor : public ActivityMonitor
+namespace glow
 {
-private:
-    BlinkSettings *blink;
-    uint64_t next = Activity::Now();
-
-public:
-    BlinkMonitor(BlinkSettings *blink) : blink(blink) {}
-    ~BlinkMonitor() {}
-
-    // ready to update?
-    virtual bool Ready(Activity *activity)
+    class BlinkMonitor : public ActivityMonitor
     {
-        auto ready = (Activity::Now() >= next);
-        if (ready)
+    private:
+        BlinkSettings *blink;
+        uint64_t next = Activity::Now();
+
+    public:
+        BlinkMonitor(BlinkSettings *blink) : blink(blink) {}
+        ~BlinkMonitor() {}
+
+        // ready to update?
+        virtual bool Ready(Activity *activity)
         {
-            next += (blink->State() == BLINK_ON) ? blink->On() : blink->Off();
+            auto ready = (Activity::Now() >= next);
+            if (ready)
+            {
+                next += (blink->State() == BLINK_ON) ? blink->On() : blink->Off();
+            }
+            return ready;
         }
-        return ready;
-    }
-    // check after update
-    virtual bool Done(Activity *activity) { return false; }
-};
+        // check after update
+        virtual bool Done(Activity *activity) { return false; }
+    };
+}

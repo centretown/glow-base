@@ -2,30 +2,33 @@
 
 #include "SerialActivity.h"
 
-bool SerialActivity::Done()
+namespace glow
 {
-    bool done = false;
-    size_t i = current;
-    do
+    bool SerialActivity::Done()
     {
-        done = activities[i]->Done();
-        if (!done)
+        bool done = false;
+        size_t i = current;
+        do
         {
-            break;
-        }
+            done = activities[i]->Done();
+            if (!done)
+            {
+                break;
+            }
 
-        i++;
-        if (i >= Length())
-        {
-            i = 0;
-        }
-    } while (i != current);
+            i++;
+            if (i >= Length())
+            {
+                i = 0;
+            }
+        } while (i != current);
 
-    current = i;
-    return done;
-}
+        current = i;
+        return done;
+    }
 
-bool SerialActivity::Ready()
-{
-    return activities[current]->Ready();
+    bool SerialActivity::Ready()
+    {
+        return activities[current]->Ready();
+    }
 }

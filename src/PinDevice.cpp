@@ -2,9 +2,12 @@
 
 #include "PinDevice.h"
 
-void PinDevice::Setup()
+namespace glow
 {
+    void PinDevice::Setup()
+    {
 #ifdef ARDUINO
-    pinMode(pin, mode);
+        pinMode(pin, mode);
 #endif
+    }
 }

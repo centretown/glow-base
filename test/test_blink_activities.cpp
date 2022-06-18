@@ -9,6 +9,8 @@
 #include "ActivityCounter.h"
 #include "SerialActivity.h"
 
+using namespace glow;
+
 static PinDevice blinkPin;
 
 void setUp()

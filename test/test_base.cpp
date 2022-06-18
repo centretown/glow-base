@@ -6,6 +6,8 @@
 #include "PinDevice.h"
 #include "BlinkActivity.h"
 
+using namespace glow;
+
 PinDevice blinkPin;
 BlinkSettings blink(&blinkPin);
 BlinkMonitor monitor(&blink);
