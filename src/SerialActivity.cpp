@@ -20,7 +20,7 @@ bool SerialActivity::Done()
             i = 0;
         }
     } while (i != current);
-    
+
     current = i;
     return done;
 }

@@ -18,5 +18,8 @@ public:
         : MonitoredActivity(monitor), blink(blink) {}
     ~BlinkActivity() {}
 
-    virtual void Update();
+    virtual void Update()
+    {
+        blink->ToggleState();
+    }
 };

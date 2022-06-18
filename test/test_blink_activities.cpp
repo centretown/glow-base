@@ -3,17 +3,20 @@
 #define UNITY_INCLUDE_PRINT_FORMATTED
 #include <unity.h>
 #include "base.h"
+#include "PinDevice.h"
 #include "BlinkActivity.h"
 #include "ActivityTimer.h"
 #include "ActivityCounter.h"
+#include "SerialActivity.h"
 
-static BlinkSettings blink;
-static BlinkMonitor monitor(&blink);
-static BlinkActivity blinker(&monitor, &blink);
-static ActivityTimer timer(&monitor, 5000);
-static BlinkActivity blinkerT(&timer, &blink);
-static ActivityCounter counter(&monitor, 100);
-static BlinkActivity blinkerC(&counter, &blink);
+static PinDevice blinkPin;
+
+void setUp()
+{
+    Activity::Cycle();
+}
+
+void tearDown() {}
 
 uint32_t testActivity(Activity *activity, uint32_t count = 10)
 {
@@ -30,27 +33,60 @@ uint32_t testActivity(Activity *activity, uint32_t count = 10)
     return ticks;
 }
 
+void testBlinkActivitySetup()
+{
+    TEST_ASSERT_EQUAL(BLINK_PIN, blinkPin.Pin());
+    TEST_ASSERT_EQUAL(OUTPUT, blinkPin.Mode());
+    blinkPin.Setup();
+#ifdef ARDUINO
+    for (size_t i = 0; i < 3; i++)
+    {
+        delay(100);
+        blinkPin.Write(BLINK_ON);
+        delay(100);
+        blinkPin.Write(BLINK_OFF);
+    }
+    delay(100);
+#endif
+}
+
+uint32_t calc(uint16_t on, uint16_t off, uint32_t duration)
+{
+    return (duration * 2) / (on + off);
+}
+
 void testBlinkActivityTimer()
 {
-    timer.Reset(); // required  millis based
+    BlinkSettings blink(&blinkPin);
+    BlinkMonitor monitor(&blink);
+    ActivityTimer timer(&monitor, 2000);
+    BlinkActivity blinker(&timer, &blink);
     blink.On(250);
     blink.Off(250);
-    auto ticks = testActivity(&blinkerT, 1000);
-    TEST_ASSERT_EQUAL(20, ticks);
+    auto ticks = testActivity(&blinker, 1000);
     TEST_ASSERT_UINT_WITHIN(1, Activity::Now(), timer.End());
+    auto c = calc(blink.On(), blink.Off(), timer.Duration());
+    TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
 
 void testBlinkActivityCounter()
 {
-    counter.Reset(); // shouldn't be required not millis based
-    blink.On(50);
-    blink.Off(50);
-    auto ticks = testActivity(&blinkerC, 1000);
+    BlinkSettings blink(&blinkPin);
+    BlinkMonitor monitor(&blink);
+    ActivityCounter counter(&monitor, 100);
+    BlinkActivity blinker(&counter, &blink);
+    blink.On(100);
+    blink.Off(100);
+    auto ticks = testActivity(&blinker, 1000);
     TEST_ASSERT_EQUAL(100, ticks);
 }
 
 void testBlinkActivity()
 {
+    BlinkSettings blink(&blinkPin);
+    BlinkMonitor monitor(&blink);
+    BlinkActivity blinker(&monitor, &blink);
+
     blink.On(2000);
     blink.Off(1000);
     TEST_ASSERT_EQUAL(2000, blink.On());
@@ -61,7 +97,6 @@ void testBlinkActivity()
     blink.Off(900);
     TEST_ASSERT_EQUAL(100, blink.On());
     TEST_ASSERT_EQUAL(900, blink.Off());
-
     testActivity(&blinker, 10);
 
     blink.On(2000);
@@ -69,19 +104,37 @@ void testBlinkActivity()
     testActivity(&blinker, 4);
 }
 
-void testBlinkActivitiesSetup()
+void testBlinkActivitySerial()
 {
-    Activity::Cycle();
-    blink.Setup();
-    blinker.Setup();
-    blinkerT.Setup();
-    blinkerC.Setup();
+    BlinkSettings blink(&blinkPin);
+    BlinkMonitor monitor(&blink);
+    ActivityCounter counter(&monitor, 100);
+    ActivityTimer timer(&monitor, 2000);
+    BlinkActivity blinkerT(&timer, &blink);
+    BlinkActivity blinkerC(&counter, &blink);
+    SerialActivity serialActivity(2);
+
+    TEST_ASSERT_EQUAL(2, serialActivity.Maximum());
+    serialActivity.Add(&blinkerT);
+    TEST_ASSERT_EQUAL(1, serialActivity.Length());
+    serialActivity.Add(&blinkerC);
+    TEST_ASSERT_EQUAL(2, serialActivity.Length());
+
+    blink.On(50);
+    blink.Off(50);
+    timer.Duration(1000);
+    counter.Maximum(100);
+    auto ticks = testActivity(&serialActivity, 2000);
+    auto c = calc(blink.On(), blink.Off(), timer.Duration()) +
+             counter.Maximum();
+    TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
 
 void testBlinkActivities()
 {
-    RUN_TEST(testBlinkActivitiesSetup);
-    RUN_TEST(testBlinkActivity);
+    RUN_TEST(testBlinkActivitySetup);
     RUN_TEST(testBlinkActivityCounter);
     RUN_TEST(testBlinkActivityTimer);
+    RUN_TEST(testBlinkActivity);
+    RUN_TEST(testBlinkActivitySerial);
 }

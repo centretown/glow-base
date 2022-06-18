@@ -21,6 +21,12 @@ public:
     }
     ~ActivityTimer() {}
 
+    inline ActivityMonitor *Monitor() { return monitor; }
+    inline void Monitor(ActivityMonitor *v)
+    {
+        monitor = v;
+        Duration(duration);
+    }
     inline uint32_t Duration() { return duration; }
     inline void Duration(uint32_t v)
     {

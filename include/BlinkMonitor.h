@@ -10,7 +10,7 @@ class BlinkMonitor : public ActivityMonitor
 {
 private:
     BlinkSettings *blink;
-    uint64_t next = 0;
+    uint64_t next = Activity::Now();
 
 public:
     BlinkMonitor(BlinkSettings *blink) : blink(blink) {}

@@ -3,9 +3,11 @@
 #define UNITY_INCLUDE_PRINT_FORMATTED
 #include <unity.h>
 #include "base.h"
+#include "PinDevice.h"
 #include "BlinkActivity.h"
 
-BlinkSettings blink;
+PinDevice blinkPin;
+BlinkSettings blink(&blinkPin);
 BlinkMonitor monitor(&blink);
 BlinkActivity blinker(&monitor, &blink);
 
@@ -26,10 +28,10 @@ void setup()
 {
     delay(2000);
     run();
+    blinkPin.Setup();
     blinker.Setup();
 }
 
-uint64_t now;
 void loop()
 {
     Activity::Cycle();

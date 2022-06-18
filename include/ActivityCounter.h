@@ -18,6 +18,10 @@ public:
         : monitor(monitor), maximum(maximum) {}
     ~ActivityCounter() {}
 
+    inline uint32_t Maximum() { return maximum; }
+    void Maximum(uint32_t v) { maximum = v; }
+    inline uint32_t Count() { return count; }
+
     virtual bool Ready(Activity *activity)
     {
         bool ready = monitor->Ready(activity);

@@ -14,6 +14,8 @@
 #include <time.h>
 #define HIGH 1
 #define LOW 0
+#define INPUT 0
+#define OUTPUT 1
 uint64_t millis();
 void set_millis_rate(uint16_t r);
 #endif

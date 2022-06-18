@@ -4,7 +4,6 @@
 
 #include "base.h"
 #include "Activity.h"
-
 class ActivityMonitor
 {
 public:

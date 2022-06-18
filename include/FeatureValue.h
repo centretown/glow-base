@@ -9,7 +9,6 @@ template <class T>
 class FeatureValue : public Feature
 {
 private:
-
 protected:
     const char *label;
     T value;
