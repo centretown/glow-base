@@ -6,29 +6,31 @@ namespace glow
 {
     bool SerialActivity::Done()
     {
+        Activity *activity;
         bool done = false;
-        size_t i = current;
+        size_t next = current;
         do
         {
-            done = activities[i]->Done();
+            activity = activities[next];
+            done = activity->Done();
             if (!done)
             {
                 break;
             }
 
-            i++;
-            if (i >= Length())
+            next++;
+            if (next >= Length())
             {
-                i = 0;
+                next = 0;
             }
-        } while (i != current);
+        } while (next != current);
 
-        current = i;
+        if (next != current)
+        {
+            current = next;
+            Setup();
+        }
         return done;
     }
 
-    bool SerialActivity::Ready()
-    {
-        return activities[current]->Ready();
-    }
 }

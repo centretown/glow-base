@@ -9,11 +9,8 @@ namespace glow
     class ActivityMonitor
     {
     public:
-        // ready to update?
+        virtual void Setup(Activity *activity) = 0;
         virtual bool Ready(Activity *activity) = 0;
-        // check after update
         virtual bool Done(Activity *activity) = 0;
-        // reset the monitor (optional)
-        virtual void Reset() {}
     };
 }

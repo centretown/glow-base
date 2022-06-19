@@ -17,7 +17,8 @@ namespace glow
         BlinkMonitor(BlinkSettings *blink) : blink(blink) {}
         ~BlinkMonitor() {}
 
-        // ready to update?
+        virtual void Setup(Activity *activity) {}
+
         virtual bool Ready(Activity *activity)
         {
             auto ready = (Activity::Now() >= next);
@@ -27,7 +28,6 @@ namespace glow
             }
             return ready;
         }
-        // check after update
         virtual bool Done(Activity *activity) { return false; }
     };
 }

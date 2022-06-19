@@ -41,14 +41,14 @@ void testBlinkActivitySetup()
     TEST_ASSERT_EQUAL(OUTPUT, blinkPin.Mode());
     blinkPin.Setup();
 #ifdef ARDUINO
-    for (size_t i = 0; i < 3; i++)
-    {
-        delay(100);
-        blinkPin.Write(BLINK_ON);
-        delay(100);
-        blinkPin.Write(BLINK_OFF);
-    }
-    delay(100);
+    // for (size_t i = 0; i < 3; i++)
+    // {
+    //     delay(100);
+    //     blinkPin.Write(BLINK_ON);
+    //     delay(100);
+    //     blinkPin.Write(BLINK_OFF);
+    // }
+    // delay(100);
 #endif
 }
 
@@ -65,9 +65,9 @@ void testBlinkActivityTimer()
     BlinkActivity blinker(&timer, &blink);
     blink.On(250);
     blink.Off(250);
-    auto ticks = testActivity(&blinker, 1000);
-    TEST_ASSERT_UINT_WITHIN(1, Activity::Now(), timer.End());
     auto c = calc(blink.On(), blink.Off(), timer.Duration());
+    auto ticks = testActivity(&blinker, c + 100);
+    TEST_ASSERT_UINT_WITHIN(1, Activity::Now(), timer.End());
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
 
@@ -75,12 +75,12 @@ void testBlinkActivityCounter()
 {
     BlinkSettings blink(&blinkPin);
     BlinkMonitor monitor(&blink);
-    ActivityCounter counter(&monitor, 100);
+    ActivityCounter counter(&monitor, 25);
     BlinkActivity blinker(&counter, &blink);
     blink.On(100);
     blink.Off(100);
-    auto ticks = testActivity(&blinker, 1000);
-    TEST_ASSERT_EQUAL(100, ticks);
+    auto ticks = testActivity(&blinker, 40);
+    TEST_ASSERT_EQUAL(25, ticks);
 }
 
 void testBlinkActivity()
@@ -108,35 +108,38 @@ void testBlinkActivity()
 
 void testBlinkActivitySerial()
 {
-    BlinkSettings blink(&blinkPin);
-    BlinkMonitor monitor(&blink);
-    ActivityCounter counter(&monitor, 100);
-    ActivityTimer timer(&monitor, 2000);
-    BlinkActivity blinkerT(&timer, &blink);
-    BlinkActivity blinkerC(&counter, &blink);
-    SerialActivity serialActivity(2);
+    BlinkSettings blinkT(&blinkPin);
+    BlinkMonitor monitorT(&blinkT);
+    ActivityTimer timer(&monitorT, 2000);
+    BlinkActivity blinkerT(&timer, &blinkT);
+    blinkT.On(250);
+    blinkT.Off(250);
 
+    BlinkSettings blinkC(&blinkPin);
+    BlinkMonitor monitorC(&blinkC);
+    ActivityCounter counter(&monitorC, 100);
+    BlinkActivity blinkerC(&counter, &blinkC);
+    blinkC.On(50);
+    blinkC.Off(50);
+
+    SerialActivity serialActivity(2);
     TEST_ASSERT_EQUAL(2, serialActivity.Maximum());
-    serialActivity.Add(&blinkerT);
-    TEST_ASSERT_EQUAL(1, serialActivity.Length());
     serialActivity.Add(&blinkerC);
+    TEST_ASSERT_EQUAL(1, serialActivity.Length());
+    serialActivity.Add(&blinkerT);
     TEST_ASSERT_EQUAL(2, serialActivity.Length());
 
-    blink.On(50);
-    blink.Off(50);
-    timer.Duration(1000);
-    counter.Maximum(100);
-    auto ticks = testActivity(&serialActivity, 2000);
-    auto c = calc(blink.On(), blink.Off(), timer.Duration()) +
+    auto c = calc(blinkT.On(), blinkT.Off(), timer.Duration()) +
              counter.Maximum();
+    auto ticks = testActivity(&serialActivity, c + 100);
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
 
 void testBlinkActivities()
 {
     RUN_TEST(testBlinkActivitySetup);
-    RUN_TEST(testBlinkActivityCounter);
-    RUN_TEST(testBlinkActivityTimer);
-    RUN_TEST(testBlinkActivity);
+    // RUN_TEST(testBlinkActivity);
+    // RUN_TEST(testBlinkActivityCounter);
+    // RUN_TEST(testBlinkActivityTimer);
     RUN_TEST(testBlinkActivitySerial);
 }

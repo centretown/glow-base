@@ -10,15 +10,21 @@ namespace glow
         static uint64_t now;
 
     public:
-        bool Pulse();
+        inline bool Pulse()
+        {
+            if (Ready())
+            {
+                Update();
+                return true;
+            }
+            return false;
+        }
 
-        virtual void Reset() {}
         virtual void Setup() {}
 
-        virtual bool Ready() { return true; }
-        virtual bool Done() { return false; }
-
+        virtual bool Ready() = 0;
         virtual void Update() = 0;
+        virtual bool Done() = 0;
 
     public:
         static void Cycle();

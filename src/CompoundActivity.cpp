@@ -22,20 +22,4 @@ namespace glow
             length++;
         }
     }
-
-    void CompoundActivity::Setup()
-    {
-        for (size_t i = 0; i < length; i++)
-        {
-            activities[i]->Setup();
-        }
-    }
-
-    void CompoundActivity::Reset()
-    {
-        for (size_t i = 0; i < length; i++)
-        {
-            activities[i]->Reset();
-        }
-    }
 }

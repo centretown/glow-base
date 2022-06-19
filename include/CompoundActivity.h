@@ -20,12 +20,5 @@ namespace glow
         inline size_t Maximum() { return maximum; }
         inline size_t Length() { return length; }
         void Add(Activity *activity);
-
-        virtual void Setup();
-        virtual void Reset();
-
-        // virtual bool Ready() { return true; }
-        // virtual bool Done() { return false; }
-        // virtual void Update() = 0;
     };
 }

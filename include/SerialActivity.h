@@ -17,13 +17,20 @@ namespace glow
         ~SerialActivity() {}
 
         inline uint8_t Current() { return current; }
-        inline void Current(uint8_t v) { current = v; }
+        // inline void Current(uint8_t v) { current = v; }
 
-        virtual bool Ready();
-        virtual bool Done();
+        virtual void Setup()
+        {
+            activities[current]->Setup();
+        }
+        virtual bool Ready()
+        {
+            return activities[current]->Ready();
+        }
         virtual void Update()
         {
             activities[current]->Update();
         }
+        virtual bool Done();
     };
 }

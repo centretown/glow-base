@@ -24,6 +24,11 @@ namespace glow
         void Maximum(uint32_t v) { maximum = v; }
         inline uint32_t Count() { return count; }
 
+        virtual void Setup(Activity *activity)
+        {
+            count = 0;
+        }
+
         virtual bool Ready(Activity *activity)
         {
             bool ready = monitor->Ready(activity);
@@ -42,11 +47,6 @@ namespace glow
                 done = monitor->Done(activity);
             }
             return done;
-        }
-
-        virtual void Reset()
-        {
-            count = 0;
         }
     };
 }
