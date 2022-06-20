@@ -27,6 +27,7 @@ namespace glow
         virtual void Setup(Activity *activity)
         {
             count = 0;
+            monitor->Setup(activity);
         }
 
         virtual bool Ready(Activity *activity)

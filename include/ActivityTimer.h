@@ -17,24 +17,21 @@ namespace glow
 
     public:
         ActivityTimer(ActivityMonitor *monitor, uint32_t duration)
-            : monitor(monitor), duration(duration)
-        {
-            end = Activity::Now() + duration;
-        }
+            : monitor(monitor), duration(duration) {}
         ~ActivityTimer() {}
 
         inline uint32_t Duration() { return duration; }
         inline void Duration(uint32_t v)
         {
             duration = v;
-            end = Activity::Now() + duration;
         }
 
         inline uint64_t End() { return end; }
 
         virtual void Setup(Activity *activity)
         {
-            end = Activity::Now() + duration;
+            end = 0;
+            monitor->Setup(activity);
         }
 
         virtual bool Ready(Activity *activity)
@@ -44,6 +41,10 @@ namespace glow
 
         virtual bool Done(Activity *activity)
         {
+            if (end == 0)
+            {
+                end = Activity::Now() + duration;
+            }
             bool done = (Activity::Now() >= end);
             if (!done)
             {

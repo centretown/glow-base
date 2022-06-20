@@ -11,20 +11,26 @@ namespace glow
     {
     private:
         BlinkSettings *blink;
-        uint64_t next = Activity::Now();
+        uint64_t next = 0;
 
     public:
         BlinkMonitor(BlinkSettings *blink) : blink(blink) {}
         ~BlinkMonitor() {}
 
-        virtual void Setup(Activity *activity) {}
+        virtual void Setup(Activity *activity)
+        {
+            next = 0;
+        }
 
         virtual bool Ready(Activity *activity)
         {
             auto ready = (Activity::Now() >= next);
             if (ready)
             {
-                next += (blink->State() == BLINK_ON) ? blink->On() : blink->Off();
+                next = Activity::Now();
+                next += (blink->State() == BLINK_ON)
+                            ? blink->On()
+                            : blink->Off();
             }
             return ready;
         }

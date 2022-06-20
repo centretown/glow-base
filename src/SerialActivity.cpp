@@ -6,10 +6,33 @@ namespace glow
 {
     bool SerialActivity::Done()
     {
+        return activities[current]->Done();
+    }
+
+    bool SerialActivity::Ready()
+    {
+        return activities[current]->Ready();
+    }
+
+    void SerialActivity::Update()
+    {
+        Activity *activity = activities[current];
+        activity->Update();
+        if (activity->Done())
+        {
+            if (findNext(current))
+            {
+                Setup();
+            }
+        }
+    }
+
+    size_t SerialActivity::findNext(size_t next)
+    {
         Activity *activity;
         bool done = false;
-        size_t next = current;
-        do
+        next = nextActivity(next);
+        while (next != current)
         {
             activity = activities[next];
             done = activity->Done();
@@ -18,19 +41,18 @@ namespace glow
                 break;
             }
 
-            next++;
-            if (next >= Length())
-            {
-                next = 0;
-            }
-        } while (next != current);
-
-        if (next != current)
-        {
-            current = next;
-            Setup();
+            next = nextActivity(next);
         }
-        return done;
+        current = next;
+        return (done == false);
     }
-
+    size_t SerialActivity::nextActivity(size_t next)
+    {
+        next++;
+        if (next >= Length())
+        {
+            next = 0;
+        }
+        return next;
+    }
 }

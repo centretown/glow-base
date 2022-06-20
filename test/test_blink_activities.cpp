@@ -37,6 +37,7 @@ uint32_t testActivity(Activity *activity, uint32_t count = 10)
 
 void testBlinkActivitySetup()
 {
+    // TEST_ASSERT_EQUAL(BLINK_PIN, 13);
     TEST_ASSERT_EQUAL(BLINK_PIN, blinkPin.Pin());
     TEST_ASSERT_EQUAL(OUTPUT, blinkPin.Mode());
     blinkPin.Setup();
@@ -123,23 +124,37 @@ void testBlinkActivitySerial()
     blinkC.Off(50);
 
     SerialActivity serialActivity(2);
+    TEST_ASSERT_EQUAL(0, serialActivity.Current());
     TEST_ASSERT_EQUAL(2, serialActivity.Maximum());
-    serialActivity.Add(&blinkerC);
-    TEST_ASSERT_EQUAL(1, serialActivity.Length());
     serialActivity.Add(&blinkerT);
+    TEST_ASSERT_EQUAL(1, serialActivity.Length());
+    serialActivity.Add(&blinkerC);
     TEST_ASSERT_EQUAL(2, serialActivity.Length());
-
     auto c = calc(blinkT.On(), blinkT.Off(), timer.Duration()) +
              counter.Maximum();
     auto ticks = testActivity(&serialActivity, c + 100);
+    TEST_ASSERT_UINT_WITHIN(1, c, ticks);
+
+    counter.Setup(&blinkerC);
+    timer.Setup(&blinkerT);
+    SerialActivity serialActivityReorder(2);
+    TEST_ASSERT_EQUAL(0, serialActivityReorder.Current());
+    TEST_ASSERT_EQUAL(2, serialActivityReorder.Maximum());
+    serialActivityReorder.Add(&blinkerC);
+    TEST_ASSERT_EQUAL(1, serialActivityReorder.Length());
+    serialActivityReorder.Add(&blinkerT);
+    TEST_ASSERT_EQUAL(2, serialActivityReorder.Length());
+    c = calc(blinkT.On(), blinkT.Off(), timer.Duration()) +
+        counter.Maximum();
+    ticks = testActivity(&serialActivityReorder, c + 100);
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
 
 void testBlinkActivities()
 {
     RUN_TEST(testBlinkActivitySetup);
-    // RUN_TEST(testBlinkActivity);
-    // RUN_TEST(testBlinkActivityCounter);
-    // RUN_TEST(testBlinkActivityTimer);
+    RUN_TEST(testBlinkActivity);
+    RUN_TEST(testBlinkActivityCounter);
+    RUN_TEST(testBlinkActivityTimer);
     RUN_TEST(testBlinkActivitySerial);
 }
