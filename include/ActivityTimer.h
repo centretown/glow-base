@@ -5,9 +5,9 @@
 #include "base.h"
 #include "Activity.h"
 #include "ActivityMonitor.h"
+
 namespace glow
 {
-
     class ActivityTimer : public ActivityMonitor
     {
     private:
@@ -21,36 +21,31 @@ namespace glow
         ~ActivityTimer() {}
 
         inline uint32_t Duration() { return duration; }
-        inline void Duration(uint32_t v)
-        {
-            duration = v;
-        }
+        // inline void Duration(uint32_t v)
+        // {
+        //     duration = v;
+        // }
 
         inline uint64_t End() { return end; }
 
-        virtual void Setup(Activity *activity)
+        virtual void Setup()
         {
+            monitor->Setup();
             end = 0;
-            monitor->Setup(activity);
         }
 
-        virtual bool Ready(Activity *activity)
+        virtual bool Ready()
         {
-            return monitor->Ready(activity);
+            return monitor->Ready();
         }
 
-        virtual bool Done(Activity *activity)
+        virtual bool Done()
         {
             if (end == 0)
             {
                 end = Activity::Now() + duration;
             }
-            bool done = (Activity::Now() >= end);
-            if (!done)
-            {
-                done = monitor->Done(activity);
-            }
-            return done;
+            return (Activity::Now() >= end);
         }
     };
 }

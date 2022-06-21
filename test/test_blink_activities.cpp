@@ -63,11 +63,15 @@ void testBlinkActivityTimer()
     BlinkSettings blink(&blinkPin);
     BlinkMonitor monitor(&blink);
     ActivityTimer timer(&monitor, 2000);
+    TEST_ASSERT_EQUAL(0, timer.End());
+    TEST_ASSERT_EQUAL(2000, timer.Duration());
     BlinkActivity blinker(&timer, &blink);
     blink.On(250);
     blink.Off(250);
     auto c = calc(blink.On(), blink.Off(), timer.Duration());
+    auto end = Activity::Now() + timer.Duration();
     auto ticks = testActivity(&blinker, c + 100);
+    TEST_ASSERT_UINT_WITHIN(10, end, timer.End());
     TEST_ASSERT_UINT_WITHIN(1, Activity::Now(), timer.End());
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
@@ -135,8 +139,8 @@ void testBlinkActivitySerial()
     auto ticks = testActivity(&serialActivity, c + 100);
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 
-    counter.Setup(&blinkerC);
-    timer.Setup(&blinkerT);
+    counter.Setup();
+    timer.Setup();
     SerialActivity serialActivityReorder(2);
     TEST_ASSERT_EQUAL(0, serialActivityReorder.Current());
     TEST_ASSERT_EQUAL(2, serialActivityReorder.Maximum());

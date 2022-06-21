@@ -7,12 +7,12 @@
 
 namespace glow
 {
-    class IntervalMonitor
+    class IntervalMonitor : public ActivityMonitor
     {
     private:
     protected:
         uint32_t interval = 500;
-        uint64_t next = Activity::Now();
+        uint64_t next = 0;
 
     public:
         IntervalMonitor(uint32_t interval = 500) : interval(interval) {}
@@ -32,17 +32,20 @@ namespace glow
             return next;
         }
 
-        virtual void Setup(Activity *activity) {}
+        virtual void Setup()
+        {
+            next = 0;
+        }
 
-        virtual bool Ready(Activity *activity)
+        virtual bool Ready()
         {
             auto ready = (Activity::Now() >= next);
             if (ready)
             {
-                next += interval;
+                next = Activity::Now() + interval;
             }
             return ready;
         }
-        virtual bool Done(Activity *activity) { return false; }
+        virtual bool Done() { return false; }
     };
 }

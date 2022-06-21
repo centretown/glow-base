@@ -9,8 +9,8 @@ namespace glow
     class ActivityMonitor
     {
     public:
-        virtual void Setup(Activity *activity) = 0;
-        virtual bool Ready(Activity *activity) = 0;
-        virtual bool Done(Activity *activity) = 0;
+        virtual void Setup() = 0;
+        virtual bool Ready() = 0;
+        virtual bool Done() = 0;
     };
 }
