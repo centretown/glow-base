@@ -8,8 +8,6 @@ namespace glow
 {
     class Activity : public Monitor
     {
-    protected:
-        static uint64_t now;
 
     public:
         inline bool Pulse()
@@ -23,9 +21,5 @@ namespace glow
         }
 
         virtual void Update() = 0;
-
-    public:
-        static void Cycle();
-        static uint64_t Now();
     };
 }

@@ -10,7 +10,6 @@ namespace glow
     {
     protected:
         size_t current = 0;
-        bool wrap = false;
 
     public:
         SerialActivity(size_t length)
@@ -18,11 +17,10 @@ namespace glow
         ~SerialActivity() {}
 
         inline size_t Current() { return current; }
-        // inline void Current(size_t v) { current = v; }
 
-        virtual void Setup()
+        virtual void Reset()
         {
-            activities[current]->Setup();
+            activities[current]->Reset();
         }
         virtual bool Ready();
         virtual void Update();

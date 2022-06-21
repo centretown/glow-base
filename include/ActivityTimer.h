@@ -23,9 +23,9 @@ namespace glow
         inline uint32_t Duration() { return duration; }
         inline uint64_t End() { return end; }
 
-        virtual void Setup()
+        virtual void Reset()
         {
-            monitor->Setup();
+            monitor->Reset();
             end = 0;
         }
 
@@ -38,9 +38,9 @@ namespace glow
         {
             if (end == 0)
             {
-                end = Activity::Now() + duration;
+                end = Monitor::Now() + duration;
             }
-            return (Activity::Now() >= end);
+            return (Monitor::Now() >= end);
         }
     };
 }

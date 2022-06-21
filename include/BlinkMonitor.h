@@ -2,10 +2,8 @@
 
 #pragma once
 
-#include "base.h"
-#include "BlinkSettings.h"
 #include "Monitor.h"
-#include "Activity.h"
+#include "BlinkSettings.h"
 
 namespace glow
 {
@@ -19,17 +17,17 @@ namespace glow
         BlinkMonitor(BlinkSettings *blink) : blink(blink) {}
         ~BlinkMonitor() {}
 
-        virtual void Setup()
+        virtual void Reset()
         {
             next = 0;
         }
 
         virtual bool Ready()
         {
-            auto ready = (Activity::Now() >= next);
+            auto ready = (Monitor::Now() >= next);
             if (ready)
             {
-                next = Activity::Now();
+                next = Monitor::Now();
                 next += (blink->State() == BLINK_ON)
                             ? blink->On()
                             : blink->Off();

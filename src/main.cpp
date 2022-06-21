@@ -18,13 +18,13 @@ BlinkActivity blinker(&monitor, &blink);
 void setup()
 {
     delay(2000);
-    blinkPin.Setup();
-    blinker.Setup();
+    blinkPin.Reset();
+    blinker.Reset();
 }
 
 void loop()
 {
-    Activity::Cycle();
+    Monitor::Cycle();
     blinker.Pulse();
 }
 

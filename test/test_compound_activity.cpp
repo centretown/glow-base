@@ -16,7 +16,7 @@
 //     TEST_ASSERT(!activity->Done());
 //     while (!activity->Done() && ticks < max_ticks)
 //     {
-//         Activity::Cycle();  
+//         Monitor::Cycle();  
 //         if (activity->Pulse())
 //         {
 //             ticks++;

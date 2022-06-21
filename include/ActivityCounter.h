@@ -24,9 +24,9 @@ namespace glow
         void Maximum(uint32_t v) { maximum = v; }
         inline uint32_t Count() { return count; }
 
-        virtual void Setup()
+        virtual void Reset()
         {
-            monitor->Setup();
+            monitor->Reset();
             count = 0;
         }
 

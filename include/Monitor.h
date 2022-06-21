@@ -7,9 +7,16 @@ namespace glow
 {
     class Monitor
     {
+    protected:
+        static uint64_t now;
+
     public:
-        virtual void Setup() = 0;
+        virtual void Reset() = 0;
         virtual bool Ready() = 0;
         virtual bool Done() = 0;
+
+    public:
+        static void Cycle();
+        static uint64_t Now();
     };
 }

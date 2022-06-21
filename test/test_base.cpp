@@ -31,12 +31,12 @@ void setup()
     delay(2000);
     run();
     blinkPin.Setup();
-    blinker.Setup();
+    blinker.Reset();
 }
 
 void loop()
 {
-    Activity::Cycle();
+    Monitor::Cycle();
     blinker.Pulse();
 }
 

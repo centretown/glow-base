@@ -32,17 +32,17 @@ namespace glow
             return next;
         }
 
-        virtual void Setup()
+        virtual void Reset()
         {
             next = 0;
         }
 
         virtual bool Ready()
         {
-            auto ready = (Activity::Now() >= next);
+            auto ready = (Monitor::Now() >= next);
             if (ready)
             {
-                next = Activity::Now() + interval;
+                next = Monitor::Now() + interval;
             }
             return ready;
         }

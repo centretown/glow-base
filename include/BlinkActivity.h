@@ -2,9 +2,6 @@
 
 #pragma once
 
-#include "base.h"
-#include "Monitor.h"
-#include "Activity.h"
 #include "MonitoredActivity.h"
 #include "BlinkSettings.h"
 #include "BlinkMonitor.h"

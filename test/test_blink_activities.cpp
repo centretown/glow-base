@@ -15,7 +15,7 @@ static PinDevice blinkPin;
 
 void setUp()
 {
-    Activity::Cycle();
+    Monitor::Cycle();
 }
 
 void tearDown() {}
@@ -25,7 +25,7 @@ uint32_t testActivity(Activity *activity, uint32_t count = 10)
     uint32_t ticks = 0;
     do
     {
-        Activity::Cycle();
+        Monitor::Cycle();
         if (activity->Pulse())
         {
             ticks++;
@@ -69,10 +69,10 @@ void testBlinkActivityTimer()
     blink.On(250);
     blink.Off(250);
     auto c = calc(blink.On(), blink.Off(), timer.Duration());
-    auto end = Activity::Now() + timer.Duration();
+    auto end = Monitor::Now() + timer.Duration();
     auto ticks = testActivity(&blinker, c + 100);
     TEST_ASSERT_UINT_WITHIN(10, end, timer.End());
-    TEST_ASSERT_UINT_WITHIN(1, Activity::Now(), timer.End());
+    TEST_ASSERT_UINT_WITHIN(1, Monitor::Now(), timer.End());
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 }
 
@@ -139,8 +139,8 @@ void testBlinkActivitySerial()
     auto ticks = testActivity(&serialActivity, c + 100);
     TEST_ASSERT_UINT_WITHIN(1, c, ticks);
 
-    counter.Setup();
-    timer.Setup();
+    counter.Reset();
+    timer.Reset();
     SerialActivity serialActivityReorder(2);
     TEST_ASSERT_EQUAL(0, serialActivityReorder.Current());
     TEST_ASSERT_EQUAL(2, serialActivityReorder.Maximum());

@@ -22,7 +22,7 @@ namespace glow
         {
             if (findNext(current))
             {
-                Setup();
+                Reset();
             }
         }
     }

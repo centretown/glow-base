@@ -16,7 +16,7 @@ namespace glow
     public:
         MonitoredActivity(Monitor *monitor) : monitor(monitor) {}
         ~MonitoredActivity() {}
-        virtual void Setup() { monitor->Setup(); }
+        virtual void Reset() { monitor->Reset(); }
         virtual bool Ready() { return monitor->Ready(); }
         virtual bool Done() { return monitor->Done(); }
     };
