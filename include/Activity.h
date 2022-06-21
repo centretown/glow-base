@@ -2,9 +2,11 @@
 
 #pragma once
 #include "base.h"
+#include "Monitor.h"
+
 namespace glow
 {
-    class Activity
+    class Activity : public Monitor
     {
     protected:
         static uint64_t now;
@@ -20,11 +22,7 @@ namespace glow
             return false;
         }
 
-        virtual void Setup() {}
-
-        virtual bool Ready() = 0;
         virtual void Update() = 0;
-        virtual bool Done() = 0;
 
     public:
         static void Cycle();

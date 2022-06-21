@@ -3,20 +3,20 @@
 #pragma once
 
 #include "base.h"
+#include "Monitor.h"
 #include "Activity.h"
-#include "ActivityMonitor.h"
 
 namespace glow
 {
-    class ActivityCounter : public ActivityMonitor
+    class ActivityCounter : public Monitor
     {
     private:
-        ActivityMonitor *monitor;
+        Monitor *monitor;
         uint32_t maximum = 1;
         uint32_t count = 0;
 
     public:
-        ActivityCounter(ActivityMonitor *monitor, uint32_t maximum)
+        ActivityCounter(Monitor *monitor, uint32_t maximum)
             : monitor(monitor), maximum(maximum) {}
         ~ActivityCounter() {}
 

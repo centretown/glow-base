@@ -4,10 +4,12 @@
 
 #include "base.h"
 #include "BlinkSettings.h"
-#include "ActivityMonitor.h"
+#include "Monitor.h"
+#include "Activity.h"
+
 namespace glow
 {
-    class BlinkMonitor : public ActivityMonitor
+    class BlinkMonitor : public Monitor
     {
     private:
         BlinkSettings *blink;

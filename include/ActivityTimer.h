@@ -3,29 +3,24 @@
 #pragma once
 
 #include "base.h"
+#include "Monitor.h"
 #include "Activity.h"
-#include "ActivityMonitor.h"
 
 namespace glow
 {
-    class ActivityTimer : public ActivityMonitor
+    class ActivityTimer : public Monitor
     {
     private:
-        ActivityMonitor *monitor;
+        Monitor *monitor;
         uint32_t duration = 0;
         uint64_t end = 0;
 
     public:
-        ActivityTimer(ActivityMonitor *monitor, uint32_t duration)
+        ActivityTimer(Monitor *monitor, uint32_t duration)
             : monitor(monitor), duration(duration) {}
         ~ActivityTimer() {}
 
         inline uint32_t Duration() { return duration; }
-        // inline void Duration(uint32_t v)
-        // {
-        //     duration = v;
-        // }
-
         inline uint64_t End() { return end; }
 
         virtual void Setup()

@@ -3,10 +3,9 @@
 #pragma once
 
 #include "base.h"
-#include "Activity.h"
 namespace glow
 {
-    class ActivityMonitor
+    class Monitor
     {
     public:
         virtual void Setup() = 0;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "base.h"
+#include "Monitor.h"
 #include "Activity.h"
 #include "MonitoredActivity.h"
 #include "BlinkSettings.h"
@@ -16,7 +17,7 @@ namespace glow
         BlinkSettings *blink;
 
     public:
-        BlinkActivity(ActivityMonitor *monitor, BlinkSettings *blink)
+        BlinkActivity(Monitor *monitor, BlinkSettings *blink)
             : MonitoredActivity(monitor), blink(blink) {}
         ~BlinkActivity() {}
 

@@ -3,11 +3,11 @@
 #pragma once
 
 #include "base.h"
-#include "ActivityMonitor.h"
+#include "Activity.h"
 
 namespace glow
 {
-    class IntervalMonitor : public ActivityMonitor
+    class IntervalMonitor : public Activity
     {
     private:
     protected:

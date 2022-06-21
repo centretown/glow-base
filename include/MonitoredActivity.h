@@ -3,18 +3,18 @@
 #pragma once
 
 #include "base.h"
+#include "Monitor.h"
 #include "Activity.h"
-#include "ActivityMonitor.h"
 
 namespace glow
 {
     class MonitoredActivity : public Activity
     {
     protected:
-        ActivityMonitor *monitor;
+        Monitor *monitor;
 
     public:
-        MonitoredActivity(ActivityMonitor *monitor) : monitor(monitor) {}
+        MonitoredActivity(Monitor *monitor) : monitor(monitor) {}
         ~MonitoredActivity() {}
         virtual void Setup() { monitor->Setup(); }
         virtual bool Ready() { return monitor->Ready(); }
