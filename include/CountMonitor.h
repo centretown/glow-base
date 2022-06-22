@@ -8,21 +8,20 @@
 
 namespace glow
 {
-    class ActivityCounter : public Monitor
+    class CountMonitor : public Monitor
     {
     private:
         Monitor *monitor;
-        uint32_t maximum = 1;
+        const uint32_t maximum = 1;
         uint32_t count = 0;
 
     public:
-        ActivityCounter(Monitor *monitor, uint32_t maximum)
+        CountMonitor(Monitor *monitor, uint32_t maximum)
             : monitor(monitor), maximum(maximum) {}
-        ~ActivityCounter() {}
+        ~CountMonitor() {}
 
-        inline uint32_t Maximum() { return maximum; }
-        void Maximum(uint32_t v) { maximum = v; }
-        inline uint32_t Count() { return count; }
+        inline const uint32_t Maximum() { return maximum; }
+        inline const uint32_t Count() { return count; }
 
         virtual void Reset()
         {

@@ -1,9 +1,8 @@
 // Copyright (c) 2022 Dave Marsh. See LICENSE.
 
 #pragma once
-#include "base.h"
-#include "Monitor.h"
 
+#include "Monitor.h"
 namespace glow
 {
     class Activity : public Monitor

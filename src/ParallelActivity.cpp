@@ -4,16 +4,41 @@
 
 namespace glow
 {
-    void ParallelActivity::Update()
+    bool ParallelActivity::Ready()
     {
-        Activity *activity;
+        readyFlag = 0;
         for (size_t i = 0; i < Length(); i++)
         {
-            activity = activities[i];
-            if (activity->Ready())
+            uint32_t flag = 1 << i;
+            if (activities[i]->Ready())
             {
-                activity->Update();
+                readyFlag |= flag;
             }
         }
+        return (readyFlag != 0);
+    }
+
+    void ParallelActivity::Update()
+    {
+        for (size_t i = 0; i < Length(); i++)
+        {
+            uint32_t flag = 1 << i;
+            if (readyFlag & flag)
+            {
+                activities[i]->Update();
+            }
+        }
+    }
+
+    bool ParallelActivity::Done()
+    {
+        for (size_t i = 0; i < Length(); i++)
+        {
+            if (!activities[i]->Done())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

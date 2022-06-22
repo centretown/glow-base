@@ -10,7 +10,7 @@ namespace glow
 {
     class MonitoredActivity : public Activity
     {
-    protected:
+    private:
         Monitor *monitor;
 
     public:

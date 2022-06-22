@@ -6,11 +6,20 @@
 
 #if defined(ESP32)
 #define BLINK_PIN 2
+#define BLINK_PINB 4
+#define BLINK_PINC 5
+#define BLINK_PIND 13
 #else
 #if defined(ESP32CAM)
 #define BLINK_PIN 33
+#define BLINK_PINB 4
+#define BLINK_PINC 5
+#define BLINK_PIND 19
 #else
 #define BLINK_PIN 13
+#define BLINK_PINB 4
+#define BLINK_PINC 5
+#define BLINK_PIND 19
 #endif
 #endif
 

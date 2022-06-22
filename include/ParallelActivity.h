@@ -7,13 +7,18 @@ namespace glow
 {
     class ParallelActivity : public CompoundActivity
     {
+    private:
+        const uint8_t flagSize = 32;
+        uint16_t readyFlag = 0;
+
     public:
         ParallelActivity(size_t length)
             : CompoundActivity(length) {}
         ~ParallelActivity() {}
 
-        // virtual bool Ready();
-        // virtual bool Done();
+        virtual void Reset() {}
+        virtual bool Ready();
+        virtual bool Done();
         virtual void Update();
     };
 }
