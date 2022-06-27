@@ -14,9 +14,7 @@ namespace glow
 
         inline uint16_t Next(uint16_t current)
         {
-            current++;
-            current %= End();
-            return current;
+            return ++current;
         }
     };
 }

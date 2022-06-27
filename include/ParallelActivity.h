@@ -8,7 +8,6 @@ namespace glow
     class ParallelActivity : public CompoundActivity
     {
     private:
-        const uint8_t flagSize = 32;
         uint16_t readyFlag = 0;
 
     public:
