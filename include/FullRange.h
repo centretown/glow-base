@@ -13,7 +13,7 @@ namespace glow
         uint16_t end;
 
     public:
-        FullRange(uint16_t begin, uint16_t end) : begin(), end(end) {}
+        FullRange(uint16_t begin = 0, uint16_t end = 0) : begin(), end(end) {}
 
         void Begin(uint16_t v) { begin = v; }
         void End(uint16_t v) { end = v; }
