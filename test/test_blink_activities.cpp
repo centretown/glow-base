@@ -117,8 +117,8 @@ void testBlinkActivity()
 void testBlinkActivitySerialSimplified()
 {
     BlinkSettings blink(&blinkPin);
-    blink.On(50);
-    blink.Off(50);
+    blink.On(100);
+    blink.Off(100);
     BlinkMonitor monitor(&blink);
     TimeMonitor timer2000(&monitor, 2000);
     TimeMonitor timer1000(&monitor, 1000);
