@@ -18,7 +18,7 @@ BlinkActivity blinker(&monitor, &blink);
 void setup()
 {
     delay(2000);
-    blinkPin.Reset();
+    blinkPin.Setup();
     blinker.Reset();
 }
 

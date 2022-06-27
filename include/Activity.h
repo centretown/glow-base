@@ -3,9 +3,11 @@
 #pragma once
 
 #include "Monitor.h"
+#include "Updater.h"
+
 namespace glow
 {
-    class Activity : public Monitor
+    class Activity : public Monitor, public Updater
     {
 
     public:
@@ -18,7 +20,5 @@ namespace glow
             }
             return false;
         }
-
-        virtual void Update() = 0;
     };
 }
