@@ -16,11 +16,13 @@ BlinkActivity blinker(&monitor, &blink);
 void testFeatures();
 void testBlinkActivities();
 void testSort();
+void testFilters();
 
 void run()
 {
     UNITY_BEGIN();
     testFeatures();
+    testFilters();
     testSort();
     testBlinkActivities();
     UNITY_END();
