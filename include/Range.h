@@ -11,10 +11,6 @@ namespace glow
     public:
         virtual uint16_t Begin() = 0;
         virtual uint16_t End() = 0;
-
-        inline uint16_t Next(uint16_t current)
-        {
-            return ++current;
-        }
+        virtual uint16_t Next(uint16_t current) = 0;
     };
 }
