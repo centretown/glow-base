@@ -14,6 +14,13 @@ namespace glow
 
     public:
         SimpleRange(uint16_t begin = 0, uint16_t end = 0) : begin(begin), end(end) {}
+        SimpleRange(Range *range) : begin(range->Begin()), end(range->End()) {}
+
+        void Copy(Range *range)
+        {
+            begin = range->Begin();
+            end = range->End();
+        }
 
         inline void Begin(uint16_t v) { begin = v; }
         inline void End(uint16_t v) { end = v; }
