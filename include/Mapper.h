@@ -9,7 +9,7 @@ namespace glow
     class Mapper
     {
     public:
-        virtual T &Get(uint16_t index) = 0;
+        virtual T Get(uint16_t index) = 0;
     };
 
 } // namespace glow
