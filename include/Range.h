@@ -8,7 +8,12 @@ namespace glow
 {
     class Range
     {
+    private:
+        bool reverse = false;
+
     public:
+        inline bool Reverse() { return reverse; }
+        inline void Reverse(bool v) { v = reverse; }
         virtual uint16_t Begin() = 0;
         virtual uint16_t End() = 0;
     };
