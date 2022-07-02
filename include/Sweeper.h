@@ -6,12 +6,13 @@
 
 namespace glow
 {
+    template <typename T>
     class Sweeper
     {
     public:
-        virtual void Act(uint16_t i) = 0;
+        virtual void Act(uint16_t i, T *t) = 0;
 
-        void Sweep(Range *range)
+        void Sweep(Range *range, T *actor)
         {
             if (range->Reverse())
             {
@@ -19,14 +20,14 @@ namespace glow
                 do
                 {
                     i--;
-                    Act(i);
+                    Act(i, actor);
                 } while (i > range->Begin());
             }
             else
             {
                 for (uint16_t i = range->Begin(); i < range->End(); i++)
                 {
-                    Act(i);
+                    Act(i, actor);
                 }
             }
         }

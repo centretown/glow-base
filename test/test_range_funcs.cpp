@@ -4,30 +4,29 @@
 #include <unity.h>
 #include "SimpleRange.h"
 #include "Sweeper.h"
+#include "Mapper.h"
 
 using namespace glow;
 
 void testSimpleSweeper()
 {
     SimpleRange range(0, 10);
-    class sw : public Sweeper
+    class sw : public Sweeper<uint16_t>
     {
     public:
-        uint16_t j;
-
-    public:
-        virtual void Act(uint16_t i)
+        virtual void Act(uint16_t i, uint16_t *j)
         {
-            j = i;
+            *j= i;
         }
     };
 
+    uint16_t y;
     sw x;
-    x.Sweep(&range);
-    TEST_ASSERT_EQUAL(9, x.j);
+    x.Sweep(&range, &y);
+    TEST_ASSERT_EQUAL(9, y);
     range.Reverse(true);
-    x.Sweep(&range);
-    TEST_ASSERT_EQUAL(0, x.j);
+    x.Sweep(&range, &y);
+    TEST_ASSERT_EQUAL(0, y);
 }
 
 void testSimpleSweepers()
