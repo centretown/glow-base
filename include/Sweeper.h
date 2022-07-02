@@ -12,14 +12,14 @@ namespace glow
     public:
         virtual void Act(uint16_t i, T t) = 0;
 
-        void Sweep(Range *range, T actor)
+        inline void Sweep(Range *range, T actor)
         {
             if (range->Reverse())
             {
                 reverse(range, actor);
                 return;
             }
-            
+
             forward(range, actor);
         }
 
