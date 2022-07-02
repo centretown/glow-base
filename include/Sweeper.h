@@ -16,19 +16,29 @@ namespace glow
         {
             if (range->Reverse())
             {
-                uint16_t i = range->End();
-                do
-                {
-                    i--;
-                    Act(i, actor);
-                } while (i > range->Begin());
+                reverse(range, actor);
+                return;
             }
-            else
+            
+            forward(range, actor);
+        }
+
+    private:
+        inline void reverse(Range *range, T actor)
+        {
+            uint16_t i = range->End();
+            do
             {
-                for (uint16_t i = range->Begin(); i < range->End(); i++)
-                {
-                    Act(i, actor);
-                }
+                i--;
+                Act(i, actor);
+            } while (i > range->Begin());
+        }
+
+        inline void forward(Range *range, T actor)
+        {
+            for (uint16_t i = range->Begin(); i < range->End(); i++)
+            {
+                Act(i, actor);
             }
         }
     };
