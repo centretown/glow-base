@@ -11,7 +11,7 @@ using namespace glow;
 void testSimpleSweeper()
 {
     SimpleRange range(0, 10);
-    class sw : public Sweeper<uint16_t>
+    class sw : public Sweeper<uint16_t*>
     {
     public:
         virtual void Act(uint16_t i, uint16_t *j)

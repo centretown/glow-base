@@ -10,9 +10,9 @@ namespace glow
     class Sweeper
     {
     public:
-        virtual void Act(uint16_t i, T *t) = 0;
+        virtual void Act(uint16_t i, T t) = 0;
 
-        void Sweep(Range *range, T *actor)
+        void Sweep(Range *range, T actor)
         {
             if (range->Reverse())
             {
