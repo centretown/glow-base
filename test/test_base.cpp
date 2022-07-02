@@ -17,10 +17,12 @@ void testFeatures();
 void testBlinkActivities();
 void testSort();
 void testFilters();
+void testSimpleSweepers();
 
 void run()
 {
     UNITY_BEGIN();
+    testSimpleSweepers();
     testFeatures();
     testFilters();
     testSort();
