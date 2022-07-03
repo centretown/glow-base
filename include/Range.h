@@ -14,7 +14,7 @@ namespace glow
     public:
         inline bool Reverse() { return reverse; }
         inline void Reverse(bool v) { reverse = v; }
-        virtual uint16_t Begin() = 0;
-        virtual uint16_t End() = 0;
+        virtual const uint16_t Begin() = 0;
+        virtual const uint16_t End() = 0;
     };
 }

@@ -34,7 +34,7 @@ namespace glow
         inline void Begin(uint16_t v) { begin = v; }
         inline void End(uint16_t v) { end = v; }
 
-        virtual uint16_t Begin() { return begin; };
-        virtual uint16_t End() { return end; }
+        virtual const uint16_t Begin() { return begin; };
+        virtual const uint16_t End() { return end; }
     };
 }
