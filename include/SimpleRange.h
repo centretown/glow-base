@@ -14,25 +14,31 @@ namespace glow
 
     public:
         SimpleRange(uint16_t begin = 0, uint16_t end = 0)
-            : begin(begin), end(end)
         {
-            if (end < begin)
-            {
-                auto e = end;
-                end = begin;
-                begin = e;
-            }
+            Resize(begin, end);
         }
-        SimpleRange(Range *range) : begin(range->Begin()), end(range->End()) {}
+
+        SimpleRange(Range *range)
+        {
+            Resize(range->Begin(), range->End());
+        }
 
         void Copy(Range *range)
         {
-            begin = range->Begin();
-            end = range->End();
+            Resize(range->Begin(), range->End());
         }
 
-        inline void Begin(uint16_t v) { begin = v; }
-        inline void End(uint16_t v) { end = v; }
+        inline void Resize(uint16_t aBegin, uint16_t aEnd)
+        {
+            if (aEnd < aBegin)
+            {
+                auto tEnd = aEnd;
+                aEnd = aBegin;
+                aBegin = tEnd;
+            }
+            begin = aBegin;
+            end = aEnd;
+        }
 
         virtual const uint16_t Begin() { return begin; };
         virtual const uint16_t End() { return end; }
