@@ -12,31 +12,33 @@ namespace glow
     public:
         virtual void Act(uint16_t i, T t) = 0;
 
-        inline void Sweep(Range *range, T actor)
+        inline void Sweep(range_pack pack, T actor, bool reversed = false)
         {
-            if (range->Reverse())
+            if (reversed)
             {
-                reverse(range, actor);
+                reverse(pack, actor);
                 return;
             }
 
-            forward(range, actor);
+            forward(pack, actor);
         }
 
     private:
-        inline void reverse(Range *range, T actor)
+        inline void reverse(range_pack pack, T actor)
         {
-            uint16_t i = range->End();
+            Range range(pack);
+            uint16_t i = range.End();
             do
             {
                 i--;
                 Act(i, actor);
-            } while (i > range->Begin());
+            } while (i > range.Begin());
         }
 
-        inline void forward(Range *range, T actor)
+        inline void forward(range_pack pack, T actor)
         {
-            for (uint16_t i = range->Begin(); i < range->End(); i++)
+            Range range(pack);
+            for (uint16_t i = range.Begin(); i < range.End(); i++)
             {
                 Act(i, actor);
             }
