@@ -42,6 +42,7 @@ namespace glow
         inline uint16_t Begin() { return limits.begin; }
         inline uint16_t End() { return limits.end; }
         inline range_pack Pack() { return pack; }
+        inline uint16_t Length() { return End() - Begin(); }
 
         // modify
         inline void Pack(range_pack v)
