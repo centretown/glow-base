@@ -51,7 +51,7 @@ namespace glow
             Resize(limits.begin, limits.end);
         }
 
-        void Copy(Range &range)
+        inline void Copy(Range &range)
         {
             Pack(range.Pack());
         }
