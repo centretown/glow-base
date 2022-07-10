@@ -1,14 +1,16 @@
 // Copyright (c) 2022 Dave Marsh. See LICENSE.
 
 #pragma once
-
-template <typename COMPARE, typename PUT, typename INCR, typename RESET>
-void Spin(COMPARE compare, PUT put, INCR increment, RESET reset)
+namespace glow
 {
-    while (compare())
+    template <typename COMPARE, typename PUT, typename INCR, typename RESET>
+    void Spin(COMPARE compare, PUT put, INCR increment, RESET reset)
     {
-        put();
-        increment();
+        while (compare())
+        {
+            put();
+            increment();
+        }
+        reset();
     }
-    reset();
-}
+} // namespace glow
