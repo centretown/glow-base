@@ -23,20 +23,17 @@ namespace glow
         };
 
     public:
-        Range(uint16_t begin = 0, uint16_t end = 0)
-        {
-            Resize(begin, end);
-        }
-
-        Range(range_pack pack)
+        Range(range_pack pack = 0)
         {
             Pack(pack);
         }
 
-        Range(Range &range)
+        Range(uint16_t begin, uint16_t end)
         {
-            Pack(range.Pack());
+            Resize(begin, end);
         }
+
+        Range(Range &range) : Range(range.Pack()) {}
 
         // access
         inline uint16_t Begin() { return limits.begin; }
@@ -56,16 +53,25 @@ namespace glow
             Pack(range.Pack());
         }
 
-        inline void Resize(uint16_t aBegin, uint16_t aEnd)
+        inline void Resize(uint16_t begin, uint16_t end)
         {
-            if (aEnd < aBegin)
+            if (end < begin)
             {
-                auto tEnd = aEnd;
-                aEnd = aBegin;
-                aBegin = tEnd;
+                auto v = end;
+                end = begin;
+                begin = v;
             }
-            limits.begin = aBegin;
-            limits.end = aEnd;
+            limits.begin = begin;
+            limits.end = end;
+        }
+
+        template <typename T, typename U>
+        inline void Spin(T &t, U u)
+        {
+            for (i = limits.begin; i < limits.end; i++)
+            {
+                t.Put(u);
+            }
         }
     };
 }

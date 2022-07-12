@@ -5,6 +5,7 @@
 #include "Range.h"
 #include "Sweeper.h"
 #include "Mapper.h"
+#include "RangeSpinner.h"
 
 using namespace glow;
 
@@ -28,7 +29,21 @@ void testSimpleSweeper()
     TEST_ASSERT_EQUAL(0, y);
 }
 
+typedef struct
+{
+    void Put(uint16_t i) {}
+} TestPut;
+
+void testRangeSpinner()
+{
+    RangeSpinner spinner;
+    Range range(0, 20);
+    TestPut t;
+    range.Spin(t, (uint16_t)0);
+}
+
 void testSimpleSweepers()
 {
     RUN_TEST(testSimpleSweeper);
+    RUN_TEST(testRangeSpinner);
 }

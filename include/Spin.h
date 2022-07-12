@@ -2,9 +2,10 @@
 
 #pragma once
 namespace glow
+
 {
-    template <typename COMPARE, typename PUT, typename INCR, typename RESET>
-    void Spin(COMPARE compare, PUT put, INCR increment, RESET reset)
+    template <typename PUT, typename COMPARE, typename INCR, typename RESET>
+    void Spin(PUT put, COMPARE compare, INCR increment, RESET reset)
     {
         while (compare())
         {
