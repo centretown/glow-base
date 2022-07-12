@@ -57,7 +57,7 @@ namespace glow
         {
             if (end < begin)
             {
-                auto v = end;
+                uint16_t v = end;
                 end = begin;
                 begin = v;
             }
@@ -69,9 +69,18 @@ namespace glow
         template <typename PUTTER, typename VALUE>
         inline void Spin(PUTTER &putter, VALUE value)
         {
-            for (uint16_t i = limits.begin; i < limits.end; i++)
+            for (uint16_t i = Begin(); i < End(); i++)
             {
                 putter.Put(i, value);
+            }
+        }
+
+        template <typename PUTTER, typename VALUE>
+        inline void ReverseSpin(PUTTER &putter, VALUE value)
+        {
+            for (uint16_t i = 1; i <= Length(); i++)
+            {
+                putter.Put(End() - i, value);
             }
         }
     };
