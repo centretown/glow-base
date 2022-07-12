@@ -40,7 +40,7 @@ void testRangeSpinner()
     range.Spin(t, (uint16_t)0);
 }
 
-void testSimpleSweepers()
+void testRangeFuncs()
 {
     RUN_TEST(testSimpleSweeper);
     RUN_TEST(testRangeSpinner);

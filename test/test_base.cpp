@@ -17,16 +17,16 @@ void testFeatures();
 void testBlinkActivities();
 void testSort();
 void testFilters();
-void testSimpleSweepers();
+void testRangeFuncs();
 
 void run()
 {
     UNITY_BEGIN();
-    testSimpleSweepers();
     testFeatures();
     testFilters();
     testSort();
     testBlinkActivities();
+    testRangeFuncs();
     UNITY_END();
 }
 

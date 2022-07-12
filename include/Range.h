@@ -66,12 +66,12 @@ namespace glow
         }
 
         // implement
-        template <typename T, typename U>
-        inline void Spin(T &t, U u)
+        template <typename PUTTER, typename VALUE>
+        inline void Spin(PUTTER &putter, VALUE value)
         {
             for (uint16_t i = limits.begin; i < limits.end; i++)
             {
-                t.Put(i, u);
+                putter.Put(i, value);
             }
         }
     };
