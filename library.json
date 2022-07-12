@@ -1,6 +1,6 @@
 {
     "name": "glow-base",
-    "version": "0.4.8",
+    "version": "0.4.9",
     "description": "shared base for glow libraries",
     "keywords": "glow base",
     "repository": {
