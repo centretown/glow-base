@@ -68,9 +68,9 @@ namespace glow
         template <typename T, typename U>
         inline void Spin(T &t, U u)
         {
-            for (i = limits.begin; i < limits.end; i++)
+            for (uint16_t i = limits.begin; i < limits.end; i++)
             {
-                t.Put(u);
+                t.Put(i, u);
             }
         }
     };

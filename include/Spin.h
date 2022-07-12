@@ -7,11 +7,9 @@ namespace glow
     template <typename PUT, typename COMPARE, typename INCR, typename RESET>
     void Spin(PUT put, COMPARE compare, INCR increment, RESET reset)
     {
-        while (compare())
+        for (reset(); compare(); increment())
         {
             put();
-            increment();
         }
-        reset();
     }
 } // namespace glow
