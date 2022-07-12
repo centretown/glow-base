@@ -65,6 +65,7 @@ namespace glow
             limits.end = end;
         }
 
+        // implement
         template <typename T, typename U>
         inline void Spin(T &t, U u)
         {
