@@ -48,6 +48,12 @@ namespace glow
             Resize(limits.begin, limits.end);
         }
 
+        inline Range &operator=(const Range &other)
+        {
+            Pack(other.Pack());
+            return *this;
+        }
+
         inline void Copy(Range &range)
         {
             Pack(range.Pack());
@@ -75,12 +81,30 @@ namespace glow
             }
         }
 
+        template <typename PUTTER, typename MAPPER, typename VALUE>
+        inline void Spin(PUTTER &putter, MAPPER &mapper, VALUE value)
+        {
+            for (uint16_t i = Begin(); i < End(); i++)
+            {
+                putter.Put(mapper.Map(i), value);
+            }
+        }
+
         template <typename PUTTER, typename VALUE>
         inline void ReverseSpin(PUTTER &putter, VALUE value)
         {
             for (uint16_t i = 1; i <= Length(); i++)
             {
                 putter.Put(End() - i, value);
+            }
+        }
+
+        template <typename PUTTER, typename MAPPER, typename VALUE>
+        inline void ReverseSpin(PUTTER &putter, MAPPER &mapper, VALUE value)
+        {
+            for (uint16_t i = 1; i <= Length(); i++)
+            {
+                putter.Put(mapper.Map(End() - i), value);
             }
         }
     };

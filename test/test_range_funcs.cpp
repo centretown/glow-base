@@ -32,28 +32,80 @@ typedef struct
 {
     uint16_t index;
     uint8_t value;
-    void Put(uint16_t i, uint8_t v)
+    inline void Put(uint16_t i, uint8_t v)
     {
         index = i;
         value = v;
     }
 } TestPut;
 
+typedef struct
+{
+    uint16_t index;
+    inline uint16_t Map(uint16_t i)
+    {
+        index = i * 2;
+        return index;
+    }
+} TestMap;
+
 void testRangeSpinner()
 {
     Range range(5, 20);
-    TestPut t;
-    range.Spin(t, (uint8_t)0);
-    TEST_ASSERT_EQUAL(range.End() - 1, t.index);
-    TEST_ASSERT_EQUAL(0, t.value);
+    TestPut putter;
+    range.Spin(putter, (uint8_t)0);
+    TEST_ASSERT_EQUAL(range.End() - 1, putter.index);
+    TEST_ASSERT_EQUAL(0, putter.value);
 
     range.Resize(999, 22);
     TEST_ASSERT_EQUAL(range.Begin(), 22);
     TEST_ASSERT_EQUAL(range.End(), 999);
 
-    range.Spin(t, (uint8_t)0);
-    TEST_ASSERT_EQUAL(range.End()-1, t.index);
-    TEST_ASSERT_EQUAL(0, t.value);
+    range.Spin(putter, (uint8_t)0);
+    TEST_ASSERT_EQUAL(range.End() - 1, putter.index);
+    TEST_ASSERT_EQUAL(0, putter.value);
+}
+
+void testRangeSpinMap()
+{
+    Range range(5, 20);
+    TestPut putter;
+    TestMap mapper;
+
+    range.Spin(putter, mapper, (uint8_t)0);
+    TEST_ASSERT_EQUAL((range.End() - 1) * 2, putter.index);
+    TEST_ASSERT_EQUAL((range.End() - 1) * 2, mapper.index);
+    TEST_ASSERT_EQUAL(0, putter.value);
+
+    range.Resize(999, 22);
+    TEST_ASSERT_EQUAL(range.Begin(), 22);
+    TEST_ASSERT_EQUAL(range.End(), 999);
+
+    range.Spin(putter, mapper, (uint8_t)0);
+    TEST_ASSERT_EQUAL((range.End() - 1) * 2, putter.index);
+    TEST_ASSERT_EQUAL((range.End() - 1) * 2, mapper.index);
+    TEST_ASSERT_EQUAL(0, putter.value);
+}
+
+void testRangeSpinMapReverse()
+{
+    Range range(5, 20);
+    TestPut putter;
+    TestMap mapper;
+
+    range.ReverseSpin(putter, mapper, (uint8_t)0);
+    TEST_ASSERT_EQUAL(range.Begin() * 2, putter.index);
+    TEST_ASSERT_EQUAL(range.Begin() * 2, mapper.index);
+    TEST_ASSERT_EQUAL(0, putter.value);
+
+    range.Resize(999, 22);
+    TEST_ASSERT_EQUAL(range.Begin(), 22);
+    TEST_ASSERT_EQUAL(range.End(), 999);
+
+    range.ReverseSpin(putter, mapper, (uint8_t)0);
+    TEST_ASSERT_EQUAL(range.Begin() * 2, putter.index);
+    TEST_ASSERT_EQUAL(range.Begin() * 2, mapper.index);
+    TEST_ASSERT_EQUAL(0, putter.value);
 }
 
 void testRangeReverseSpin()
@@ -73,9 +125,34 @@ void testRangeReverseSpin()
     TEST_ASSERT_EQUAL(255, t.value);
 }
 
+void testRangeOperators()
+{
+    Range source(10, 12);
+    TEST_ASSERT_EQUAL(10, source.Begin());
+    TEST_ASSERT_EQUAL(12, source.End());
+    Range target = source;
+    TEST_ASSERT_EQUAL(10, target.Begin());
+    TEST_ASSERT_EQUAL(12, target.End());
+
+    target = Range(50, 90);
+    TEST_ASSERT_EQUAL(50, target.Begin());
+    TEST_ASSERT_EQUAL(90, target.End());
+
+    Range target2 = source = target;
+    TEST_ASSERT_EQUAL(50, target2.Begin());
+    TEST_ASSERT_EQUAL(90, target2.End());
+    TEST_ASSERT_EQUAL(50, target.Begin());
+    TEST_ASSERT_EQUAL(90, target.End());
+    TEST_ASSERT_EQUAL(50, source.Begin());
+    TEST_ASSERT_EQUAL(90, source.End());
+}
+
 void testRangeFuncs()
 {
     RUN_TEST(testSimpleSweeper);
     RUN_TEST(testRangeSpinner);
     RUN_TEST(testRangeReverseSpin);
+    RUN_TEST(testRangeSpinMap);
+    RUN_TEST(testRangeSpinMapReverse);
+    RUN_TEST(testRangeOperators);
 }
