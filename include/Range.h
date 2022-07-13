@@ -36,10 +36,10 @@ namespace glow
         Range(Range &range) : Range(range.Pack()) {}
 
         // access
-        inline uint16_t Begin() { return limits.begin; }
-        inline uint16_t End() { return limits.end; }
-        inline range_pack Pack() { return pack; }
-        inline uint16_t Length() { return End() - Begin(); }
+        inline uint16_t Begin() const { return limits.begin; }
+        inline uint16_t End() const { return limits.end; }
+        inline range_pack Pack() const { return pack; }
+        inline uint16_t Length() const { return End() - Begin(); }
 
         // modify
         inline void Pack(range_pack v)
