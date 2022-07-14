@@ -364,6 +364,16 @@ void testRangeOperators()
 
     TEST_ASSERT_EQUAL(111, target.Begin());
     TEST_ASSERT_EQUAL(322, target.End());
+
+    source(45, 70);
+    TEST_ASSERT_EQUAL(45, source.Begin());
+    TEST_ASSERT_EQUAL(70, source.End());
+
+    target = source(15, 99);
+    TEST_ASSERT_EQUAL(15, source.Begin());
+    TEST_ASSERT_EQUAL(99, source.End());
+    TEST_ASSERT_EQUAL(15, target.Begin());
+    TEST_ASSERT_EQUAL(99, target.End());
 }
 
 void testRangeFuncs()

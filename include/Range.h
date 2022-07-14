@@ -50,6 +50,11 @@ namespace glow
             Resize(limits.begin, limits.end);
         }
 
+        inline void Copy(Range &range)
+        {
+            Pack(range.Pack());
+        }
+
         inline Range &operator=(const Range &other)
         {
             Pack(other.Pack());
@@ -164,9 +169,10 @@ namespace glow
             return Pack();
         }
 
-        inline void Copy(Range &range)
+        inline range_pack operator()(uint16_t begin, uint16_t end)
         {
-            Pack(range.Pack());
+            Resize(begin, end);
+            return Pack();
         }
 
         inline void Resize(uint16_t begin, uint16_t end)
@@ -182,14 +188,12 @@ namespace glow
         }
 
         // implement
+        inline uint16_t Map(uint16_t index) { return index; }
+
         template <typename PUTTER, typename VALUE>
         inline void Spin(PUTTER &putter, VALUE value)
         {
-            for (uint16_t i = Begin(); i < End(); i++)
-            {
-                putter.Put(i, value);
-            }
-            putter.Update();
+            Spin(putter, *this, value);
         }
 
         template <typename PUTTER, typename MAPPER, typename VALUE>
@@ -205,12 +209,7 @@ namespace glow
         template <typename PUTTER, typename VALUE>
         inline void ReverseSpin(PUTTER &putter, VALUE value)
         {
-            const uint16_t length = Length();
-            for (uint16_t i = 1; i <= length; i++)
-            {
-                putter.Put(End() - i, value);
-            }
-            putter.Update();
+            ReverseSpin(putter, *this, value);
         }
 
         template <typename PUTTER, typename MAPPER, typename VALUE>
