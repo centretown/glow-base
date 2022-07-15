@@ -2,16 +2,6 @@
 
 #include "bench.h"
 
-#ifndef PIO_UNIT_TESTING // NO PIO_UNIT_TESTING
-
-void print_line(const char *message, bool crlf) {}
-void format_buffer(char *buffer, size_t bufsize,
-                   uint32_t value) {}
-void print_millis(uint32_t, bool crlf) {}
-uint32_t print_elapsed(uint32_t, uint32_t) { return 0; }
-
-#else // PIO_UNIT_TESTING
-
 void print_line(const char *message, bool crlf)
 {
 #ifdef ARDUINO
@@ -61,5 +51,3 @@ uint32_t print_elapsed(uint32_t begin, uint32_t end)
     print_line("ms", true);
     return elapsed;
 }
-
-#endif // PIO_UNIT_TESTING
