@@ -18,6 +18,7 @@
 #define OUTPUT 1
 uint64_t millis();
 void set_millis_rate(uint16_t r);
+void set_real_time(bool v);
 #endif
 
 typedef uint32_t feature_base;

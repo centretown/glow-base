@@ -343,7 +343,7 @@ void testRangeOperators()
 }
 
 void testRangeFuncs()
-{
+{   
     RUN_TEST(testSimpleSweeper);
     RUN_TEST(testRangeSpinner);
     RUN_TEST(testRangeReverseSpin);
