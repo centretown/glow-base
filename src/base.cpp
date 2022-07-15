@@ -2,21 +2,27 @@
 
 #include "base.h"
 
-#ifndef ARDUINO
+uint16_t millis_rate = 10;
+uint64_t millis_now = 0;
+bool real_time = false;
 
-static bool real_time = false;
-static uint16_t millis_rate = 10;
-static uint64_t millis_now = 0;
-const uint64_t CLOCKS_PER_MS = CLOCKS_PER_SEC / 1000;
-
-void set_millis_rate(uint16_t r)
+uint32_t millis32()
 {
-    millis_rate = r;
+    auto lms = millis();
+    return static_cast<uint32_t>(lms);
 }
 
 void set_real_time(bool v)
 {
     real_time = v;
+    return;
+}
+
+#ifndef ARDUINO
+
+void set_millis_rate(uint16_t r)
+{
+    millis_rate = r;
 }
 
 uint64_t millis()
@@ -24,9 +30,8 @@ uint64_t millis()
     if (real_time)
     {
         clock_t lms = clock();
-        lms /= CLOCKS_PER_MS;
-        lms *= millis_rate;
-        return static_cast<uint64_t>(lms);
+        lms /= clocks_ms;
+        return lms;
     }
     auto now = millis_now;
     millis_now += millis_rate;

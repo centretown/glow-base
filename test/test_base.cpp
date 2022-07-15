@@ -13,20 +13,23 @@ BlinkSettings blink(&blinkPin);
 BlinkMonitor monitor(&blink);
 BlinkActivity blinker(&monitor, &blink);
 
+void testBench();
 void testFeatures();
 void testBlinkActivities();
 void testSort();
 void testFilters();
 void testRangeFuncs();
 
+
 void run()
 {
     UNITY_BEGIN();
-    testFeatures();
-    testFilters();
-    testSort();
-    testBlinkActivities();
-    testRangeFuncs();
+    testBench();
+    // testFeatures();
+    // testFilters();
+    // testSort();
+    // testBlinkActivities();
+    // testRangeFuncs();
     UNITY_END();
 }
 
@@ -34,6 +37,9 @@ void run()
 
 void setup()
 {
+#ifdef ARDUINO
+    Serial.begin(115200);
+#endif
     delay(2000);
     run();
     blinkPin.Setup();
