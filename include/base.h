@@ -22,3 +22,4 @@ void set_real_time(bool v);
 #endif
 
 typedef uint32_t feature_base;
+const char *FMT32 = (sizeof(int) > 16) ? "%u" : "%lu";
