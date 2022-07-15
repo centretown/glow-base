@@ -13,8 +13,6 @@ namespace glow
         uint16_t end;
     } range_limits;
 
-    const uint16_t upper_limit = 0xffff;
-
     class Range
     {
     private:
@@ -23,6 +21,9 @@ namespace glow
             range_pack pack;
             range_limits limits;
         };
+
+        const static uint16_t lower_limit = 0;
+        const static uint16_t upper_limit = 0xffff;
 
     public:
         Range(range_pack pack = 0)
@@ -55,9 +56,24 @@ namespace glow
             Pack(range.Pack());
         }
 
+        inline range_pack operator()() const
+        {
+            return pack;
+        }
+
+        inline range_pack operator()(range_pack v)
+        {
+            return pack = v;
+        }
+
+        inline range_pack operator()(uint16_t begin, uint16_t end)
+        {
+            return Resize(begin, end);
+        }
+
         inline Range &operator=(const Range &other)
         {
-            Pack(other.Pack());
+            Pack(other());
             return *this;
         }
 
@@ -67,12 +83,11 @@ namespace glow
             return *this;
         }
 
-        // move
+        // resize
         inline Range &operator++()
         {
             if (limits.end < upper_limit)
             {
-                ++limits.begin;
                 ++limits.end;
                 Resize(limits.begin, limits.end);
             }
@@ -81,101 +96,109 @@ namespace glow
 
         inline Range &operator--()
         {
-            if (limits.begin > 0)
+            if (limits.end > limits.begin)
             {
-                --limits.begin;
                 --limits.end;
                 Resize(limits.begin, limits.end);
             }
             return *this;
         }
 
+        inline range_pack operator+(uint16_t v) const
+        {
+            uint16_t end = limits.end + v;
+            if (end < limits.end)
+            {
+                end = upper_limit;
+            }
+            return Range(Begin(), end)
+                .Pack();
+        }
+
+        inline range_pack operator-(uint16_t v) const
+        {
+            uint16_t end = limits.end - v;
+            if (end < limits.begin || end > limits.end)
+            {
+                end = limits.begin;
+            }
+            return Range(Begin(), end)
+                .Pack();
+        }
+
         inline Range &operator+=(uint16_t v)
         {
             uint16_t end = v + limits.end;
-            if (end > limits.end)
+            if (end < limits.end)
             {
-                Resize(limits.begin + v, limits.end + v);
+                end = upper_limit;
             }
+            Resize(limits.begin, end);
             return *this;
         }
 
         inline Range &operator-=(uint16_t v)
         {
-            if (v <= limits.begin)
+            uint16_t end = limits.end - v;
+            if (end < limits.begin || end > limits.end)
             {
-                Resize(Begin() - v, End() - v);
+                end = limits.begin;
             }
+            Resize(limits.begin, end);
             return *this;
         }
 
-        inline range_pack operator+(uint16_t v)
+        // move
+        inline range_pack operator<<(const uint16_t v) const
         {
-            uint16_t end = v + limits.end;
+            uint16_t delta = v;
+            if (delta > limits.begin)
+            {
+                delta = limits.begin;
+            }
+            return Range(limits.begin - delta,
+                         limits.end - delta)
+                .Pack();
+        }
+
+        inline range_pack operator>>(const uint16_t v) const
+        {
+            uint16_t delta = v;
+            uint16_t end = limits.end + delta;
             if (end < limits.end)
             {
-                return Pack();
+                delta = upper_limit - limits.end;
+                end = limits.end + delta;
             }
-            return Range(Begin() + v, End() + v).Pack();
-        }
-
-        inline range_pack operator-(uint16_t v)
-        {
-            if (v > limits.begin)
-            {
-                return Pack();
-            }
-            return Range(Begin() - v, End() - v).Pack();
-        }
-
-        // squeeze
-        inline Range &operator>>=(const uint16_t v)
-        {
-            uint16_t begin = v + Begin();
-            if (begin > Begin() && begin <= End())
-            {
-                Resize(begin, End());
-            }
-            return *this;
+            return Range(limits.begin + delta, end)
+                .Pack();
         }
 
         inline Range &operator<<=(const uint16_t v)
         {
-            uint16_t end = End() - v;
-            if (end < End() && end >= Begin())
+            uint16_t delta = v;
+            if (delta > limits.begin)
             {
-                Resize(Begin(), end);
+                delta = limits.begin;
             }
+            Resize(limits.begin - delta, limits.end - delta);
             return *this;
         }
 
-        inline range_pack operator<<(const uint16_t v)
+        inline Range &operator>>=(const uint16_t v)
         {
-            uint16_t end = End() - v;
-            if (end < End() && end >= Begin())
+            uint16_t delta = v;
+            uint16_t end = limits.end + v;
+            if (end < limits.end)
             {
-                return Range(Begin(), end).Pack();
+                delta = upper_limit - limits.end;
+                end = limits.end + delta;
             }
-            return Pack();
+            Resize(limits.begin + delta, end);
+            return *this;
         }
 
-        inline range_pack operator>>(const uint16_t v)
-        {
-            uint16_t begin = v + Begin();
-            if (begin > Begin() && begin <= End())
-            {
-                return Range(begin, End()).Pack();
-            }
-            return Pack();
-        }
-
-        inline range_pack operator()(uint16_t begin, uint16_t end)
-        {
-            Resize(begin, end);
-            return Pack();
-        }
-
-        inline void Resize(uint16_t begin, uint16_t end)
+        inline range_pack Resize(uint16_t begin, uint16_t end)
         {
             if (end < begin)
             {
@@ -185,6 +208,7 @@ namespace glow
             }
             limits.begin = begin;
             limits.end = end;
+            return pack;
         }
 
         // implement
