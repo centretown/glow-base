@@ -1,0 +1,12 @@
+{
+    "test": "test bench",
+    "clocks_sec": 1000000,
+    "clocks_ms": 1000,
+    "bench_marks": [
+      {
+        "bench": "test elapsed time",
+        "begin": 50,
+        "end": 60
+      }
+    ]
+  }

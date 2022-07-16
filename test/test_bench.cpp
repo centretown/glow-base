@@ -6,23 +6,17 @@
 #include "base.h"
 #include "bench.h"
 #include "wait.h"
+#include <ArduinoJson.h>
 
-void testBenchPrint()
+void test_millis32()
 {
     set_real_time(true);
 
-    print_line("CLOCKS_PER_SEC: ");
-    print_millis(clocks_sec);
-
-    print_line(" CLOCKS_PER_MS: ");
-    print_millis(clocks_ms, true);
-
-    print_elapsed(50, 60);
-
-    uint32_t begin = millis();
+    Bench results("millis32 test");
+    results.begin = millis32();
     wait(1000);
-    uint32_t end = millis();
-    print_elapsed(begin, end);
+    results.end = millis32();
+    results.Print();
 
     set_real_time(false);
 }
@@ -30,5 +24,5 @@ void testBenchPrint()
 void testBench()
 {
     print_line("TESTING BENCH", true);
-    RUN_TEST(testBenchPrint);
+    RUN_TEST(test_millis32);
 }

@@ -2,6 +2,36 @@
 
 #include "bench.h"
 
+StaticJsonDocument<capacity> Bench::doc;
+
+#ifndef ARDUINO // not ARDUINO
+char output[2048];
+#endif // not ARDUINO
+
+#ifdef NATIVE
+const char *prefix = "NATIVE";
+#else
+const char *prefix = "ARDUINO";
+#endif
+
+const bool format_short = (sizeof(int) > 2);
+const char *fmt = (format_short) ? "%u" : "%lu";
+
+void Bench::Print()
+{
+    doc["title"] = title();
+    doc["begin"] = begin;
+    doc["end"] = end;
+    doc["elapsed"] = elapsed();
+#ifdef ARDUINO
+    serializeJsonPretty(doc, Serial);
+    Serial.println("");
+#else
+    serializeJsonPretty(doc, output, sizeof(output));
+    printf("%s\n", output);
+#endif
+}
+
 void print_line(const char *message, bool crlf)
 {
 #ifdef ARDUINO
@@ -25,29 +55,3 @@ void print_line(const char *message, bool crlf)
 #endif // ARDUINO
 }
 
-void format_buffer(char *buffer, const size_t buffer_size, const uint32_t value)
-{
-    const bool format_short = (sizeof(int) > 2);
-    const char *fmt = (format_short) ? "%u" : "%lu";
-    snprintf(buffer, buffer_size, fmt, value);
-}
-
-void print_millis(uint32_t ms, bool crlf)
-{
-    char buffer[16] = {0};
-    format_buffer(buffer, sizeof(buffer), ms);
-    print_line(buffer, crlf);
-}
-
-uint32_t print_elapsed(uint32_t begin, uint32_t end)
-{
-    uint32_t elapsed = end - begin;
-    print_line("BEGIN: ");
-    print_millis(begin);
-    print_line("ms END: ");
-    print_millis(end);
-    print_line("ms ELAPSED: ");
-    print_millis(elapsed);
-    print_line("ms", true);
-    return elapsed;
-}

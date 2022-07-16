@@ -3,9 +3,31 @@
 #pragma once
 
 #include "base.h"
+#include <ArduinoJson.h>
 
 void print_line(const char *message, bool crlf = false);
-void format_buffer(char *buffer, size_t bufsize,
-                   uint32_t value);
-void print_millis(uint32_t, bool crlf = false);
-uint32_t print_elapsed(uint32_t, uint32_t);
+
+const int capacity = JSON_OBJECT_SIZE(4);
+
+class Bench
+{
+public:
+    const char *text;
+    uint32_t begin;
+    uint32_t end;
+
+public:
+    Bench(const char *text) : text(text) {}
+
+    void Print();
+
+private:
+    uint32_t elapsed() { return end - begin; }
+    const char *title()
+    {
+        return text;
+    }
+
+private:
+    static StaticJsonDocument<capacity> doc;
+};
