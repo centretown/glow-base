@@ -9,7 +9,8 @@ namespace glow
 {
     void print_line(const char *message, bool crlf = false);
 
-    const int capacity = JSON_OBJECT_SIZE(3);
+    const size_t capacity = JSON_OBJECT_SIZE(8);
+    const size_t output_buffer_size = 2048;
 
     class BenchMark
     {
@@ -18,25 +19,33 @@ namespace glow
         uint32_t begin;
         uint32_t end;
 
-        static const char *device;
-
     public:
+        // access
+        inline const uint32_t Duration() { return end - begin; }
+        inline const char *Name() { return name; }
+
+        // implementation
         inline void Begin(const char *v)
         {
             name = v;
             begin = millis32();
         }
+
         inline void End()
         {
             end = millis32();
             Print();
         }
-        
-        void Print();
 
-        inline uint32_t Duration() { return end - begin; }
+        void Print();
+        char *TimeStamp();
+
+    public:
+        static const char *Device() { return device; }
 
     private:
+        static const char *device;
+        static time_t time_stamp;
         static StaticJsonDocument<capacity> doc;
     };
 } // namespace glow

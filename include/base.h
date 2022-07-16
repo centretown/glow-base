@@ -4,8 +4,7 @@
 
 #ifdef ARDUINO
 #include <Arduino.h>
-const uint32_t clocks_sec = 1000000;
-const uint32_t clocks_ms = clocks_sec / 1000;
+#include <time.h>
 #else
 #include <stdio.h>
 #include <stdint.h>
@@ -19,11 +18,13 @@ const uint32_t clocks_ms = clocks_sec / 1000;
 #define LOW 0
 #define INPUT 0
 #define OUTPUT 1
+
 uint64_t millis();
 void set_millis_rate(uint16_t r);
-const uint64_t clocks_sec = CLOCKS_PER_SEC;
-const uint64_t clocks_ms = clocks_sec / 1000;
 #endif
+
+const uint32_t clocks_sec = CLOCKS_PER_SEC;
+const uint32_t clocks_ms = clocks_sec / 1000;
 
 extern uint16_t millis_rate;
 extern uint64_t millis_now;
