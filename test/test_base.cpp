@@ -32,11 +32,11 @@ void run()
 {
     UNITY_BEGIN();
     testBench();
-    // testFeatures();
-    // testFilters();
-    // testSort();
-    // testBlinkActivities();
-    // testRangeFuncs();
+    testFeatures();
+    testFilters();
+    testSort();
+    testBlinkActivities();
+    testRangeFuncs();
     UNITY_END();
 }
 
