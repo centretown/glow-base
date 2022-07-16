@@ -12,7 +12,7 @@ namespace glow
     const size_t capacity = JSON_OBJECT_SIZE(8);
     const size_t output_buffer_size = 2048;
 
-    class BenchMark
+    class Benchmark
     {
     public:
         const char *name;
@@ -41,7 +41,14 @@ namespace glow
         char *TimeStamp();
 
     public:
+        static void Setup()
+        {
+            buildTimeStamp();
+        }
+
+    public:
         static const char *Device() { return device; }
+        static void buildTimeStamp();
 
     private:
         static const char *device;

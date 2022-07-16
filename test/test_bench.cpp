@@ -4,16 +4,16 @@
 
 #include <unity.h>
 #include "base.h"
-#include "BenchMark.h"
+#include "Benchmark.h"
 #include "wait.h"
 #include <ArduinoJson.h>
 
-using glow::BenchMark;
+using glow::Benchmark;
 using glow::print_line;
 
 void test_millis32()
 {
-    BenchMark benchMark;
+    Benchmark benchMark;
     set_real_time(true);
 
     benchMark.Begin("test_millis32");

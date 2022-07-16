@@ -1,0 +1,25 @@
+{
+  "test": "test bench",
+  "clocks_sec": 1000000,
+  "clocks_ms": 1000,
+  "bench_marks": [
+    {
+      "device": "Native",
+      "test": "test_millis32",
+      "time": "2022/07/16 17:07:51",
+      "duration": 1000
+    },
+    {
+      "device": "ESP32",
+      "test": "test_millis32",
+      "time": "2022/07/16 17:06:07",
+      "duration": 1000
+    },
+    {
+      "device": "MEGA",
+      "test": "test_millis32",
+      "time": "2022/07/16 17:10:44",
+      "duration": 1000
+    }
+  ]
+}
