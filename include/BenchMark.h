@@ -9,17 +9,16 @@ namespace glow
 {
     void print_line(const char *message, bool crlf = false);
 
-    const int capacity = JSON_OBJECT_SIZE(4);
+    const int capacity = JSON_OBJECT_SIZE(3);
 
     class BenchMark
     {
     public:
         const char *name;
-        char text[32];
         uint32_t begin;
         uint32_t end;
 
-        static const char *ENV;
+        static const char *device;
 
     public:
         inline void Begin(const char *v)
@@ -36,13 +35,6 @@ namespace glow
         void Print();
 
         inline uint32_t Duration() { return end - begin; }
-
-    private:
-        const char *title()
-        {
-            snprintf(text, sizeof(text), "%s:%s", ENV, name);
-            return text;
-        }
 
     private:
         static StaticJsonDocument<capacity> doc;

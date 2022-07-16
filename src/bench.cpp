@@ -4,17 +4,17 @@
 namespace glow
 {
 #if defined(NATIVE)
-    const char *BenchMark::ENV = "Native";
+    const char *BenchMark::device = "Native";
 #elif defined(MEGAATMEGA2560)
-    const char *BenchMark::ENV = "MEGA";
+    const char *BenchMark::device = "MEGA";
 #elif defined(ESP32)
-    const char *BenchMark::ENV = "ESP32";
+    const char *BenchMark::device = "ESP32";
 #elif defined(ESP32CAM)
-    const char *BenchMark::ENV = "ESP32CAM";
+    const char *BenchMark::device = "ESP32CAM";
 #elif defined(SEEED_XIAO)
-    const char *BenchMark::ENV = "XIAO";
+    const char *BenchMark::device = "XIAO";
 #else
-    const char *BenchMark::ENV = "OTHER";
+    const char *BenchMark::device = "OTHER";
 #endif
 
     StaticJsonDocument<capacity> BenchMark::doc;
@@ -27,10 +27,9 @@ namespace glow
 
     void BenchMark::Print()
     {
-        doc["title"] = title();
-        doc["begin"] = begin;
-        doc["end"] = end;
-        doc["elapsed"] = Duration();
+        doc["device"] = device;
+        doc["test"] = name;
+        doc["duration"] = Duration();
 #ifdef ARDUINO
         serializeJsonPretty(doc, Serial);
         Serial.println("");
