@@ -59,8 +59,6 @@ namespace glow
 #ifdef ARDUINO
             digitalWrite(pin, state);
 #else
-            const char *text = (state == BLINK_ON) ? "OFF" : "ON";
-            printf("pin:%u %s\n", pin, text);
 #endif
         }
 
