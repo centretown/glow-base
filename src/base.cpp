@@ -8,8 +8,8 @@ bool real_time = false;
 
 uint32_t millis32()
 {
-    auto lms = millis();
-    return static_cast<uint32_t>(lms);
+    uint64_t lms = millis();
+    return (uint32_t)(lms&0xffffffff);
 }
 
 void set_real_time(bool v)

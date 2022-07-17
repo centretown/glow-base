@@ -3,9 +3,12 @@
 #pragma once
 
 #ifdef ARDUINO
+
 #include <Arduino.h>
 #include <time.h>
+
 #else
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
