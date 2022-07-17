@@ -45,10 +45,10 @@ namespace glow
         inline uint16_t Length() const { return End() - Begin(); }
 
         // modify
-        inline void Pack(range_pack v)
+        inline range_pack Pack(range_pack v)
         {
             pack = v;
-            Resize(limits.begin, limits.end);
+            return Resize(limits.begin, limits.end);
         }
 
         inline void Copy(Range &range)
