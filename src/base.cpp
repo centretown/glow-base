@@ -9,7 +9,7 @@ bool real_time = false;
 uint32_t millis32()
 {
     uint64_t lms = millis();
-    return (uint32_t)(lms&0xffffffff);
+    return (uint32_t)(lms & 0xffffffff);
 }
 
 void set_real_time(bool v)
@@ -18,7 +18,7 @@ void set_real_time(bool v)
     return;
 }
 
-#ifndef ARDUINO
+#ifndef ARDUINO // not ARDUINO
 
 void set_millis_rate(uint16_t r)
 {

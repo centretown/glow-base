@@ -22,6 +22,7 @@ BlinkMonitor monitor(&blink);
 BlinkActivity blinker(&monitor, &blink);
 
 void testBench();
+void testMath();
 void testFeatures();
 void testBlinkActivities();
 void testSort();
@@ -32,6 +33,7 @@ void run()
 {
     UNITY_BEGIN();
     testBench();
+    testMath();
     testFeatures();
     testFilters();
     testSort();
