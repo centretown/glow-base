@@ -23,6 +23,7 @@
 #define OUTPUT 1
 
 uint64_t millis();
+uint64_t micros();
 void set_millis_rate(uint16_t r);
 #endif
 
@@ -36,3 +37,5 @@ extern bool real_time;
 void set_real_time(bool v);
 typedef uint32_t feature_base;
 uint32_t millis32();
+uint32_t micros32();
+

@@ -4,22 +4,94 @@
   "clocks_ms": 1000,
   "bench_marks": [
     {
-      "device": "Native",
-      "test": "test_millis32",
-      "time": "2022/07/16 17:07:51",
-      "duration": 1000
-    },
-    {
-      "device": "ESP32",
-      "test": "test_millis32",
-      "time": "2022/07/16 17:06:07",
-      "duration": 1000
+      "device": "MEGA",
+      "test": "test_micros32",
+      "time": "2022/07/20 00:43:34",
+      "duration": 1000016
     },
     {
       "device": "MEGA",
-      "test": "test_millis32",
-      "time": "2022/07/16 17:10:44",
-      "duration": 1000
+      "test": "divMod",
+      "time": "2022/07/20 00:43:34",
+      "duration": 66056
+    },
+    {
+      "device": "MEGA",
+      "test": "divFunc",
+      "time": "2022/07/20 00:43:34",
+      "duration": 74696
+    },
+    {
+      "device": "MEGA",
+      "test": "divMul",
+      "time": "2022/07/20 00:43:34",
+      "duration": 70352
+    },
+    {
+      "device": "MEGA",
+      "test": "DivMod",
+      "time": "2022/07/20 00:43:34",
+      "duration": 66588
+    },
+    {
+      "device": "ESP32",
+      "test": "test_micros32",
+      "time": "2022/07/20 00:44:46",
+      "duration": 999855
+    },
+    {
+      "device": "ESP32",
+      "test": "divMod",
+      "time": "2022/07/20 00:44:46",
+      "duration": 658
+    },
+    {
+      "device": "ESP32",
+      "test": "divFunc",
+      "time": "2022/07/20 00:44:46",
+      "duration": 1062
+    },
+    {
+      "device": "ESP32",
+      "test": "divMul",
+      "time": "2022/07/20 00:44:46",
+      "duration": 650
+    },
+    {
+      "device": "ESP32",
+      "test": "DivMod",
+      "time": "2022/07/20 00:44:46",
+      "duration": 650
+    },
+    {
+      "device": "Native",
+      "test": "test_micros32",
+      "time": "2022/07/20 00:46:11",
+      "duration": 999673
+    },
+    {
+      "device": "Native",
+      "test": "divMod",
+      "time": "2022/07/20 00:46:11",
+      "duration": 71
+    },
+    {
+      "device": "Native",
+      "test": "divFunc",
+      "time": "2022/07/20 00:46:11",
+      "duration": 81
+    },
+    {
+      "device": "Native",
+      "test": "divMul",
+      "time": "2022/07/20 00:46:11",
+      "duration": 68
+    },
+    {
+      "device": "Native",
+      "test": "DivMod",
+      "time": "2022/07/20 00:46:11",
+      "duration": 79
     }
   ]
 }

@@ -12,6 +12,12 @@ uint32_t millis32()
     return (uint32_t)(lms & 0xffffffff);
 }
 
+uint32_t micros32()
+{
+    uint64_t lms = micros();
+    return (uint32_t)(lms & 0xffffffff);
+}
+
 void set_real_time(bool v)
 {
     real_time = v;
@@ -23,6 +29,11 @@ void set_real_time(bool v)
 void set_millis_rate(uint16_t r)
 {
     millis_rate = r;
+}
+
+uint64_t micros()
+{
+    return clock();
 }
 
 uint64_t millis()

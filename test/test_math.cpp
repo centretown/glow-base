@@ -41,10 +41,10 @@ uint32_t sum = 0;
 
 void math_bench()
 {
-    sum += testDiv(0x0100, "divMod", divMod);
-    sum += testDiv(0x0100, "divFunc", divFunc);
-    sum += testDiv(0x0100, "divMul", divMul);
-    sum += testDiv(0x0100, "DivMod", DivMod);
+    sum += testDiv(0x0010, "divMod", divMod);
+    sum += testDiv(0x0010, "divFunc", divFunc);
+    sum += testDiv(0x0010, "divMul", divMul);
+    sum += testDiv(0x0010, "DivMod", DivMod);
 }
 
 void testMath()

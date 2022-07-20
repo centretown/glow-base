@@ -11,12 +11,12 @@
 using glow::Benchmark;
 using glow::print_line;
 
-void test_millis32()
+void test_micros32()
 {
     Benchmark benchMark;
     set_real_time(true);
 
-    benchMark.Begin("test_millis32");
+    benchMark.Begin("test_micros32");
     wait(1000);
     benchMark.End();
 
@@ -25,5 +25,5 @@ void test_millis32()
 
 void testBench()
 {
-    RUN_TEST(test_millis32);
+    RUN_TEST(test_micros32);
 }

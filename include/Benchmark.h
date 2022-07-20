@@ -28,12 +28,12 @@ namespace glow
         inline void Begin(const char *v)
         {
             name = v;
-            begin = millis32();
+            begin = micros32();
         }
 
         inline void End()
         {
-            end = millis32();
+            end = micros32();
             Print();
         }
 
