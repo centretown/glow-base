@@ -41,8 +41,8 @@ namespace glow
         // access
         inline uint16_t Begin() const { return limits.begin; }
         inline uint16_t End() const { return limits.end; }
+        inline uint16_t Length() const { return limits.end - limits.begin; }
         inline range_pack Pack() const { return pack; }
-        inline uint16_t Length() const { return End() - Begin(); }
 
         // modify
         inline range_pack Pack(range_pack v)
@@ -111,7 +111,7 @@ namespace glow
             {
                 end = upper_limit;
             }
-            return Range(Begin(), end)
+            return Range(limits.begin, end)
                 .Pack();
         }
 
@@ -122,7 +122,7 @@ namespace glow
             {
                 end = limits.begin;
             }
-            return Range(Begin(), end)
+            return Range(limits.begin, end)
                 .Pack();
         }
 
@@ -214,36 +214,82 @@ namespace glow
         // implement
         inline uint16_t Map(uint16_t index) { return index; }
 
-        template <typename PUTTER, typename VALUE>
-        inline void Spin(PUTTER &putter, VALUE value)
+        template <typename PUT>
+        inline void forward(PUT &put)
         {
-            Spin(putter, *this, value);
-        }
-
-        template <typename PUTTER, typename MAPPER, typename VALUE>
-        inline void Spin(PUTTER &putter, MAPPER &mapper, VALUE value)
-        {
-            for (uint16_t i = Begin(); i < End(); i++)
+            for (uint16_t i = limits.begin; i < limits.end; i++)
             {
-                putter.Put(mapper.Map(i), value);
+                put(i);
             }
-            putter.Update();
         }
 
-        template <typename PUTTER, typename VALUE>
-        inline void ReverseSpin(PUTTER &putter, VALUE value)
-        {
-            ReverseSpin(putter, *this, value);
-        }
-
-        template <typename PUTTER, typename MAPPER, typename VALUE>
-        inline void ReverseSpin(PUTTER &putter, MAPPER &mapper, VALUE value)
+        template <typename PUT>
+        inline void backward(PUT &put)
         {
             const uint16_t length = Length();
             for (uint16_t i = 1; i <= length; i++)
             {
-                putter.Put(mapper.Map(End() - i), value);
+                put(limits.end - i);
             }
+        }
+
+        template <typename PUT>
+        inline void spin(PUT &put, bool reverse = false)
+        {
+            if (reverse)
+            {
+                backward(put);
+            }
+            else
+            {
+                forward(put);
+            }
+        }
+
+        template <typename PUTTER, typename VALUE>
+        inline void Spin(PUTTER &putter, VALUE value, bool reverse = false)
+        {
+            auto put = [&](uint16_t index)
+            {
+                putter.Put(index, value);
+            };
+            spin(put, reverse);
+            putter.Update();
+        }
+
+        template <typename PUTTER, typename MAPPER, typename VALUE>
+        inline void Spin(PUTTER &putter, MAPPER &mapper, VALUE value, bool reverse = false)
+        {
+            auto put = [&](uint16_t index)
+            {
+                putter.Put(mapper.Map(index), value);
+            };
+
+            spin(put, reverse);
+            putter.Update();
+        }
+
+        template <typename PUTTER, typename VALUE>
+        inline void SpinValues(PUTTER &putter, VALUE value, bool reverse = false)
+        {
+            auto put = [&](uint16_t index)
+            {
+                putter.Put(index, value.Map(index));
+            };
+
+            spin(put, reverse);
+            putter.Update();
+        }
+
+        template <typename PUTTER, typename MAPPER, typename VALUE>
+        inline void SpinValues(PUTTER &putter, MAPPER &mapper, VALUE value, bool reverse = false)
+        {
+            auto put = [&](uint16_t index)
+            {
+                putter.Put(mapper.Map(index), value.Map(index));
+            };
+
+            spin(put, reverse);
             putter.Update();
         }
     };

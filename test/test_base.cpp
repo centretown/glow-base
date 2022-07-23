@@ -28,6 +28,7 @@ void testBlinkActivities();
 void testSort();
 void testFilters();
 void testRangeFuncs();
+void testRangeOperators();
 
 void run()
 {
@@ -39,6 +40,7 @@ void run()
     testSort();
     testBlinkActivities();
     testRangeFuncs();
+    testRangeOperators();
     UNITY_END();
 }
 
@@ -62,10 +64,14 @@ void loop()
     blinker.Pulse();
 }
 
-#else
+#else // NATIVE
+
+#include "native_main.h"
+
 int main(int argc, char **argv)
 {
-    // Benchmark::Setup();
     run();
+
+    return native_main_test(argc, argv);
 }
 #endif // ARDUINO
