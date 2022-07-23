@@ -233,8 +233,8 @@ namespace glow
             }
         }
 
-        template <typename PUT>
-        inline void spin(PUT &put, bool reverse = false)
+        template <typename PUT, typename PUTTER>
+        inline void spin(PUT &put, PUTTER &putter, bool reverse = false)
         {
             if (reverse)
             {
@@ -244,6 +244,7 @@ namespace glow
             {
                 forward(put);
             }
+            putter.Update();
         }
 
         template <typename PUTTER, typename VALUE>
@@ -253,8 +254,7 @@ namespace glow
             {
                 putter.Put(index, value);
             };
-            spin(put, reverse);
-            putter.Update();
+            spin(put, putter, reverse);
         }
 
         template <typename PUTTER, typename MAPPER, typename VALUE>
@@ -265,8 +265,7 @@ namespace glow
                 putter.Put(mapper.Map(index), value);
             };
 
-            spin(put, reverse);
-            putter.Update();
+            spin(put, putter, reverse);
         }
 
         template <typename PUTTER, typename VALUE>
@@ -277,8 +276,7 @@ namespace glow
                 putter.Put(index, value.Map(index));
             };
 
-            spin(put, reverse);
-            putter.Update();
+            spin(put, putter, reverse);
         }
 
         template <typename PUTTER, typename MAPPER, typename VALUE>
@@ -289,8 +287,7 @@ namespace glow
                 putter.Put(mapper.Map(index), value.Map(index));
             };
 
-            spin(put, reverse);
-            putter.Update();
+            spin(put, putter, reverse);
         }
     };
 }

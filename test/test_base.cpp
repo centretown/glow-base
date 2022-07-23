@@ -35,12 +35,12 @@ void run()
     UNITY_BEGIN();
     testBench();
     testMath();
-    testFeatures();
-    testFilters();
-    testSort();
-    testBlinkActivities();
-    testRangeFuncs();
-    testRangeOperators();
+    // testFeatures();
+    // testFilters();
+    // testSort();
+    // testBlinkActivities();
+    // testRangeFuncs();
+    // testRangeOperators();
     UNITY_END();
 }
 
