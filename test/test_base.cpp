@@ -37,10 +37,10 @@ void run()
     testMath();
     // testFeatures();
     // testFilters();
-    // testSort();
-    // testBlinkActivities();
-    // testRangeFuncs();
-    // testRangeOperators();
+    testSort();
+    testBlinkActivities();
+    testRangeFuncs();
+    testRangeOperators();
     UNITY_END();
 }
 

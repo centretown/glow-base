@@ -38,4 +38,3 @@ void set_real_time(bool v);
 typedef uint32_t feature_base;
 uint32_t millis32();
 uint32_t micros32();
-

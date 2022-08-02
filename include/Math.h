@@ -6,6 +6,15 @@
 
 namespace glow
 {
+    inline uint16_t Min(uint16_t a, uint16_t b)
+    {
+        return (a > b) ? b : a;
+    }
+    inline uint16_t Max(uint16_t a, uint16_t b)
+    {
+        return (a > b) ? a : b;
+    }
+    
     inline Point divMod(uint16_t index, uint16_t length)
     {
         return Point(index / length, index % length);
