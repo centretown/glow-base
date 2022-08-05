@@ -35,8 +35,8 @@ void run()
     UNITY_BEGIN();
     testBench();
     testMath();
-    // testFeatures();
-    // testFilters();
+    testFeatures();
+    testFilters();
     testSort();
     testBlinkActivities();
     testRangeFuncs();

@@ -14,7 +14,7 @@ namespace glow
         BlinkSettings *blink;
 
     public:
-        BlinkActivity(Monitor *monitor, BlinkSettings *blink)
+        BlinkActivity(Monitor *monitor, BlinkSettings *blink) 
             : MonitoredActivity(monitor), blink(blink) {}
         ~BlinkActivity() {}
 

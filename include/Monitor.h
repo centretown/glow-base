@@ -16,7 +16,8 @@ namespace glow
         virtual bool Done() = 0;
 
     public:
-        static void Cycle();
-        static uint64_t Now();
+        static void Cycle() { now = millis(); }
+        static uint64_t Now() { return now; }
+        static uint32_t Now32() { return (uint32_t)(now & 0xffffffff); }
     };
 }

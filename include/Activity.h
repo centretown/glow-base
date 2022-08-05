@@ -3,13 +3,11 @@
 #pragma once
 
 #include "Monitor.h"
-#include "Updater.h"
 
 namespace glow
 {
-    class Activity : public Monitor, public Updater
+    class Activity : public Monitor
     {
-
     public:
         inline bool Pulse()
         {
@@ -20,5 +18,6 @@ namespace glow
             }
             return false;
         }
+        virtual void Update() = 0;
     };
 }
