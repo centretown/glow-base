@@ -23,9 +23,9 @@ public:
 class doubleFilter : public Filter<testX>
 {
 private:
-    virtual void apply(testX &source, testX &destination)
+    virtual void apply(testX &source)
     {
-        destination.X(2 * source.X());
+        source.X(2 * source.X());
     }
 };
 
@@ -33,21 +33,24 @@ void testFilter()
 {
     const uint16_t tx = 0x22;
 
-    testX source(tx), destination;
+    testX source(tx);
     doubleFilter filter;
     TEST_ASSERT_EQUAL_HEX(tx, source.X());
-    filter.Apply(source, destination);
-    TEST_ASSERT_EQUAL_HEX(tx * 2, destination.X());
+    filter.Apply(source);
+    TEST_ASSERT_EQUAL_HEX(tx * 2, source.X());
 
     doubleFilter filter2;
     filter.Link(&filter2);
-    filter.Apply(source, destination);
-    TEST_ASSERT_EQUAL_HEX(tx * 4, destination.X());
+    source.X(tx);
+    filter.Apply(source);
+    TEST_ASSERT_EQUAL_HEX(tx * 4, source.X());
+    filter.Apply(source);
+    TEST_ASSERT_EQUAL_HEX(tx * 16, source.X());
 
     filter.UnLink();
-    filter.Apply(source, destination);
-    TEST_ASSERT_EQUAL_HEX(tx, source.X());
-    TEST_ASSERT_EQUAL_HEX(tx * 2, destination.X());
+    source.X(tx);
+    filter.Apply(source);
+    TEST_ASSERT_EQUAL_HEX(tx * 2, source.X());
 }
 
 void testFilters()

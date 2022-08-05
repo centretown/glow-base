@@ -13,18 +13,14 @@ namespace glow
         Filter<T> *next = NULL;
 
     public:
-        T &Apply(T &source, T &destination)
+        void Apply(T &source)
         {
-            T worker(source);
             for (Filter<T> *current = this;
                  current != NULL;
                  current = current->next)
             {
-                current->apply(worker, worker);
+                current->apply(source);
             }
-
-            destination.Copy(worker);
-            return destination;
         }
 
         inline void Link(Filter<T> *filter)
@@ -56,6 +52,6 @@ namespace glow
         }
 
     private:
-        virtual void apply(T &source, T &destination) = 0;
+        virtual void apply(T &source) = 0;
     };
 }
