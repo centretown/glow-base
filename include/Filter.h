@@ -51,6 +51,8 @@ namespace glow
             }
         }
 
+        virtual void Setup(T &source){};
+
     private:
         virtual void apply(T &source) = 0;
     };
