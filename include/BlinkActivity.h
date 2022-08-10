@@ -2,25 +2,14 @@
 
 #pragma once
 
-#include "MonitoredActivity.h"
-#include "BlinkSettings.h"
-#include "BlinkMonitor.h"
+#include "BlinkUpdater.h"
+#include "Activity.h"
 
 namespace glow
 {
-    class BlinkActivity : public MonitoredActivity
+    class BlinkActivity : public Activity<BlinkUpdater>
     {
-    private:
-        BlinkSettings *blink;
-
     public:
-        BlinkActivity(Monitor *monitor, BlinkSettings *blink) 
-            : MonitoredActivity(monitor), blink(blink) {}
-        ~BlinkActivity() {}
-
-        virtual void Update()
-        {
-            blink->ToggleState();
-        }
+        BlinkActivity(BlinkUpdater &blink) : Activity<BlinkUpdater>(blink) {}
     };
 }

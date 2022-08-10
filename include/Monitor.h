@@ -8,12 +8,31 @@ namespace glow
     class Monitor
     {
     protected:
+        uint16_t pulseWidth = 20;
+        uint32_t next = 0;
         static uint64_t now;
 
     public:
-        virtual void Reset() = 0;
-        virtual bool Ready() = 0;
-        virtual bool Done() = 0;
+        inline void Reset()
+        {
+            next = 0;
+        }
+
+        virtual bool Done() { return false; }
+
+        virtual bool Ready()
+        {
+            auto now = Monitor::Now32();
+            if (now >= next)
+            {
+                next = now + pulseWidth;
+                return true;
+            }
+            return false;
+        }
+
+        inline uint16_t PulseWidth() const { return pulseWidth; }
+        inline uint16_t PulseWidth(uint16_t v) { return pulseWidth = v; }
 
     public:
         static void Cycle() { now = millis(); }

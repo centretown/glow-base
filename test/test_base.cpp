@@ -7,23 +7,18 @@
 #include "BlinkActivity.h"
 #include "Benchmark.h"
 
-// using namespace glow;
-
 using glow::Benchmark;
 using glow::BlinkActivity;
-using glow::BlinkMonitor;
-using glow::BlinkSettings;
+using glow::BlinkUpdater;
 using glow::Monitor;
 using glow::PinDevice;
 
 PinDevice blinkPin;
-BlinkSettings blink(&blinkPin);
-BlinkMonitor monitor(&blink);
-BlinkActivity blinker(&monitor, &blink);
+BlinkUpdater blink(&blinkPin);
+BlinkActivity blinker(blink);
 
 void testBench();
 void testMath();
-void testFeatures();
 void testBlinkActivities();
 void testSort();
 void testFilters();
@@ -35,7 +30,6 @@ void run()
     UNITY_BEGIN();
     testBench();
     testMath();
-    testFeatures();
     testFilters();
     testSort();
     testBlinkActivities();
