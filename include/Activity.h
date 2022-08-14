@@ -24,5 +24,11 @@ namespace glow
             }
             return false;
         }
+
+        inline void Apply(uint8_t state, int16_t index)
+        {
+            updater.Apply(state, index);
+        }
     };
+
 }

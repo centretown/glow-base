@@ -21,7 +21,6 @@ void testBench();
 void testMath();
 void testBlinkActivities();
 void testSort();
-void testFilters();
 void testRangeFuncs();
 void testRangeOperators();
 
@@ -30,8 +29,6 @@ void run()
     UNITY_BEGIN();
     testBench();
     testMath();
-    testFilters();
-    testSort();
     testBlinkActivities();
     testRangeFuncs();
     testRangeOperators();

@@ -49,8 +49,16 @@ namespace glow
         {
             pin->Write(state);
             // toggle
-            state = (state == BLINK_ON) ? BLINK_OFF : BLINK_ON;
+            state = (state == BLINK_OFF) ? BLINK_ON : BLINK_OFF;
             return (state == BLINK_ON) ? on : off;
+        }
+
+        inline void Apply(uint8_t s, int16_t i)
+        {
+            if (state != s)
+            {
+                state = (s == BLINK_OFF) ? BLINK_ON : BLINK_OFF;
+            }
         }
     };
 }

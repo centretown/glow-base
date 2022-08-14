@@ -6,27 +6,26 @@
 
 namespace glow
 {
-    template <typename T>
     class Filter
     {
     private:
-        Filter<T> *next = NULL;
+        Filter *next = NULL;
 
     public:
-        void Apply(T &source)
+        void Apply(uint8_t state, uint16_t index)
         {
-            for (Filter<T> *current = this;
+            for (Filter *current = this;
                  current != NULL;
                  current = current->next)
             {
-                current->apply(source);
+                current->apply(state, index);
             }
         }
 
-        inline void Link(Filter<T> *filter)
+        inline void Link(Filter *filter)
         {
-            Filter<T> *link = this;
-            for (Filter<T> *current = this;
+            Filter *link = this;
+            for (Filter *current = this;
                  current != NULL;
                  current = current->next)
             {
@@ -42,18 +41,18 @@ namespace glow
 
         inline void UnLink()
         {
-            for (Filter<T> *current = this;
+            for (Filter *current = this;
                  current != NULL;)
             {
-                Filter<T> *hold = current->next;
+                Filter *hold = current->next;
                 current->next = NULL;
                 current = hold;
             }
         }
 
-        virtual void Setup(T &source){};
+        virtual void Setup(){};
 
     private:
-        virtual void apply(T &source) = 0;
+        virtual void apply(uint8_t state, uint16_t index){};
     };
 }
