@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Range.h"
 #include "State.h"
 
 namespace glow
@@ -10,17 +9,17 @@ namespace glow
     class StateHandler
     {
     private:
-        uint32_t previous;
+        State previous;
 
     public:
         template <typename SOURCE, typename TARGET>
         uint32_t Handle(SOURCE &source, TARGET &target)
         {
-            uint32_t current = source.Update();
+            State current = source.Update();
             if (previous != current)
             {
                 previous = current;
-                target.Update(current);
+                target.Update(current.status, current.position);
             }
             return current;
         }
