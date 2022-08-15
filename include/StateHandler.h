@@ -21,7 +21,7 @@ namespace glow
                 previous = current;
                 target.Update(current.status, current.position);
             }
-            return current;
+            return current.pack;
         }
     };
 
