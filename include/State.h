@@ -41,7 +41,7 @@ namespace glow
 
         inline uint32_t operator=(State &s)
         {
-            pack = s.pack;
+            return pack = s.pack;
         }
 
         inline bool operator!=(State &s) const
