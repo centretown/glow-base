@@ -9,19 +9,19 @@ namespace glow
     class StateHandler
     {
     private:
-        State previous;
+        State state;
 
     public:
         template <typename SOURCE, typename TARGET>
         uint32_t Handle(SOURCE &source, TARGET &target)
         {
-            State current = source.Update();
-            if (previous != current)
+            uint32_t current = source.Update();
+            if (state.pack != current)
             {
-                previous = current;
-                target.Update(current.status, current.position);
+                state(current);
+                target.Update(state.Status(), state.Position());
             }
-            return current.pack;
+            return current;
         }
     };
 

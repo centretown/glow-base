@@ -23,6 +23,7 @@ void testBlinkActivities();
 void testSort();
 void testRangeFuncs();
 void testRangeOperators();
+void testState();
 
 void run()
 {
@@ -32,6 +33,7 @@ void run()
     testBlinkActivities();
     testRangeFuncs();
     testRangeOperators();
+    testState();
     UNITY_END();
 }
 

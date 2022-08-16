@@ -6,20 +6,53 @@
 
 namespace glow
 {
-    struct State
+    typedef uint32_t state_pack;
+
+    class State
     {
+    public:
         union
         {
+            uint32_t pack;
             struct
             {
-                int16_t status;
                 int16_t position;
+                int16_t status;
             };
-            uint32_t pack;
         };
 
-        State(uint8_t status = 0, int16_t position = 0)
-            : status(status), position(position) {}
+    public:
+        State(uint16_t s = 0, int16_t p = 0)
+        {
+
+            status = s;
+            position = p;
+        }
+
+        inline void operator()(uint32_t p)
+        {
+            pack = p;
+        }
+
+        inline void operator()(uint16_t s, uint16_t p)
+        {
+            status = s;
+            position = p;
+        }
+
+        inline bool operator!=(State &s) const
+        {
+            return (s.pack != pack);
+        }
+        inline bool operator==(State &s) const
+        {
+            return (s.pack == pack);
+        }
+        inline State &operator=(State &s)
+        {
+            pack = s.pack;
+            return *this;
+        }
 
         inline int16_t Status() const { return status; }
         inline int16_t Status(int16_t v) { return status = v; }
@@ -27,27 +60,6 @@ namespace glow
         inline int16_t Position(int16_t v) { return position = v; }
         inline uint32_t Pack() const { return pack; }
         inline uint32_t Pack(uint32_t v) { return pack = v; }
-
-        inline void operator()(int16_t s, int16_t p)
-        {
-            status = s;
-            position = p;
-        }
-
-        inline bool operator==(State &s) const
-        {
-            return (pack == s.pack);
-        }
-
-        inline uint32_t operator=(State &s)
-        {
-            return pack = s.pack;
-        }
-
-        inline bool operator!=(State &s) const
-        {
-            return (pack != s.pack);
-        }
     };
 
 } // namespace glow
