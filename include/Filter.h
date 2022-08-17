@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "base.h"
+#include "Range.h"
+#include "State.h"
 
 namespace glow
 {
@@ -10,16 +11,23 @@ namespace glow
     {
     private:
         Filter *next = NULL;
+        Range range;
+        State state;
 
     public:
         void Apply(uint8_t state, uint16_t index)
         {
-            for (Filter *current = this;
-                 current != NULL;
-                 current = current->next)
+            Filter *current = this;
+            for (uint8_t i = 0; i < state; i++)
             {
-                current->apply(state, index);
+                if (current->next == NULL)
+                {
+                    break;
+                }
+                current = current->next;
             }
+  
+            current->apply(state, index);
         }
 
         inline void Link(Filter *filter)

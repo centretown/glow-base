@@ -1,12 +1,13 @@
 // Copyright (c) 2022 Dave Marsh. See LICENSE.
 
 #pragma once
-#include "base.h"
+
+#include "Updater.h"
 #include "PinDevice.h"
 
 namespace glow
 {
-    class BlinkUpdater
+    class BlinkUpdater : public UpdateSource
     {
     public:
         PinDevice *pin;
@@ -45,7 +46,7 @@ namespace glow
         {
             return state;
         }
-        inline uint16_t Update()
+        inline uint32_t Update()
         {
             pin->Write(state);
             // toggle

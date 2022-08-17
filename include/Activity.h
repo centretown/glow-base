@@ -3,32 +3,33 @@
 #pragma once
 
 #include "Monitor.h"
+#include "Updater.h"
 
 namespace glow
 {
-    template <typename UPDATER>
     class Activity : public Monitor
     {
     protected:
-        UPDATER &updater;
+        UpdateSource *updater;
 
     public:
-        Activity(UPDATER &updater) : updater(updater) {}
+        Activity(UpdateSource *updater) : updater(updater) {}
 
         inline bool Pulse()
         {
             if (Ready())
             {
-                PulseWidth(updater.Update());
+                updater->Update();
+                // PulseWidth();
                 return true;
             }
             return false;
         }
 
-        inline void Apply(uint8_t state, int16_t index)
-        {
-            updater.Apply(state, index);
-        }
+        // inline void Apply(uint8_t state, int16_t index)
+        // {
+        //     updater.Apply(state, index);
+        // }
     };
 
 }

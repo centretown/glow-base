@@ -45,7 +45,7 @@ void testBlinkActivitySetup()
 void testBlinkActivity()
 {
     BlinkUpdater blink(&blinkPin);
-    BlinkActivity blinker(blink);
+    BlinkActivity blinker(&blink);
 
     blink.On(1000);
     blink.Off(500);

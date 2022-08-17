@@ -3,6 +3,7 @@
 #pragma once
 
 #include "State.h"
+#include "Updater.h"
 
 namespace glow
 {
@@ -12,14 +13,13 @@ namespace glow
         State state;
 
     public:
-        template <typename SOURCE, typename TARGET>
-        uint32_t Handle(SOURCE &source, TARGET &target)
+        uint32_t Handle(UpdateSource *source, UpdateTarget *target)
         {
-            uint32_t current = source.Update();
+            uint32_t current = source->Update();
             if (state.pack != current)
             {
                 state(current);
-                target.Update(state.Status(), state.Position());
+                target->Update(state.Status(), state.Position());
             }
             return current;
         }

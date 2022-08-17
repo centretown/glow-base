@@ -15,7 +15,7 @@ using glow::PinDevice;
 
 PinDevice blinkPin;
 BlinkUpdater blink(&blinkPin);
-BlinkActivity blinker(blink);
+BlinkActivity blinker(&blink);
 
 void testBench();
 void testMath();

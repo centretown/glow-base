@@ -6,12 +6,15 @@
 #include "State.h"
 #include "StateHandler.h"
 #include "Benchmark.h"
+#include "Updater.h"
 
 using glow::print_line;
 using glow::State;
 using glow::StateHandler;
+using glow::UpdateSource;
+using glow::UpdateTarget;
 
-class X : public State
+class X : public UpdateSource
 {
 public:
     State state;
@@ -23,7 +26,7 @@ public:
     }
 };
 
-class Y
+class Y : public UpdateTarget
 {
 public:
     State state;
@@ -66,7 +69,7 @@ void testStateHandler()
     X x;
     Y y;
 
-    handler.Handle(x, y);
+    handler.Handle(&x, &y);
     TEST_ASSERT(x.state == y.state);
 
     snprintf(buffer, sizeof(buffer),
@@ -77,7 +80,7 @@ void testStateHandler()
              "yb=%u yp=%d\n", y.state.Status(), y.state.Position());
     print_line(buffer);
 
-    handler.Handle(x, y);
+    handler.Handle(&x, &y);
     TEST_ASSERT(x.state == y.state);
 
     snprintf(buffer, sizeof(buffer),

@@ -6,8 +6,6 @@
 
 namespace glow
 {
-    typedef uint32_t state_pack;
-
     class State
     {
     public:

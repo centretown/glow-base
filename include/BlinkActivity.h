@@ -7,9 +7,9 @@
 
 namespace glow
 {
-    class BlinkActivity : public Activity<BlinkUpdater>
+    class BlinkActivity : public Activity
     {
     public:
-        BlinkActivity(BlinkUpdater &blink) : Activity<BlinkUpdater>(blink) {}
+        BlinkActivity(BlinkUpdater *blink) : Activity(blink) {}
     };
 }
