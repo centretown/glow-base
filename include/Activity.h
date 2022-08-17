@@ -3,33 +3,56 @@
 #pragma once
 
 #include "Monitor.h"
+#include "State.h"
 #include "Updater.h"
 
 namespace glow
 {
     class Activity : public Monitor
     {
+    private:
+        State state;
+
     protected:
-        UpdateSource *updater;
+        UpdateSource *source = NULL;
+        UpdateTarget *target = NULL;
 
     public:
-        Activity(UpdateSource *updater) : updater(updater) {}
+        Activity(UpdateSource *source, UpdateTarget *target = NULL)
+            : source(source),
+              target(target) {}
+
+        void AttachSource(UpdateSource *src)
+        {
+            source = src;
+        }
+
+        void AttachTarget(UpdateTarget *tar)
+        {
+            target = tar;
+        }
 
         inline bool Pulse()
         {
             if (Ready())
             {
-                updater->Update();
-                // PulseWidth();
+                uint32_t current = source->Update();
+                if (state.pack != current)
+                {
+                    state(current);
+                    if (target != NULL)
+                    {
+                        target->Update(state.Status(), state.Position());
+                    }
+                    else
+                    {
+                        PulseWidth(state.position);
+                    }
+                }
                 return true;
             }
             return false;
         }
-
-        // inline void Apply(uint8_t state, int16_t index)
-        // {
-        //     updater.Apply(state, index);
-        // }
     };
 
 }
