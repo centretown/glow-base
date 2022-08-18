@@ -13,7 +13,7 @@ namespace glow
         State state;
 
     public:
-        uint32_t Handle(UpdateSource *source, UpdateTarget *target)
+        uint32_t Handle(Source *source, Target *target)
         {
             uint32_t current = source->Update();
             if (state.pack != current)

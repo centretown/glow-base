@@ -7,7 +7,7 @@
 
 namespace glow
 {
-    class BlinkUpdater : public UpdateSource
+    class BlinkUpdater : public Source
     {
     public:
         PinDevice *pin;

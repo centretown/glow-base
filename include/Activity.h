@@ -14,20 +14,20 @@ namespace glow
         State state;
 
     protected:
-        UpdateSource *source = NULL;
-        UpdateTarget *target = NULL;
+        Source *source = NULL;
+        Target *target = NULL;
 
     public:
-        Activity(UpdateSource *source, UpdateTarget *target = NULL)
+        Activity(Source *source, Target *target = NULL)
             : source(source),
               target(target) {}
 
-        void AttachSource(UpdateSource *src)
+        void AttachSource(Source *src)
         {
             source = src;
         }
 
-        void AttachTarget(UpdateTarget *tar)
+        void AttachTarget(Target *tar)
         {
             target = tar;
         }

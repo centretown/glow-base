@@ -11,10 +11,10 @@
 using glow::print_line;
 using glow::State;
 using glow::StateHandler;
-using glow::UpdateSource;
-using glow::UpdateTarget;
+using glow::Source;
+using glow::Target;
 
-class X : public UpdateSource
+class X : public Source
 {
 public:
     State state;
@@ -26,7 +26,7 @@ public:
     }
 };
 
-class Y : public UpdateTarget
+class Y : public Target
 {
 public:
     State state;
