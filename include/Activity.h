@@ -11,16 +11,22 @@ namespace glow
     class Activity : public Monitor
     {
     private:
-        State state;
-
-    protected:
+        State state = 0;
         Source *source = NULL;
         Target *target = NULL;
 
     public:
-        Activity(Source *source, Target *target = NULL)
-            : source(source),
-              target(target) {}
+        Activity(Source *src = NULL, Target *tar = NULL)
+        {
+            source = src;
+            target = tar;
+        }
+
+        void Attach(Source *src, Target *tar)
+        {
+            source = src;
+            target = tar;
+        }
 
         void AttachSource(Source *src)
         {
@@ -36,20 +42,23 @@ namespace glow
         {
             if (Ready())
             {
-                uint32_t current = source->Update();
-                if (state.pack != current)
+                if (source != NULL)
                 {
-                    state(current);
-                    if (target != NULL)
+                    uint32_t current = source->Update();
+                    if (state.pack != current)
                     {
-                        target->Update(state.Status(), state.Position());
+                        state(current);
+                        if (target != NULL)
+                        {
+                            target->Update(state.Status(), state.Position());
+                        }
+                        else
+                        {
+                            PulseWidth(state.position);
+                        }
                     }
-                    else
-                    {
-                        PulseWidth(state.position);
-                    }
+                    return true;
                 }
-                return true;
             }
             return false;
         }
