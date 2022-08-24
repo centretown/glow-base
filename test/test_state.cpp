@@ -4,14 +4,12 @@
 #include <unity.h>
 
 #include "State.h"
-#include "StateHandler.h"
 #include "Benchmark.h"
 #include "Updater.h"
 
 using glow::print_line;
-using glow::State;
-using glow::StateHandler;
 using glow::Source;
+using glow::State;
 using glow::Target;
 
 class X : public Source
@@ -60,36 +58,9 @@ void testStateHandler()
     TEST_ASSERT_EQUAL_HEX(0x00010064, stateA.Pack());
 
     stateA(55, 99);
-    TEST_ASSERT(stateA != stateB);
-    stateB(55, 99);
-    TEST_ASSERT(stateA == stateB);
-
-    StateHandler handler;
-
-    X x;
-    Y y;
-
-    handler.Handle(&x, &y);
-    TEST_ASSERT(x.state == y.state);
-
-    snprintf(buffer, sizeof(buffer),
-             "xb=%u xp=%d\n", x.state.Status(), x.state.Position());
-    print_line(buffer);
-
-    snprintf(buffer, sizeof(buffer),
-             "yb=%u yp=%d\n", y.state.Status(), y.state.Position());
-    print_line(buffer);
-
-    handler.Handle(&x, &y);
-    TEST_ASSERT(x.state == y.state);
-
-    snprintf(buffer, sizeof(buffer),
-             "xb=%u xp=%d\n", x.state.Status(), x.state.Position());
-    print_line(buffer);
-
-    snprintf(buffer, sizeof(buffer),
-             "yb=%u yp=%d\n", y.state.Status(), y.state.Position());
-    print_line(buffer);
+    TEST_ASSERT(stateA != stateB.Pack());
+    stateB = stateA.Pack();
+    TEST_ASSERT(stateA == stateB.Pack());
 }
 
 void testState()

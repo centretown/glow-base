@@ -40,18 +40,27 @@ namespace glow
 
         inline bool operator!=(State &s) const
         {
-            return (s.pack != pack);
+            return (pack != s.pack);
         }
+        inline bool operator!=(uint32_t v) const
+        {
+            return (pack != v);
+        }
+
         inline bool operator==(State &s) const
         {
-            return (s.pack == pack);
+            return (pack == s.pack);
         }
+        inline bool operator==(uint32_t v) const
+        {
+            return (pack == v);
+        }
+
         inline State &operator=(State &s)
         {
             pack = s.pack;
             return *this;
         }
-
         inline State &operator=(uint32_t v)
         {
             pack = v;
