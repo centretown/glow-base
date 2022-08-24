@@ -52,6 +52,12 @@ namespace glow
             return *this;
         }
 
+        inline State &operator=(uint32_t v)
+        {
+            pack = v;
+            return *this;
+        }
+
         inline int16_t Status() const { return status; }
         inline int16_t Status(int16_t v) { return status = v; }
         inline int16_t Position() const { return position; }
