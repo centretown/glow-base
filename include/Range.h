@@ -214,6 +214,28 @@ namespace glow
         // implement
         inline uint16_t Map(uint16_t index) { return index; }
 
+        uint16_t Update(uint16_t index, bool rollover = false, bool reverse = false)
+        {
+            uint16_t limit = limits.end - 1;
+            if (index > limit)
+            {
+                if (reverse)
+                {
+                    index = (rollover) ? limit : limits.begin;
+                }
+                else
+                {
+                    index = (rollover) ? limits.begin : limit;
+                }
+            }
+            else if (index < limits.begin)
+            {
+                index = (rollover) ? limit : limits.begin;
+            }
+
+            return index;
+        }
+
         template <typename PUT>
         inline void forward(PUT &put)
         {
@@ -290,4 +312,4 @@ namespace glow
             spin(put, putter, reverse);
         }
     };
-}
+} // namespace glow

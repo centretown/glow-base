@@ -120,8 +120,33 @@ void testRangeSpinValues()
     TEST_ASSERT_EQUAL(expected, putter.value);
 }
 
+void testRangeUpdate()
+{
+    Range range(5, 20);
+    uint16_t position = 0;
+    position = range.Update(position);
+    TEST_ASSERT_EQUAL(range.Begin(), position);
+    position = range.Update(0, true);
+    TEST_ASSERT_EQUAL(range.End() - 1, position);
+
+    position = range.Update(21);
+    TEST_ASSERT_EQUAL(range.End() - 1, position);
+    position = range.Update(21, true);
+    TEST_ASSERT_EQUAL(range.Begin(), position);
+    position = range.Update(21, true, true);
+    TEST_ASSERT_EQUAL(range.End() - 1, position);
+
+    position = range.Update(5);
+    TEST_ASSERT_EQUAL(5, position);
+    position = range.Update(19);
+    TEST_ASSERT_EQUAL(19, position);
+    position = range.Update(10);
+    TEST_ASSERT_EQUAL(10, position);
+}
+
 void testRangeFuncs()
 {
+    RUN_TEST(testRangeUpdate);
     RUN_TEST(testRangeSpin);
     RUN_TEST(testRangeReverseSpin);
     RUN_TEST(testRangeSpinMap);
