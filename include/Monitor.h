@@ -28,6 +28,11 @@ namespace glow
                 next = now + pulseWidth;
                 return true;
             }
+            // rollover detection
+            if (now + pulseWidth < next)
+            {
+                next = now;
+            }
             return false;
         }
 
