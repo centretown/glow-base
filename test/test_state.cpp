@@ -59,7 +59,7 @@ class Y : public Target
 {
 public:
     State state;
-    uint32_t update(uint16_t s, uint16_t p)
+    uint32_t UpdateTarget(uint16_t s, uint16_t p)
     {
         state.status = s;
         state.position = p;

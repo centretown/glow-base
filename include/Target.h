@@ -23,7 +23,7 @@ namespace glow
                 if (current->state != updated)
                 {
                     current->state = updated;
-                    current->update(status, position);
+                    current->UpdateTarget(status, position);
                 }
                 current = current->next;
             }
@@ -40,8 +40,7 @@ namespace glow
             UnLinkFrom(this);
         }
 
-    private:
-        virtual uint32_t update(uint16_t status, uint16_t position) = 0;
+        virtual uint32_t UpdateTarget(uint16_t status, uint16_t position) = 0;
     };
 
 } // namespace glow
