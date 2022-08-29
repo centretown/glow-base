@@ -22,6 +22,7 @@ namespace glow
             {
                 if (current->state != updated)
                 {
+                    current->state = updated;
                     current->update(status, position);
                 }
                 current = current->next;
