@@ -11,11 +11,4 @@ namespace glow
     public:
         virtual uint32_t Update() = 0;
     };
-
-    class Target
-    {
-    public:
-        virtual uint32_t Update(uint16_t status, uint16_t position) = 0;
-    };
-
-} // namespace glow
+}

@@ -6,8 +6,7 @@
 
 namespace glow
 {
-
-    const uint8_t stackDepth = 12;
+    const uint8_t stackDepth = 8;
 
     template <class T>
     class Stack

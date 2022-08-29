@@ -4,7 +4,9 @@
 
 #include "Monitor.h"
 #include "State.h"
-#include "Updater.h"
+#include "Source.h"
+#include "Target.h"
+#include "Link.h"
 
 namespace glow
 {
@@ -14,6 +16,9 @@ namespace glow
         State state = 0;
         Source *source = NULL;
         Target *target = NULL;
+
+    public:
+        Activity *next = NULL;
 
     public:
         Activity(Source *src = NULL, Target *tar = NULL)
@@ -40,6 +45,20 @@ namespace glow
 
         inline bool Pulse()
         {
+            bool result = false;
+            Activity *current = this;
+            while (current != NULL)
+            {
+                bool b = current->pulse();
+                if (result == false)
+                    result = b;
+                current = current->next;
+            }
+            return result;
+        }
+
+        inline bool pulse()
+        {
             if (Ready())
             {
                 if (source != NULL)
@@ -52,16 +71,21 @@ namespace glow
                         {
                             target->Update(state.Status(), state.Position());
                         }
-                        else
-                        {
-                            PulseWidth(state.position);
-                        }
                     }
                     return true;
                 }
             }
             return false;
         }
-    };
 
+        inline void Link(Activity *activity)
+        {
+            LinkTo(this, activity);
+        }
+
+        inline void UnLink()
+        {
+            UnLinkFrom(this);
+        }
+    };
 }
