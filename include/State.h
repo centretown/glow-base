@@ -14,27 +14,27 @@ namespace glow
             uint32_t pack;
             struct
             {
-                int16_t position;
-                int16_t status;
+                uint8_t mode;
+                uint8_t id;
+                uint16_t position;
             };
         };
 
     public:
-        State(uint16_t s = 0, int16_t p = 0)
-        {
+        State(uint32_t pack = 0) : pack(pack) {}
 
-            status = s;
-            position = p;
-        }
+        State(uint8_t mode, uint8_t id, uint16_t position)
+            : mode(mode), id(id), position(position) {}
 
         inline void operator()(uint32_t p)
         {
             pack = p;
         }
 
-        inline void operator()(uint16_t s, uint16_t p)
+        inline void operator()(uint8_t m, uint8_t s, uint16_t p)
         {
-            status = s;
+            mode = m;
+            id = s;
             position = p;
         }
 
@@ -66,13 +66,6 @@ namespace glow
             pack = v;
             return *this;
         }
-
-        inline int16_t Status() const { return status; }
-        inline int16_t Status(int16_t v) { return status = v; }
-        inline int16_t Position() const { return position; }
-        inline int16_t Position(int16_t v) { return position = v; }
-        inline uint32_t Pack() const { return pack; }
-        inline uint32_t Pack(uint32_t v) { return pack = v; }
     };
 
 } // namespace glow

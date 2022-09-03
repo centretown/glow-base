@@ -14,16 +14,16 @@ namespace glow
         State state;
 
     public:
-        uint32_t Update(uint16_t status, uint16_t position)
+        uint32_t Update(uint32_t pack)
         {
-            State updated(status, position);
+            State updated(pack);
             Target *current = this;
             while (current != NULL)
             {
                 if (current->state != updated)
                 {
                     current->state = updated;
-                    current->UpdateTarget(status, position);
+                    current->UpdateTarget(pack);
                 }
                 current = current->next;
             }
@@ -40,7 +40,7 @@ namespace glow
             UnLinkFrom(this);
         }
 
-        virtual uint32_t UpdateTarget(uint16_t status, uint16_t position) = 0;
+        virtual uint32_t UpdateTarget(uint32_t pack) = 0;
     };
 
 } // namespace glow

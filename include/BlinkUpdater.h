@@ -11,16 +11,16 @@ namespace glow
     {
     public:
         PinDevice *pin;
-        BlinkState state;
+        BlinkState blinkState;
         uint16_t on;
         uint16_t off;
 
     public:
         BlinkUpdater(PinDevice *pin,
-                     BlinkState state = BLINK_OFF,
+                     BlinkState blinkState = BLINK_OFF,
                      uint16_t on = 500,
                      uint16_t off = 500)
-            : pin(pin), state(state), on(on), off(off) {}
+            : pin(pin), blinkState(blinkState), on(on), off(off) {}
 
         inline void On(uint16_t val)
         {
@@ -40,26 +40,18 @@ namespace glow
         }
         inline void State(BlinkState val)
         {
-            state = val;
+            blinkState = val;
         }
         inline BlinkState State()
         {
-            return state;
+            return blinkState;
         }
         inline uint32_t Update()
         {
-            pin->Write(state);
+            pin->Write(blinkState);
             // toggle
-            state = (state == BLINK_OFF) ? BLINK_ON : BLINK_OFF;
-            return (state == BLINK_ON) ? on : off;
-        }
-
-        inline void Apply(uint8_t s, int16_t i)
-        {
-            if (state != s)
-            {
-                state = (s == BLINK_OFF) ? BLINK_ON : BLINK_OFF;
-            }
+            blinkState = (blinkState == BLINK_OFF) ? BLINK_ON : BLINK_OFF;
+            return (blinkState == BLINK_ON) ? on : off;
         }
     };
 }

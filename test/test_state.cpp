@@ -19,28 +19,25 @@ using glow::Target;
 
 void testStateHandler()
 {
-    char buffer[32];
     State stateA;
-    TEST_ASSERT_EQUAL(0, stateA.Status());
-    TEST_ASSERT_EQUAL(0, stateA.Position());
-    TEST_ASSERT_EQUAL(0, stateA.Pack());
+    TEST_ASSERT_EQUAL(0, stateA.id);
+    TEST_ASSERT_EQUAL(0, stateA.position);
+    TEST_ASSERT_EQUAL(0, stateA.pack);
 
-    State stateB(1, 100);
-    TEST_ASSERT_EQUAL(1, stateB.Status());
-    TEST_ASSERT_EQUAL(100, stateB.Position());
-    TEST_ASSERT_EQUAL_HEX(0x00010064, stateB.Pack());
+    State stateB(0, 1, 100);
+    TEST_ASSERT_EQUAL(1, stateB.id);
+    TEST_ASSERT_EQUAL(100, stateB.position);
 
     TEST_ASSERT(stateA != stateB);
     stateA = stateB;
     TEST_ASSERT(stateA == stateB);
-    TEST_ASSERT_EQUAL(1, stateA.Status());
-    TEST_ASSERT_EQUAL(100, stateA.Position());
-    TEST_ASSERT_EQUAL_HEX(0x00010064, stateA.Pack());
+    TEST_ASSERT_EQUAL(1, stateA.id);
+    TEST_ASSERT_EQUAL(100, stateA.position);
 
-    stateA(55, 99);
-    TEST_ASSERT(stateA != stateB.Pack());
-    stateB = stateA.Pack();
-    TEST_ASSERT(stateA == stateB.Pack());
+    stateA(0, 55, 99);
+    TEST_ASSERT(stateA != stateB.pack);
+    stateB = stateA.pack;
+    TEST_ASSERT(stateA == stateB.pack);
 }
 
 class X : public Source
@@ -49,7 +46,7 @@ public:
     State state;
     uint32_t Update()
     {
-        state.status++;
+        state.id++;
         state.position++;
         return state.pack;
     }
@@ -59,10 +56,9 @@ class Y : public Target
 {
 public:
     State state;
-    uint32_t UpdateTarget(uint16_t s, uint16_t p)
+    uint32_t UpdateTarget(uint32_t pack)
     {
-        state.status = s;
-        state.position = p;
+        state = pack;
         return state.pack;
     }
 };
@@ -74,7 +70,7 @@ void testTargetLink()
     Activity activity(&source, &targeta);
 
     State state = targeta.state;
-    TEST_ASSERT_EQUAL(0, state.status);
+    TEST_ASSERT_EQUAL(0, state.id);
     TEST_ASSERT_EQUAL(0, state.position);
 
     activity.PulseWidth(0);
@@ -82,60 +78,60 @@ void testTargetLink()
 
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(1, state.status);
+    TEST_ASSERT_EQUAL(1, state.id);
     TEST_ASSERT_EQUAL(1, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(0, state.status);
+    TEST_ASSERT_EQUAL(0, state.id);
     TEST_ASSERT_EQUAL(0, state.position);
 
     targeta.Link(&targetb);
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     targeta.UnLink();
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(3, state.status);
+    TEST_ASSERT_EQUAL(3, state.id);
     TEST_ASSERT_EQUAL(3, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     targeta.Link(&targetc);
     targeta.Link(&targetb);
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(4, state.status);
+    TEST_ASSERT_EQUAL(4, state.id);
     TEST_ASSERT_EQUAL(4, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(4, state.status);
+    TEST_ASSERT_EQUAL(4, state.id);
     TEST_ASSERT_EQUAL(4, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(4, state.status);
+    TEST_ASSERT_EQUAL(4, state.id);
     TEST_ASSERT_EQUAL(4, state.position);
 
     targeta.UnLink();
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(5, state.status);
+    TEST_ASSERT_EQUAL(5, state.id);
     TEST_ASSERT_EQUAL(5, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(4, state.status);
+    TEST_ASSERT_EQUAL(4, state.id);
     TEST_ASSERT_EQUAL(4, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(4, state.status);
+    TEST_ASSERT_EQUAL(4, state.id);
     TEST_ASSERT_EQUAL(4, state.position);
 
     X sourceB;
@@ -146,56 +142,56 @@ void testTargetLink()
     activity.Link(&activityB);
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(6, state.status);
+    TEST_ASSERT_EQUAL(6, state.id);
     TEST_ASSERT_EQUAL(6, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(1, state.status);
+    TEST_ASSERT_EQUAL(1, state.id);
     TEST_ASSERT_EQUAL(1, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(1, state.status);
+    TEST_ASSERT_EQUAL(1, state.id);
     TEST_ASSERT_EQUAL(1, state.position);
 
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(7, state.status);
+    TEST_ASSERT_EQUAL(7, state.id);
     TEST_ASSERT_EQUAL(7, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     targetb.UnLink();
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(8, state.status);
+    TEST_ASSERT_EQUAL(8, state.id);
     TEST_ASSERT_EQUAL(8, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(3, state.status);
+    TEST_ASSERT_EQUAL(3, state.id);
     TEST_ASSERT_EQUAL(3, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     activity.UnLink();
     activity.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(9, state.status);
+    TEST_ASSERT_EQUAL(9, state.id);
     TEST_ASSERT_EQUAL(9, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(3, state.status);
+    TEST_ASSERT_EQUAL(3, state.id);
     TEST_ASSERT_EQUAL(3, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(2, state.status);
+    TEST_ASSERT_EQUAL(2, state.id);
     TEST_ASSERT_EQUAL(2, state.position);
 
     targeta.Link(&targetb);
@@ -204,15 +200,15 @@ void testTargetLink()
 
     activityB.Pulse();
     state = targeta.state;
-    TEST_ASSERT_EQUAL(10, state.status);
+    TEST_ASSERT_EQUAL(10, state.id);
     TEST_ASSERT_EQUAL(10, state.position);
 
     state = targetb.state;
-    TEST_ASSERT_EQUAL(10, state.status);
+    TEST_ASSERT_EQUAL(10, state.id);
     TEST_ASSERT_EQUAL(10, state.position);
 
     state = targetc.state;
-    TEST_ASSERT_EQUAL(4, state.status);
+    TEST_ASSERT_EQUAL(4, state.id);
     TEST_ASSERT_EQUAL(4, state.position);
 }
 

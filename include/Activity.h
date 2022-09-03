@@ -63,13 +63,13 @@ namespace glow
             {
                 if (source != NULL)
                 {
-                    uint32_t current = source->Update();
-                    if (state.pack != current)
+                    uint32_t updated = source->Update();
+                    if (state.pack != updated)
                     {
-                        state(current);
+                        state = updated;
                         if (target != NULL)
                         {
-                            target->Update(state.Status(), state.Position());
+                            updated = target->Update(state.pack);
                         }
                     }
                     return true;
